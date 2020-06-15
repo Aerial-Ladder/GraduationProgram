@@ -1,0 +1,91 @@
+﻿* {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.GoodsIndex_div {
+    width: 75%;
+    height: auto;
+    min-height: 600px;
+    margin: 60px auto;
+    background-color: #EEEEF2;
+}
+
+.Gindex-div1 {
+    width: 100%;
+    height: 40px;
+    border-bottom: 1px solid grey;
+}
+    .Gindex-div1>span+span{
+        display:inline-block;
+        transform:translateY(-10px);
+        font-size:1.2em;
+    }
+
+    .div1_span {
+        display: inline-block;
+        width: 6px;
+        height: 100%;
+        background-color: orangered;
+        margin-left: 10px;
+    }
+.Gindex-div2{
+    padding:20px 0px;
+    width:100%;
+    height:auto;
+}
+.div2_ul{
+    width:100%;
+}
+    .div2_ul li {
+        cursor: pointer;
+        margin:5px 0px;
+        padding-left: 30px;
+        height: 40px;
+        line-height: 40px;
+        transition:all 0.5s;
+    }
+    .div2_ul li a {
+        display: inline-block;
+        margin: 0px 10px;
+        color: gray;
+    }
+.div2_ul li h5{
+    color:white;
+    transform:translateY(5px);
+}
+.div2_ul--span{
+    padding:0px 5px;
+    width:auto;
+    text-align:center;
+    height:100%;
+    font-size:1.1em;
+    font-weight:bold;
+    display:inline-block;
+    border-right:2px solid orange;
+}
+.style_1 {
+    border-radius: 10px;
+    transform: translateY(-5px);
+    transition: all 0.5s;
+}
+.Gindex-div3{
+    height:1200px;
+    width:100%;
+    margin-top:20px;
+}
+.card {
+    float: left;
+    margin: 20px 32px;
+    transition: all 0.5s;
+}
+.Gindex-div4{
+    width:100%;
+    height:50px;
+    border:1px solid red;
+}

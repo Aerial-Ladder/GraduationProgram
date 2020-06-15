@@ -1,0 +1,11 @@
+E:\201817380102郑靖\大三卓越项目\乐购商城\LgShopObj\Models\bin\Debug\Models.dll
+E:\201817380102郑靖\大三卓越项目\乐购商城\LgShopObj\Models\bin\Debug\Models.pdb
+E:\201817380102郑靖\大三卓越项目\乐购商城\LgShopObj\Models\obj\Debug\Models.dll
+E:\201817380102郑靖\大三卓越项目\乐购商城\LgShopObj\Models\obj\Debug\Models.pdb
+E:\201817380102郑靖\大三卓越项目\乐购商城\LgShopObj\Models\bin\Debug\Models.dll.config
+E:\201817380102郑靖\大三卓越项目\乐购商城\LgShopObj\Models\bin\Debug\EntityFramework.dll
+E:\201817380102郑靖\大三卓越项目\乐购商城\LgShopObj\Models\bin\Debug\EntityFramework.SqlServer.dll
+E:\201817380102郑靖\大三卓越项目\乐购商城\LgShopObj\Models\bin\Debug\EntityFramework.xml
+E:\201817380102郑靖\大三卓越项目\乐购商城\LgShopObj\Models\bin\Debug\EntityFramework.SqlServer.xml
+E:\201817380102郑靖\大三卓越项目\乐购商城\LgShopObj\Models\bin\Debug\zh-Hans\EntityFramework.resources.dll
+E:\201817380102郑靖\大三卓越项目\乐购商城\LgShopObj\Models\obj\Debug\Models.csproj.CopyComplete

@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewBag.Title = "GoodsIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*样式表*@
+<link href="~/Content/css/GoodsIndex.css" rel="stylesheet" />
+
+<div class="GoodsIndex_div">
+    <div class="Gindex-div1">
+        <span class="div1_span"></span>&nbsp;&nbsp;<span>所有商品分类</span>
+    </div>
+    <div class="Gindex-div2">
+        <ul class="div2_ul">
+            <li><h5 class="ion-ios-arrow-down">&nbsp;&nbsp;经典服装</h5></li>
+            <li><span class="div2_ul--span">男装</span><a href="#">11111</a><a href="#">2222</a></li>
+            <li><span class="div2_ul--span">男装1</span><a href="#">11111</a><a href="#">2222</a></li>
+            <li><span class="div2_ul--span">男装1111</span><a href="#">11111</a><a href="#">2222</a></li>
+            <li><span class="div2_ul--span">男装</span><a href="#">11111</a><a href="#">2222</a></li>
+        </ul>
+        <ul class="div2_ul">
+            <li><h5 class="ion-ios-arrow-down">&nbsp;&nbsp;电脑办公</h5></li>
+            <li><span class="div2_ul--span">男装</span><a href="#">11111</a><a href="#">2222</a></li>
+            <li><span class="div2_ul--span">男装1</span><a href="#">11111</a><a href="#">2222</a></li>
+            <li><span class="div2_ul--span">男装1111</span><a href="#">11111</a><a href="#">2222</a></li>
+            <li><span class="div2_ul--span">男装</span><a href="#">11111</a><a href="#">2222</a></li>
+        </ul>
+        <ul class="div2_ul">
+            <li><h5 class="ion-ios-arrow-down">&nbsp;&nbsp;经典服装</h5></li>
+            <li><span class="div2_ul--span">男装</span><a href="#">11111</a><a href="#">2222</a></li>
+            <li><span class="div2_ul--span">男装1</span><a href="#">11111</a><a href="#">2222</a></li>
+            <li><span class="div2_ul--span">男装1111</span><a href="#">11111</a><a href="#">2222</a></li>
+            <li><span class="div2_ul--span">男装</span><a href="#">11111</a><a href="#">2222</a></li>
+        </ul>
+        <ul class="div2_ul">
+            <li><h5 class="ion-ios-arrow-down">&nbsp;&nbsp;经典服装</h5></li>
+            <li><span class="div2_ul--span">男装</span><a href="#">11111</a><a href="#">2222</a></li>
+            <li><span class="div2_ul--span">男装1</span><a href="#">11111</a><a href="#">2222</a></li>
+            <li><span class="div2_ul--span">男装1111</span><a href="#">11111</a><a href="#">2222</a></li>
+            <li><span class="div2_ul--span">男装</span><a href="#">11111</a><a href="#">2222</a></li>
+        </ul>
+    </div>
+    <div class="Gindex-div1">
+        <span class="div1_span"></span>&nbsp;&nbsp;<span>商品列表</span>
+    </div>
+    <div class="Gindex-div3">
+        @{
+            for (int i = 0; i < 12; i++)
+            {
+                <div class="card" style="width:18rem">
+                    <img height="180" src="~/Content/Images/ad-1.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">名称</h5>
+                        <p class="card-text">信息</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    <div class="Gindex-div4">
+
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('.div2_ul>li:has(h5)').css("background-color", "orangered");
+            $('.div2_ul>li:has(span)').hide();
+            $('.div2_ul>li:has(h5)').click(function () {
+                $(this).siblings().stop().toggle(300);
+            })
+            $('.div2_ul>li:has(h5)').hover(function () {
+                $(this).toggleClass('style_1');
+            }, function () {
+                $(this).toggleClass('style_1');
+            })
+        })
+    </script>
+    }
+

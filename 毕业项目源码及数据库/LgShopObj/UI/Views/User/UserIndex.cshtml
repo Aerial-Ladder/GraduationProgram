@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "UserIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <link href="~/Content/css/UserIndex.css" rel="stylesheet" />
+
+<div class="UserIndex">
+    <div class="UserIndex-div1">
+        <div class="Udiv1_top"><img /></div>
+        <div class="Udiv1_userimg"><img src="~/Content/Images/default.jpg"/></div>
+        <span class="Udiv1_username">用户名</span>
+        <a href="#" class="Udiv1_a1"><span class="ion-ios-arrow-down">&nbsp;&nbsp;查看详细资料</span></a>
+        <a href="#" class="Udiv1_a2 btn btn-info">编辑个人资料</a>
+        <a href="#" class="Udiv1_a3"><span class="ion-camera">&nbsp;&nbsp;</span>上传封面图片</a>
+    </div>
+    <div class="UserIndex-div2">
+        <div class="Udiv2_top">
+            <a href="#" class="top_a style_1">我的订单</a>
+            <a href="#" class="top_a">我的评价</a>
+            <a href="#" class="top_a">我的账户</a>
+            <a href="#" class="top_a">我的收藏</a>
+        </div>
+        <div class="Udiv2_div1"></div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('.top_a').click(function () {
+                $(this).addClass('style_1').siblings('a').removeClass('style_1');
+            })
+        })
+    </script>
+    }
+

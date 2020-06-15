@@ -1,0 +1,688 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="LgShopDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CommentTable">
+          <Key>
+            <PropertyRef Name="CommentID" />
+          </Key>
+          <Property Name="CommentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="GoodsID" Type="int" />
+          <Property Name="CommentContent" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="CommentStarRating" Type="int" />
+          <Property Name="CommentTime" Type="date" />
+        </EntityType>
+        <EntityType Name="FeedbackTable">
+          <Key>
+            <PropertyRef Name="FeedbackID" />
+          </Key>
+          <Property Name="FeedbackID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="FeedbackContent" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="FeedbackTime" Type="date" />
+          <Property Name="IsDealwith" Type="int" />
+        </EntityType>
+        <EntityType Name="GoodsPhoto">
+          <Key>
+            <PropertyRef Name="RID" />
+          </Key>
+          <Property Name="RID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GoodsID" Type="int" />
+          <Property Name="PhotoPath" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GoodsTable">
+          <Key>
+            <PropertyRef Name="GoodsID" />
+          </Key>
+          <Property Name="GoodsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GoodsName" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="GoodsPrice" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="OldGoodsPrice" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="GoodsInventory" Type="int" Nullable="false" />
+          <Property Name="TID" Type="int" />
+          <Property Name="GoodsDescribe" Type="nvarchar" MaxLength="100" />
+          <Property Name="GoodsStar" Type="int" />
+          <Property Name="GoodsHot" Type="int" />
+        </EntityType>
+        <EntityType Name="OrderTable">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="GoodsID" Type="int" />
+          <Property Name="GoodsNum" Type="int" />
+          <Property Name="GetTime" Type="date" />
+          <Property Name="OrderAmount" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="IsReceiving" Type="int" />
+          <Property Name="IsComment" Type="int" />
+        </EntityType>
+        <EntityType Name="ShoppingCartTable">
+          <Key>
+            <PropertyRef Name="CartID" />
+          </Key>
+          <Property Name="CartID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="GoodsID" Type="int" />
+          <Property Name="ShoppingNum" Type="int" />
+          <Property Name="ShoppingTime" Type="date" />
+        </EntityType>
+        <EntityType Name="TypeTable">
+          <Key>
+            <PropertyRef Name="TypeID" />
+          </Key>
+          <Property Name="TypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="TID" Type="int" />
+        </EntityType>
+        <EntityType Name="UserInfo">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="UserAccount" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="UserPassword" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="UserPhoto" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserSex" Type="nvarchar" MaxLength="2" Nullable="false" />
+          <Property Name="UserAge" Type="int" Nullable="false" />
+          <Property Name="UserEmail" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="UserPhont" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserCard" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="UserBirthdays" Type="date" Nullable="false" />
+          <Property Name="UserWallet" Type="decimal" Precision="2" Scale="0" />
+          <Property Name="CoverPhoto" Type="nvarchar" MaxLength="100" />
+          <Property Name="ReceivingAddress" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__CommentTa__Goods__24927208">
+          <End Role="GoodsTable" Type="Self.GoodsTable" Multiplicity="0..1" />
+          <End Role="CommentTable" Type="Self.CommentTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GoodsTable">
+              <PropertyRef Name="GoodsID" />
+            </Principal>
+            <Dependent Role="CommentTable">
+              <PropertyRef Name="GoodsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CommentTa__UserI__239E4DCF">
+          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1" />
+          <End Role="CommentTable" Type="Self.CommentTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="CommentTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FeedbackT__UserI__276EDEB3">
+          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1" />
+          <End Role="FeedbackTable" Type="Self.FeedbackTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="FeedbackTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GoodsPhot__Goods__1BFD2C07">
+          <End Role="GoodsTable" Type="Self.GoodsTable" Multiplicity="0..1" />
+          <End Role="GoodsPhoto" Type="Self.GoodsPhoto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GoodsTable">
+              <PropertyRef Name="GoodsID" />
+            </Principal>
+            <Dependent Role="GoodsPhoto">
+              <PropertyRef Name="GoodsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GoodsTable__TID__182C9B23">
+          <End Role="TypeTable" Type="Self.TypeTable" Multiplicity="0..1" />
+          <End Role="GoodsTable" Type="Self.GoodsTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeTable">
+              <PropertyRef Name="TypeID" />
+            </Principal>
+            <Dependent Role="GoodsTable">
+              <PropertyRef Name="TID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderTabl__Goods__2D27B809">
+          <End Role="GoodsTable" Type="Self.GoodsTable" Multiplicity="0..1" />
+          <End Role="OrderTable" Type="Self.OrderTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GoodsTable">
+              <PropertyRef Name="GoodsID" />
+            </Principal>
+            <Dependent Role="OrderTable">
+              <PropertyRef Name="GoodsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderTabl__UserI__2C3393D0">
+          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1" />
+          <End Role="OrderTable" Type="Self.OrderTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="OrderTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ShoppingC__Goods__1FCDBCEB">
+          <End Role="GoodsTable" Type="Self.GoodsTable" Multiplicity="0..1" />
+          <End Role="ShoppingCartTable" Type="Self.ShoppingCartTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GoodsTable">
+              <PropertyRef Name="GoodsID" />
+            </Principal>
+            <Dependent Role="ShoppingCartTable">
+              <PropertyRef Name="GoodsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ShoppingC__UserI__1ED998B2">
+          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1" />
+          <End Role="ShoppingCartTable" Type="Self.ShoppingCartTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="ShoppingCartTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TypeTable__TID__15502E78">
+          <End Role="TypeTable" Type="Self.TypeTable" Multiplicity="0..1" />
+          <End Role="TypeTable1" Type="Self.TypeTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeTable">
+              <PropertyRef Name="TypeID" />
+            </Principal>
+            <Dependent Role="TypeTable1">
+              <PropertyRef Name="TID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LgShopDBModelStoreContainer">
+          <EntitySet Name="CommentTable" EntityType="Self.CommentTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FeedbackTable" EntityType="Self.FeedbackTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GoodsPhoto" EntityType="Self.GoodsPhoto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GoodsTable" EntityType="Self.GoodsTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderTable" EntityType="Self.OrderTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ShoppingCartTable" EntityType="Self.ShoppingCartTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TypeTable" EntityType="Self.TypeTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserInfo" EntityType="Self.UserInfo" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__CommentTa__Goods__24927208" Association="Self.FK__CommentTa__Goods__24927208">
+            <End Role="GoodsTable" EntitySet="GoodsTable" />
+            <End Role="CommentTable" EntitySet="CommentTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CommentTa__UserI__239E4DCF" Association="Self.FK__CommentTa__UserI__239E4DCF">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="CommentTable" EntitySet="CommentTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FeedbackT__UserI__276EDEB3" Association="Self.FK__FeedbackT__UserI__276EDEB3">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="FeedbackTable" EntitySet="FeedbackTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GoodsPhot__Goods__1BFD2C07" Association="Self.FK__GoodsPhot__Goods__1BFD2C07">
+            <End Role="GoodsTable" EntitySet="GoodsTable" />
+            <End Role="GoodsPhoto" EntitySet="GoodsPhoto" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GoodsTable__TID__182C9B23" Association="Self.FK__GoodsTable__TID__182C9B23">
+            <End Role="TypeTable" EntitySet="TypeTable" />
+            <End Role="GoodsTable" EntitySet="GoodsTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderTabl__Goods__2D27B809" Association="Self.FK__OrderTabl__Goods__2D27B809">
+            <End Role="GoodsTable" EntitySet="GoodsTable" />
+            <End Role="OrderTable" EntitySet="OrderTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderTabl__UserI__2C3393D0" Association="Self.FK__OrderTabl__UserI__2C3393D0">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="OrderTable" EntitySet="OrderTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ShoppingC__Goods__1FCDBCEB" Association="Self.FK__ShoppingC__Goods__1FCDBCEB">
+            <End Role="GoodsTable" EntitySet="GoodsTable" />
+            <End Role="ShoppingCartTable" EntitySet="ShoppingCartTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ShoppingC__UserI__1ED998B2" Association="Self.FK__ShoppingC__UserI__1ED998B2">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="ShoppingCartTable" EntitySet="ShoppingCartTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TypeTable__TID__15502E78" Association="Self.FK__TypeTable__TID__15502E78">
+            <End Role="TypeTable" EntitySet="TypeTable" />
+            <End Role="TypeTable1" EntitySet="TypeTable" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LgShopDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CommentTable">
+          <Key>
+            <PropertyRef Name="CommentID" />
+          </Key>
+          <Property Name="CommentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="GoodsID" Type="Int32" />
+          <Property Name="CommentContent" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CommentStarRating" Type="Int32" />
+          <Property Name="CommentTime" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="GoodsTable" Relationship="Self.FK__CommentTa__Goods__239E4DCF" FromRole="CommentTable" ToRole="GoodsTable" />
+          <NavigationProperty Name="UserInfo" Relationship="LgShopDBModel.FK__CommentTa__UserI__239E4DCF" FromRole="CommentTable" ToRole="UserInfo" />
+        </EntityType>
+        <EntityType Name="FeedbackTable">
+          <Key>
+            <PropertyRef Name="FeedbackID" />
+          </Key>
+          <Property Name="FeedbackID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="FeedbackContent" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FeedbackTime" Type="DateTime" Precision="0" />
+          <Property Name="IsDealwith" Type="Int32" />
+          <NavigationProperty Name="UserInfo" Relationship="LgShopDBModel.FK__FeedbackT__UserI__276EDEB3" FromRole="FeedbackTable" ToRole="UserInfo" />
+        </EntityType>
+        <EntityType Name="GoodsPhoto">
+          <Key>
+            <PropertyRef Name="RID" />
+          </Key>
+          <Property Name="RID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GoodsID" Type="Int32" />
+          <Property Name="PhotoPath" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="GoodsTable" Relationship="Self.FK__GoodsPhot__Goods__1B0907CE" FromRole="GoodsPhoto" ToRole="GoodsTable" />
+        </EntityType>
+        <EntityType Name="GoodsTable">
+          <Key>
+            <PropertyRef Name="GoodsID" />
+          </Key>
+          <Property Name="GoodsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GoodsName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="GoodsPrice" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="OldGoodsPrice" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="GoodsInventory" Type="Int32" Nullable="false" />
+          <Property Name="TID" Type="Int32" />
+          <Property Name="GoodsDescribe" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="GoodsStar" Type="Int32" />
+          <Property Name="GoodsHot" Type="Int32" />
+          <NavigationProperty Name="CommentTable" Relationship="Self.FK__CommentTa__Goods__239E4DCF" FromRole="GoodsTable" ToRole="CommentTable" />
+          <NavigationProperty Name="GoodsPhoto" Relationship="Self.FK__GoodsPhot__Goods__1B0907CE" FromRole="GoodsTable" ToRole="GoodsPhoto" />
+          <NavigationProperty Name="TypeTable" Relationship="Self.FK__GoodsTable__TID__173876EA" FromRole="GoodsTable" ToRole="TypeTable" />
+          <NavigationProperty Name="OrderTable" Relationship="Self.FK__OrderTabl__Goods__2C3393D0" FromRole="GoodsTable" ToRole="OrderTable" />
+          <NavigationProperty Name="ShoppingCartTable" Relationship="Self.FK__ShoppingC__Goods__1ED998B2" FromRole="GoodsTable" ToRole="ShoppingCartTable" />
+        </EntityType>
+        <EntityType Name="OrderTable">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="GoodsID" Type="Int32" />
+          <Property Name="GoodsNum" Type="Int32" />
+          <Property Name="GetTime" Type="DateTime" Precision="0" />
+          <Property Name="OrderAmount" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="IsReceiving" Type="Int32" />
+          <Property Name="IsComment" Type="Int32" />
+          <NavigationProperty Name="GoodsTable" Relationship="Self.FK__OrderTabl__Goods__2C3393D0" FromRole="OrderTable" ToRole="GoodsTable" />
+          <NavigationProperty Name="UserInfo" Relationship="LgShopDBModel.FK__OrderTabl__UserI__2C3393D0" FromRole="OrderTable" ToRole="UserInfo" />
+        </EntityType>
+        <EntityType Name="ShoppingCartTable">
+          <Key>
+            <PropertyRef Name="CartID" />
+          </Key>
+          <Property Name="CartID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="GoodsID" Type="Int32" />
+          <Property Name="ShoppingNum" Type="Int32" />
+          <Property Name="ShoppingTime" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="GoodsTable" Relationship="Self.FK__ShoppingC__Goods__1ED998B2" FromRole="ShoppingCartTable" ToRole="GoodsTable" />
+          <NavigationProperty Name="UserInfo" Relationship="LgShopDBModel.FK__ShoppingC__UserI__1ED998B2" FromRole="ShoppingCartTable" ToRole="UserInfo" />
+        </EntityType>
+        <EntityType Name="TypeTable">
+          <Key>
+            <PropertyRef Name="TypeID" />
+          </Key>
+          <Property Name="TypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TID" Type="Int32" />
+          <NavigationProperty Name="GoodsTable" Relationship="Self.FK__GoodsTable__TID__173876EA" FromRole="TypeTable" ToRole="GoodsTable" />
+          <NavigationProperty Name="TypeTable1" Relationship="LgShopDBModel.FK__TypeTable__TID__15502E78" FromRole="TypeTable" ToRole="TypeTable1" />
+          <NavigationProperty Name="TypeTable2" Relationship="LgShopDBModel.FK__TypeTable__TID__15502E78" FromRole="TypeTable1" ToRole="TypeTable" />
+        </EntityType>
+        <Association Name="FK__CommentTa__Goods__239E4DCF">
+          <End Role="GoodsTable" Type="Self.GoodsTable" Multiplicity="0..1" />
+          <End Role="CommentTable" Type="Self.CommentTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GoodsTable">
+              <PropertyRef Name="GoodsID" />
+            </Principal>
+            <Dependent Role="CommentTable">
+              <PropertyRef Name="GoodsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GoodsPhot__Goods__1B0907CE">
+          <End Role="GoodsTable" Type="Self.GoodsTable" Multiplicity="0..1" />
+          <End Role="GoodsPhoto" Type="Self.GoodsPhoto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GoodsTable">
+              <PropertyRef Name="GoodsID" />
+            </Principal>
+            <Dependent Role="GoodsPhoto">
+              <PropertyRef Name="GoodsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GoodsTable__TID__173876EA">
+          <End Role="TypeTable" Type="Self.TypeTable" Multiplicity="0..1" />
+          <End Role="GoodsTable" Type="Self.GoodsTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeTable">
+              <PropertyRef Name="TypeID" />
+            </Principal>
+            <Dependent Role="GoodsTable">
+              <PropertyRef Name="TID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderTabl__Goods__2C3393D0">
+          <End Role="GoodsTable" Type="Self.GoodsTable" Multiplicity="0..1" />
+          <End Role="OrderTable" Type="Self.OrderTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GoodsTable">
+              <PropertyRef Name="GoodsID" />
+            </Principal>
+            <Dependent Role="OrderTable">
+              <PropertyRef Name="GoodsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ShoppingC__Goods__1ED998B2">
+          <End Role="GoodsTable" Type="Self.GoodsTable" Multiplicity="0..1" />
+          <End Role="ShoppingCartTable" Type="Self.ShoppingCartTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GoodsTable">
+              <PropertyRef Name="GoodsID" />
+            </Principal>
+            <Dependent Role="ShoppingCartTable">
+              <PropertyRef Name="GoodsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LgShopDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CommentTable" EntityType="Self.CommentTable" />
+          <EntitySet Name="FeedbackTable" EntityType="Self.FeedbackTable" />
+          <EntitySet Name="GoodsPhoto" EntityType="Self.GoodsPhoto" />
+          <EntitySet Name="GoodsTable" EntityType="Self.GoodsTable" />
+          <EntitySet Name="OrderTable" EntityType="Self.OrderTable" />
+          <EntitySet Name="ShoppingCartTable" EntityType="Self.ShoppingCartTable" />
+          <EntitySet Name="TypeTable" EntityType="Self.TypeTable" />
+          <AssociationSet Name="FK__CommentTa__Goods__239E4DCF" Association="Self.FK__CommentTa__Goods__239E4DCF">
+            <End Role="GoodsTable" EntitySet="GoodsTable" />
+            <End Role="CommentTable" EntitySet="CommentTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GoodsPhot__Goods__1B0907CE" Association="Self.FK__GoodsPhot__Goods__1B0907CE">
+            <End Role="GoodsTable" EntitySet="GoodsTable" />
+            <End Role="GoodsPhoto" EntitySet="GoodsPhoto" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GoodsTable__TID__173876EA" Association="Self.FK__GoodsTable__TID__173876EA">
+            <End Role="TypeTable" EntitySet="TypeTable" />
+            <End Role="GoodsTable" EntitySet="GoodsTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderTabl__Goods__2C3393D0" Association="Self.FK__OrderTabl__Goods__2C3393D0">
+            <End Role="GoodsTable" EntitySet="GoodsTable" />
+            <End Role="OrderTable" EntitySet="OrderTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ShoppingC__Goods__1ED998B2" Association="Self.FK__ShoppingC__Goods__1ED998B2">
+            <End Role="GoodsTable" EntitySet="GoodsTable" />
+            <End Role="ShoppingCartTable" EntitySet="ShoppingCartTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TypeTable__TID__15502E78" Association="LgShopDBModel.FK__TypeTable__TID__15502E78">
+            <End Role="TypeTable" EntitySet="TypeTable" />
+            <End Role="TypeTable1" EntitySet="TypeTable" />
+          </AssociationSet>
+          <EntitySet Name="UserInfo" EntityType="LgShopDBModel.UserInfo" />
+          <AssociationSet Name="FK__CommentTa__UserI__239E4DCF" Association="LgShopDBModel.FK__CommentTa__UserI__239E4DCF">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="CommentTable" EntitySet="CommentTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FeedbackT__UserI__276EDEB3" Association="LgShopDBModel.FK__FeedbackT__UserI__276EDEB3">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="FeedbackTable" EntitySet="FeedbackTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderTabl__UserI__2C3393D0" Association="LgShopDBModel.FK__OrderTabl__UserI__2C3393D0">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="OrderTable" EntitySet="OrderTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ShoppingC__UserI__1ED998B2" Association="LgShopDBModel.FK__ShoppingC__UserI__1ED998B2">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="ShoppingCartTable" EntitySet="ShoppingCartTable" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK__TypeTable__TID__15502E78">
+          <End Type="LgShopDBModel.TypeTable" Role="TypeTable" Multiplicity="0..1" />
+          <End Type="LgShopDBModel.TypeTable" Role="TypeTable1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeTable">
+              <PropertyRef Name="TypeID" />
+            </Principal>
+            <Dependent Role="TypeTable1">
+              <PropertyRef Name="TID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="UserInfo">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UserAccount" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UserPassword" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="UserPhoto" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserSex" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="UserAge" Type="Int32" Nullable="false" />
+          <Property Name="UserEmail" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="UserPhont" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserCard" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="UserBirthdays" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="UserWallet" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="CoverPhoto" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ReceivingAddress" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CommentTable" Relationship="LgShopDBModel.FK__CommentTa__UserI__239E4DCF" FromRole="UserInfo" ToRole="CommentTable" />
+          <NavigationProperty Name="FeedbackTable" Relationship="LgShopDBModel.FK__FeedbackT__UserI__276EDEB3" FromRole="UserInfo" ToRole="FeedbackTable" />
+          <NavigationProperty Name="OrderTable" Relationship="LgShopDBModel.FK__OrderTabl__UserI__2C3393D0" FromRole="UserInfo" ToRole="OrderTable" />
+          <NavigationProperty Name="ShoppingCartTable" Relationship="LgShopDBModel.FK__ShoppingC__UserI__1ED998B2" FromRole="UserInfo" ToRole="ShoppingCartTable" />
+        </EntityType>
+        <Association Name="FK__CommentTa__UserI__239E4DCF">
+          <End Type="LgShopDBModel.UserInfo" Role="UserInfo" Multiplicity="0..1" />
+          <End Type="LgShopDBModel.CommentTable" Role="CommentTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="CommentTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FeedbackT__UserI__276EDEB3">
+          <End Type="LgShopDBModel.UserInfo" Role="UserInfo" Multiplicity="0..1" />
+          <End Type="LgShopDBModel.FeedbackTable" Role="FeedbackTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="FeedbackTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderTabl__UserI__2C3393D0">
+          <End Type="LgShopDBModel.UserInfo" Role="UserInfo" Multiplicity="0..1" />
+          <End Type="LgShopDBModel.OrderTable" Role="OrderTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="OrderTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ShoppingC__UserI__1ED998B2">
+          <End Type="LgShopDBModel.UserInfo" Role="UserInfo" Multiplicity="0..1" />
+          <End Type="LgShopDBModel.ShoppingCartTable" Role="ShoppingCartTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="ShoppingCartTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LgShopDBModelStoreContainer" CdmEntityContainer="LgShopDBEntities">
+          <EntitySetMapping Name="CommentTable">
+            <EntityTypeMapping TypeName="LgShopDBModel.CommentTable">
+              <MappingFragment StoreEntitySet="CommentTable">
+                <ScalarProperty Name="CommentID" ColumnName="CommentID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="GoodsID" ColumnName="GoodsID" />
+                <ScalarProperty Name="CommentContent" ColumnName="CommentContent" />
+                <ScalarProperty Name="CommentStarRating" ColumnName="CommentStarRating" />
+                <ScalarProperty Name="CommentTime" ColumnName="CommentTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FeedbackTable">
+            <EntityTypeMapping TypeName="LgShopDBModel.FeedbackTable">
+              <MappingFragment StoreEntitySet="FeedbackTable">
+                <ScalarProperty Name="FeedbackID" ColumnName="FeedbackID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="FeedbackContent" ColumnName="FeedbackContent" />
+                <ScalarProperty Name="FeedbackTime" ColumnName="FeedbackTime" />
+                <ScalarProperty Name="IsDealwith" ColumnName="IsDealwith" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GoodsPhoto">
+            <EntityTypeMapping TypeName="LgShopDBModel.GoodsPhoto">
+              <MappingFragment StoreEntitySet="GoodsPhoto">
+                <ScalarProperty Name="RID" ColumnName="RID" />
+                <ScalarProperty Name="GoodsID" ColumnName="GoodsID" />
+                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GoodsTable">
+            <EntityTypeMapping TypeName="LgShopDBModel.GoodsTable">
+              <MappingFragment StoreEntitySet="GoodsTable">
+                <ScalarProperty Name="GoodsID" ColumnName="GoodsID" />
+                <ScalarProperty Name="GoodsName" ColumnName="GoodsName" />
+                <ScalarProperty Name="GoodsPrice" ColumnName="GoodsPrice" />
+                <ScalarProperty Name="OldGoodsPrice" ColumnName="OldGoodsPrice" />
+                <ScalarProperty Name="GoodsInventory" ColumnName="GoodsInventory" />
+                <ScalarProperty Name="TID" ColumnName="TID" />
+                <ScalarProperty Name="GoodsDescribe" ColumnName="GoodsDescribe" />
+                <ScalarProperty Name="GoodsStar" ColumnName="GoodsStar" />
+                <ScalarProperty Name="GoodsHot" ColumnName="GoodsHot" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderTable">
+            <EntityTypeMapping TypeName="LgShopDBModel.OrderTable">
+              <MappingFragment StoreEntitySet="OrderTable">
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="GoodsID" ColumnName="GoodsID" />
+                <ScalarProperty Name="GoodsNum" ColumnName="GoodsNum" />
+                <ScalarProperty Name="GetTime" ColumnName="GetTime" />
+                <ScalarProperty Name="OrderAmount" ColumnName="OrderAmount" />
+                <ScalarProperty Name="IsReceiving" ColumnName="IsReceiving" />
+                <ScalarProperty Name="IsComment" ColumnName="IsComment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ShoppingCartTable">
+            <EntityTypeMapping TypeName="LgShopDBModel.ShoppingCartTable">
+              <MappingFragment StoreEntitySet="ShoppingCartTable">
+                <ScalarProperty Name="CartID" ColumnName="CartID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="GoodsID" ColumnName="GoodsID" />
+                <ScalarProperty Name="ShoppingNum" ColumnName="ShoppingNum" />
+                <ScalarProperty Name="ShoppingTime" ColumnName="ShoppingTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypeTable">
+            <EntityTypeMapping TypeName="LgShopDBModel.TypeTable">
+              <MappingFragment StoreEntitySet="TypeTable">
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="TID" ColumnName="TID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserInfo">
+            <EntityTypeMapping TypeName="LgShopDBModel.UserInfo">
+              <MappingFragment StoreEntitySet="UserInfo">
+                <ScalarProperty Name="ReceivingAddress" ColumnName="ReceivingAddress" />
+                <ScalarProperty Name="CoverPhoto" ColumnName="CoverPhoto" />
+                <ScalarProperty Name="UserWallet" ColumnName="UserWallet" />
+                <ScalarProperty Name="UserBirthdays" ColumnName="UserBirthdays" />
+                <ScalarProperty Name="UserCard" ColumnName="UserCard" />
+                <ScalarProperty Name="UserPhont" ColumnName="UserPhont" />
+                <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+                <ScalarProperty Name="UserAge" ColumnName="UserAge" />
+                <ScalarProperty Name="UserSex" ColumnName="UserSex" />
+                <ScalarProperty Name="UserPhoto" ColumnName="UserPhoto" />
+                <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+                <ScalarProperty Name="UserAccount" ColumnName="UserAccount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

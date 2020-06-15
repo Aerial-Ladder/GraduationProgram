@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LgShopDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CommentTable">
+    <Key>
+      <PropertyRef Name="CommentID" />
+    </Key>
+    <Property Name="CommentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="GoodsID" Type="int" />
+    <Property Name="CommentContent" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="CommentStarRating" Type="int" />
+    <Property Name="CommentTime" Type="date" />
+  </EntityType>
+  <EntityType Name="FeedbackTable">
+    <Key>
+      <PropertyRef Name="FeedbackID" />
+    </Key>
+    <Property Name="FeedbackID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="FeedbackContent" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="FeedbackTime" Type="date" />
+    <Property Name="IsDealwith" Type="int" />
+  </EntityType>
+  <EntityType Name="GoodsPhoto">
+    <Key>
+      <PropertyRef Name="RID" />
+    </Key>
+    <Property Name="RID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="GoodsID" Type="int" />
+    <Property Name="PhotoPath" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GoodsTable">
+    <Key>
+      <PropertyRef Name="GoodsID" />
+    </Key>
+    <Property Name="GoodsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="GoodsName" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="GoodsPrice" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="OldGoodsPrice" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="GoodsInventory" Type="int" Nullable="false" />
+    <Property Name="TID" Type="int" />
+    <Property Name="GoodsDescribe" Type="nvarchar" MaxLength="100" />
+    <Property Name="GoodsStar" Type="int" />
+    <Property Name="GoodsHot" Type="int" />
+  </EntityType>
+  <EntityType Name="OrderTable">
+    <Key>
+      <PropertyRef Name="OrderID" />
+    </Key>
+    <Property Name="OrderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="GoodsID" Type="int" />
+    <Property Name="GoodsNum" Type="int" />
+    <Property Name="GetTime" Type="date" />
+    <Property Name="OrderAmount" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="IsReceiving" Type="int" />
+    <Property Name="IsComment" Type="int" />
+  </EntityType>
+  <EntityType Name="ShoppingCartTable">
+    <Key>
+      <PropertyRef Name="CartID" />
+    </Key>
+    <Property Name="CartID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="GoodsID" Type="int" />
+    <Property Name="ShoppingNum" Type="int" />
+    <Property Name="ShoppingTime" Type="date" />
+  </EntityType>
+  <EntityType Name="TypeTable">
+    <Key>
+      <PropertyRef Name="TypeID" />
+    </Key>
+    <Property Name="TypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TypeName" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="TID" Type="int" />
+  </EntityType>
+  <EntityType Name="UserInfo">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="UserAccount" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="UserPassword" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="UserPhoto" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserSex" Type="nvarchar" MaxLength="2" Nullable="false" />
+    <Property Name="UserAge" Type="int" Nullable="false" />
+    <Property Name="UserEmail" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="UserPhont" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserCard" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="UserBirthdays" Type="date" Nullable="false" />
+    <Property Name="UserWallet" Type="decimal" Precision="2" Scale="0" />
+    <Property Name="CoverPhoto" Type="nvarchar" MaxLength="100" />
+    <Property Name="ReceivingAddress" Type="nvarchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__CommentTa__Goods__24927208">
+    <End Role="GoodsTable" Type="Self.GoodsTable" Multiplicity="0..1" />
+    <End Role="CommentTable" Type="Self.CommentTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GoodsTable">
+        <PropertyRef Name="GoodsID" />
+      </Principal>
+      <Dependent Role="CommentTable">
+        <PropertyRef Name="GoodsID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CommentTa__UserI__239E4DCF">
+    <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1" />
+    <End Role="CommentTable" Type="Self.CommentTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfo">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="CommentTable">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__FeedbackT__UserI__276EDEB3">
+    <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1" />
+    <End Role="FeedbackTable" Type="Self.FeedbackTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfo">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="FeedbackTable">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__GoodsPhot__Goods__1BFD2C07">
+    <End Role="GoodsTable" Type="Self.GoodsTable" Multiplicity="0..1" />
+    <End Role="GoodsPhoto" Type="Self.GoodsPhoto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GoodsTable">
+        <PropertyRef Name="GoodsID" />
+      </Principal>
+      <Dependent Role="GoodsPhoto">
+        <PropertyRef Name="GoodsID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__GoodsTable__TID__182C9B23">
+    <End Role="TypeTable" Type="Self.TypeTable" Multiplicity="0..1" />
+    <End Role="GoodsTable" Type="Self.GoodsTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TypeTable">
+        <PropertyRef Name="TypeID" />
+      </Principal>
+      <Dependent Role="GoodsTable">
+        <PropertyRef Name="TID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__OrderTabl__Goods__2D27B809">
+    <End Role="GoodsTable" Type="Self.GoodsTable" Multiplicity="0..1" />
+    <End Role="OrderTable" Type="Self.OrderTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GoodsTable">
+        <PropertyRef Name="GoodsID" />
+      </Principal>
+      <Dependent Role="OrderTable">
+        <PropertyRef Name="GoodsID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__OrderTabl__UserI__2C3393D0">
+    <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1" />
+    <End Role="OrderTable" Type="Self.OrderTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfo">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="OrderTable">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ShoppingC__Goods__1FCDBCEB">
+    <End Role="GoodsTable" Type="Self.GoodsTable" Multiplicity="0..1" />
+    <End Role="ShoppingCartTable" Type="Self.ShoppingCartTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GoodsTable">
+        <PropertyRef Name="GoodsID" />
+      </Principal>
+      <Dependent Role="ShoppingCartTable">
+        <PropertyRef Name="GoodsID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ShoppingC__UserI__1ED998B2">
+    <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1" />
+    <End Role="ShoppingCartTable" Type="Self.ShoppingCartTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfo">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="ShoppingCartTable">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TypeTable__TID__15502E78">
+    <End Role="TypeTable" Type="Self.TypeTable" Multiplicity="0..1" />
+    <End Role="TypeTable1" Type="Self.TypeTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TypeTable">
+        <PropertyRef Name="TypeID" />
+      </Principal>
+      <Dependent Role="TypeTable1">
+        <PropertyRef Name="TID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="LgShopDBModelStoreContainer">
+    <EntitySet Name="CommentTable" EntityType="Self.CommentTable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FeedbackTable" EntityType="Self.FeedbackTable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GoodsPhoto" EntityType="Self.GoodsPhoto" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GoodsTable" EntityType="Self.GoodsTable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OrderTable" EntityType="Self.OrderTable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ShoppingCartTable" EntityType="Self.ShoppingCartTable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TypeTable" EntityType="Self.TypeTable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserInfo" EntityType="Self.UserInfo" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__CommentTa__Goods__24927208" Association="Self.FK__CommentTa__Goods__24927208">
+      <End Role="GoodsTable" EntitySet="GoodsTable" />
+      <End Role="CommentTable" EntitySet="CommentTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CommentTa__UserI__239E4DCF" Association="Self.FK__CommentTa__UserI__239E4DCF">
+      <End Role="UserInfo" EntitySet="UserInfo" />
+      <End Role="CommentTable" EntitySet="CommentTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK__FeedbackT__UserI__276EDEB3" Association="Self.FK__FeedbackT__UserI__276EDEB3">
+      <End Role="UserInfo" EntitySet="UserInfo" />
+      <End Role="FeedbackTable" EntitySet="FeedbackTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK__GoodsPhot__Goods__1BFD2C07" Association="Self.FK__GoodsPhot__Goods__1BFD2C07">
+      <End Role="GoodsTable" EntitySet="GoodsTable" />
+      <End Role="GoodsPhoto" EntitySet="GoodsPhoto" />
+    </AssociationSet>
+    <AssociationSet Name="FK__GoodsTable__TID__182C9B23" Association="Self.FK__GoodsTable__TID__182C9B23">
+      <End Role="TypeTable" EntitySet="TypeTable" />
+      <End Role="GoodsTable" EntitySet="GoodsTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK__OrderTabl__Goods__2D27B809" Association="Self.FK__OrderTabl__Goods__2D27B809">
+      <End Role="GoodsTable" EntitySet="GoodsTable" />
+      <End Role="OrderTable" EntitySet="OrderTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK__OrderTabl__UserI__2C3393D0" Association="Self.FK__OrderTabl__UserI__2C3393D0">
+      <End Role="UserInfo" EntitySet="UserInfo" />
+      <End Role="OrderTable" EntitySet="OrderTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ShoppingC__Goods__1FCDBCEB" Association="Self.FK__ShoppingC__Goods__1FCDBCEB">
+      <End Role="GoodsTable" EntitySet="GoodsTable" />
+      <End Role="ShoppingCartTable" EntitySet="ShoppingCartTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ShoppingC__UserI__1ED998B2" Association="Self.FK__ShoppingC__UserI__1ED998B2">
+      <End Role="UserInfo" EntitySet="UserInfo" />
+      <End Role="ShoppingCartTable" EntitySet="ShoppingCartTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TypeTable__TID__15502E78" Association="Self.FK__TypeTable__TID__15502E78">
+      <End Role="TypeTable" EntitySet="TypeTable" />
+      <End Role="TypeTable1" EntitySet="TypeTable" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
