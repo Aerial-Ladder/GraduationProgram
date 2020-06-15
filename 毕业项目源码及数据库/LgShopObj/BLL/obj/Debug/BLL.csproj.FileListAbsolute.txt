@@ -12,3 +12,17 @@ E:\201817380102郑靖\大三卓越项目\乐购商城\LgShopObj\BLL\bin\Debug\Mo
 E:\201817380102郑靖\大三卓越项目\乐购商城\LgShopObj\BLL\bin\Debug\EntityFramework.xml
 E:\201817380102郑靖\大三卓越项目\乐购商城\LgShopObj\BLL\bin\Debug\zh-Hans\EntityFramework.resources.dll
 E:\201817380102郑靖\大三卓越项目\乐购商城\LgShopObj\BLL\obj\Debug\BLL.csproj.CopyComplete
+E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\BLL\bin\Debug\BLL.dll
+E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\BLL\bin\Debug\BLL.pdb
+E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\BLL\bin\Debug\DAL.dll
+E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\BLL\bin\Debug\Models.dll
+E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\BLL\bin\Debug\EntityFramework.dll
+E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\BLL\bin\Debug\DAL.pdb
+E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\BLL\bin\Debug\Models.pdb
+E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\BLL\bin\Debug\Models.dll.config
+E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\BLL\bin\Debug\EntityFramework.xml
+E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\BLL\bin\Debug\zh-Hans\EntityFramework.resources.dll
+E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\BLL\obj\Debug\BLL.csprojAssemblyReference.cache
+E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\BLL\obj\Debug\BLL.csproj.CopyComplete
+E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\BLL\obj\Debug\BLL.dll
+E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\BLL\obj\Debug\BLL.pdb

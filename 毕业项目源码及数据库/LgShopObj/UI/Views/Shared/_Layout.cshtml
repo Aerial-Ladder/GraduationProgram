@@ -1,4 +1,7 @@
 ﻿@using Models;
+@{ 
+    UserInfo user = Session["user"] as UserInfo;
+}
 <!DOCTYPE html>
 <html>
 <head>
@@ -212,6 +215,7 @@
         $('.goto2').click(function () {
             //显示并验证通过
             if ($('#Reg_1').is(':visible')) {
+                alert();
                 $('.erro_1').html('').hide();
                 var username = $('.txt-username').val().trim();
                 var userphont = $('.txt-userphont').val().trim();
@@ -376,6 +380,38 @@
                 $('.erro_login:eq(1)').html("").hide(500);
             }
             $('.login-ul li:eq(2)').show(500);
+            var useryzm = $('.txt-useryzm').val().trim();
+            if (useryzm == "" || useryzm == null) {
+                $('.erro_login:eq(2)').html("请输入验证码！").show(500);
+                return;
+            }
+            else {
+                $('.erro_login:eq(2)').html("").hide(500);
+            }
+            //登录异步处理
+            $.post({
+                url: "@Url.Action("LoginAjax")",
+                data: { UserAccount: useraccount, UserPwd: userpwd, UserYzm: useryzm },
+                success: function (date) {
+                    $('.erro_login:eq(2)').html("").hide(500);
+                    if (date.err == 0) {
+                        $('.erro_login:eq(2)').html("验证码输入有误！").show(500);
+                    }
+                    else if (date.err == 1) {
+                        $('.erro_login:eq(2)').html("账号或密码错误！").show(500);
+                    }
+                    else {
+                        //登录成功
+                        $('.close').click();
+                        $('.user-no').hide();
+                        $('.user-yes').show();
+                        $('.user-name').html('@user.UserName');
+                    }
+                },
+                error: function () {
+                    alert("出现错误！");
+                }
+            })
         })
 
         //获取验证码
@@ -425,7 +461,6 @@
                     //关闭计时器
                     clearInterval(yzmtimer);
                 }
-                    }
                 }, 1000);
         }
     })

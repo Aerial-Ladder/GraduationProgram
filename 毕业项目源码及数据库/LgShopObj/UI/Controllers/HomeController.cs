@@ -139,5 +139,29 @@ namespace UI.Controllers
             //注册失败
             return Json(0, JsonRequestBehavior.AllowGet);
         }
+
+        /// <summary>
+        /// 用户登录
+        /// </summary>
+        /// <param name="UserAccount">账号</param>
+        /// <param name="UserPwd">密码</param>
+        /// <param name="UserYzm">图片验证码</param>
+        /// <returns></returns>
+        public JsonResult LoginAjax(string UserAccount,string UserPwd,string UserYzm) {
+            if (Session["useryzm"].ToString().Trim().ToLower() == UserYzm.Trim().ToLower())
+            {
+                UserInfo user = UserInfoBll.UserInfoLogin(UserAccount, UserPwd);
+                if ( user!= null)
+                {
+                    //记录用户信息
+                    Session["user"] = user;
+                    return Json(2, JsonRequestBehavior.AllowGet);
+                }
+                else { 
+                return Json(1, JsonRequestBehavior.AllowGet);
+                }
+            }
+            return Json(0, JsonRequestBehavior.AllowGet);
+        }
     }
 }

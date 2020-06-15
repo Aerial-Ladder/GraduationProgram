@@ -30,7 +30,7 @@ namespace UI.Models
         /// <returns></returns>
         public static string GetUserSex(this string UserCard)
         {
-            if (Convert.ToInt32(UserCard.Substring(16, 1)) % 2 == 0)
+            if (Convert.ToInt32(UserCard.Substring(17, 1)) % 2 == 0)
             {
                 return "男";
             }

@@ -19,5 +19,25 @@ namespace DAL
                 return db.Database.ExecuteSqlCommand($"insert into UserInfo values('{user.UserName}','{user.UserAccount}','{user.UserPassword}','default.jpg','{user.UserSex}',{user.UserAge},'{user.UserEmail}','{user.UserPhont}','{user.UserCard}','{user.UserBirthdays}',0,'','')");
             }
         }
+
+        /// <summary>
+        /// 用户登录
+        /// </summary>
+        /// <param name="UserAccount">账号</param>
+        /// <param name="UserPwd">密码</param>
+        /// <returns></returns>
+        public static UserInfo UserInfoLogin(string UserAccount, string UserPwd) {
+            using (LgShopDBEntities db = new LgShopDBEntities())
+            {
+                try
+                {
+                    return db.UserInfo.SingleOrDefault(p => p.UserAccount == UserAccount && p.UserPassword == UserPwd);
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+        }
     }
 }
