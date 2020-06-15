@@ -7,13 +7,13 @@ create database LgShopDB
 
 on primary(
 name='LgShopDB',
-filename='E:\201817380102郑靖\大三卓越项目\乐购商城\数据库\LgShopDB.mdf',
+filename='E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\数据库\LgShopDB.mdf',
 maxsize=10mb,
 size=6mb
 )
 log on(
 name='LgShopDB_log',
-filename='E:\201817380102郑靖\大三卓越项目\乐购商城\数据库\LgShopDB_log.ldf',
+filename='E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\数据库\LgShopDB_log.ldf',
 maxsize=10mb,
 size=6mb
 )
@@ -38,7 +38,6 @@ UserWallet decimal(2) default(0),--用户钱包（账户）
 CoverPhoto nvarchar(100),--封面图片
 ReceivingAddress nvarchar(100) not null ,--收获地址
 )
-insert into UserInfo values('','','','','',12,'','','','',0,'封面图片','')
 
 go
 
@@ -74,8 +73,8 @@ insert into TypeTable values('水',20),('碳酸饮料',20),('功能饮料',20),('咖啡',20
 select * from TypeTable
 go
 
-select * from TypeTable where TID in (select TypeID from TypeTable where TID is null)
-select * from TypeTable t1,TypeTable t2 where t1.TID=t2.TypeID  and t2.TID=1
+--select * from TypeTable where TID in (select TypeID from TypeTable where TID is null)
+--select * from TypeTable t1,TypeTable t2 where t1.TID=t2.TypeID  and t2.TID=1
 --商品信息表
 create table GoodsTable(
 GoodsID int primary key identity(1,1),--商品id
