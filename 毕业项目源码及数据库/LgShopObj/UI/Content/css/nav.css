@@ -157,7 +157,7 @@
 }
 .user-hidden {
     width: auto;
-    height: 120px;
+    height: 160px;
     background-color: white;
     position: absolute;
     top: 65px;
@@ -168,7 +168,7 @@
 
 .user-hidden ul {
     width: 85px;
-    height: 120px;
+    height: 160px;
 }
     .user-hidden ul li{
         width:100%;

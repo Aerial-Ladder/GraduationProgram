@@ -28,7 +28,27 @@ namespace BLL
         /// <returns></returns>
         public static UserInfo UserInfoLogin(string UserAccount, string UserPwd)
         {
-            return UserInfoDal.UserInfoLogin(UserAccount,UserPwd);
+            return UserInfoDal.UserInfoLogin(UserAccount, UserPwd);
+        }
+
+        /// <summary>
+        /// 用户修改信息
+        /// </summary>
+        /// <param name="user">用户对象</param>
+        /// <returns></returns>
+        public static bool UserInfoUpdate(UserInfo user)
+        {
+            return UserInfoDal.UserInfoUpdate(user) == 1;
+        }
+
+        /// <summary>
+        /// 根据用户id查询某个用户信息
+        /// </summary>
+        /// <param name="userid">用户id</param>
+        /// <returns></returns>
+        public static UserInfo SelectUser(int userid)
+        {
+            return UserInfoDal.SelectUser(userid);
         }
     }
 }

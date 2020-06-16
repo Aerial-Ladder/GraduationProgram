@@ -39,5 +39,29 @@ namespace DAL
                 }
             }
         }
+
+        /// <summary>
+        /// 用户修改信息
+        /// </summary>
+        /// <param name="user">用户对象</param>
+        /// <returns></returns>
+        public static int UserInfoUpdate(UserInfo user) {
+            using (LgShopDBEntities db = new LgShopDBEntities())
+            {
+                return db.Database.ExecuteSqlCommand($"update UserInfo set UserName='{user.UserName}',UserAccount='{user.UserAccount}',UserEmail='{user.UserEmail}',UserAge='{user.UserAge}',UserSex='{user.UserSex}',UserCard='{user.UserCard}',ReceivingAddress='{user.ReceivingAddress}',UserBirthdays='{user.UserBirthdays}',UserPhont='{user.UserPhont}' where UserID='{user.UserID}'");
+            }
+        }
+
+        /// <summary>
+        /// 根据用户id查询某个用户信息
+        /// </summary>
+        /// <param name="userid">用户id</param>
+        /// <returns></returns>
+        public static UserInfo SelectUser(int userid) {
+            using (LgShopDBEntities db = new LgShopDBEntities())
+            {
+                return db.UserInfo.Find(userid);
+            }
+        }
     }
 }

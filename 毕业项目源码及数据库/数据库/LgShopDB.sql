@@ -38,7 +38,8 @@ UserWallet decimal(2) default(0),--用户钱包（账户）
 CoverPhoto nvarchar(100),--封面图片
 ReceivingAddress nvarchar(100) not null ,--收获地址
 )
-
+select * from UserInfo
+update UserInfo set UserName='',UserAccount='',UserEmail='',UserAge='',UserSex='',UserCard='',ReceivingAddress='',UserBirthdays='',UserPhont='' where UserID=''
 go
 
 --分类表

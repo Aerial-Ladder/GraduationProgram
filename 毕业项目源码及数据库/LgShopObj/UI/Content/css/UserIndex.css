@@ -94,6 +94,7 @@
 }
     .top_a:hover{
         text-decoration:none;
+        color:orange;
     }
     .style_1 {
         border-bottom: 2px solid orange;
@@ -122,4 +123,71 @@
     font-family: Glyphicons;
     content: "\f118";
     font-size:1.2em;
+}
+.userinfo-ul{
+    width:100%;
+    height:100%;
+}
+.userinfo-ul li{
+    font-size:1.2em;
+    margin:10px 40px;
+}
+.ion-android-create:before {
+    font-family: Glyphicons;
+    content: "\f37e";
+}
+.city{
+    max-width:130px;
+}
+.txt_1{
+    width:100%;
+    margin-top:10px;
+}
+.update-ul {
+    width: 100%;
+    height: 100%;
+}
+    .update-ul li{
+        margin:10px 0px;
+        padding-left:40px;
+    }
+.update-but {
+    width: 260px;
+    height: 40px;
+    border: 1px solid orange;
+    background-color: orange;
+    border-radius: 5px;
+    text-align: center;
+    margin-left: 60px;
+    transition: all 0.4s;
+}
+.update-but:hover{
+    transform:scale(1.1,1.1);
+    transition:all 0.4s;
+}
+.update-erro{
+    color:red;
+    display:none;
+}
+.update-erro:before {
+    font-family: Glyphicons;
+    content: "\f35b";
+}
+.update-hidden{
+    width:100%;
+    height:auto;
+    display:none;
+}
+.update-span {
+    display: inline-block;
+    margin-left: 20px;
+    transition: all 0.4s;
+    font-size:0.9em;
+    cursor:pointer;
+    color:orange;
+}
+.update-span:hover{
+    color:red;
+    transform:scale(1.1,1.1);
+    transition:all 0.4s;
 }
