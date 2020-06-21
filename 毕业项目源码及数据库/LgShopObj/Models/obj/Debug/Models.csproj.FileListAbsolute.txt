@@ -17,7 +17,7 @@ E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\
 E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\Models\bin\Debug\EntityFramework.xml
 E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\Models\bin\Debug\EntityFramework.SqlServer.xml
 E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\Models\bin\Debug\zh-Hans\EntityFramework.resources.dll
-E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\Models\obj\Debug\Models.csprojAssemblyReference.cache
 E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\Models\obj\Debug\Models.csproj.CopyComplete
 E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\Models\obj\Debug\Models.dll
 E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\Models\obj\Debug\Models.pdb
+E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\Models\obj\Debug\Models.csprojAssemblyReference.cache

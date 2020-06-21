@@ -1,0 +1,241 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>安全中心</title>
+    <link href="~/Content/css/UpdatePwd.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+    <div class="updatepwd-div1">
+        <img src="~/Content/Images/logo_f5.jpg" />
+        <a href="/Home/Index" class="ion-android-refresh">
+            <svg class="bi bi-arrow-clockwise" style="transform:translateY(8px);" color="red" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M3.17 6.706a5 5 0 0 1 7.103-3.16.5.5 0 1 0 .454-.892A6 6 0 1 0 13.455 5.5a.5.5 0 0 0-.91.417 5 5 0 1 1-9.375.789z" />
+                <path fill-rule="evenodd" d="M8.147.146a.5.5 0 0 1 .707 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 1 1-.707-.708L10.293 3 8.147.854a.5.5 0 0 1 0-.708z" />
+            </svg>
+            返回首页
+        </a>
+    </div>
+    <div class="updatepwd-div2">
+        <div>
+            <div class="div2_div style_1">1:输入邮箱</div>
+            <div class="div2_div">2:验证身份</div>
+            <div class="div2_div">3:设置新密码</div>
+            <div class="div2_div">4:新密码设置成功</div>
+        </div>
+    </div>
+    <div class="updatepwd-div3">
+        <ul class="div3_ul">
+            <li><label for="UserAccount">账号:</label><input class="txt txt-useraccount" type="text" placeholder="账号/手机号" maxlength="11" /></li>
+            <li><label for="UserEmail">邮箱:</label><input class="txt txt-useremail" type="text" placeholder="请输入邮箱" maxlength="25" /><br /><span class="updatepwd-erro"></span></li>
+            <li><input type="button" value="确  定" class="but_1" /></li>
+        </ul>
+    </div>
+    <div class="updatepwd-div3">
+        <ul class="div3_ul">
+            <li><label for="UserEmail">邮箱:</label><input class="txt txt-useremail" type="text" maxlength="25" disabled="disabled" /></li>
+            <li><label for="yzm">验证码:</label><input id="yzm" class="txt txt-yzm" type="text" placeholder="请输入验证码" maxlength="12" /><input type="button" value="获取验证码" class="yzm-but" /><br /><span class="updatepwd-erro"></span></li>
+            <li><input type="button" value="确  定" class="but_1" /></li>
+        </ul>
+    </div>
+    <div class="updatepwd-div3">
+        <ul class="div3_ul">
+            <li><label for="UserPwd">新密码:</label><input class="txt txt-userpwd" type="password" placeholder="请输入新密码" maxlength="15" /></li>
+            <li><label for="UserPwd_2">确认密码:</label><input class="txt txt-isuserpwd" type="password" placeholder="请输入确认密码" maxlength="15" /><span class="updatepwd-erro"></span></li>
+            <li><input type="button" value="确  定" class="but_1" /></li>
+        </ul>
+    </div>
+    <div class="updatepwd-div3">
+        <div class="div3-div">
+            <svg class="bi bi-check-circle" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z" />
+            </svg>
+            <br/>
+            密码修改成功！<br />
+            <span class="spantoindex"></span>
+        </div>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+    $(function () {
+        $('.updatepwd-erro').html('').hide();
+        $('.updatepwd-div3:eq(3)').hide();
+        $('.updatepwd-div3:eq(1)').hide();
+        $('.updatepwd-div3:eq(2)').hide();
+        var useraccount;
+        var useremail;
+        $('.but_1:eq(0)').click(function () {
+            useraccount = $('.txt-useraccount').val().trim();
+            useremail = $('.txt-useremail:eq(0)').val().trim();
+            var reg = /^[\w-]+(\.[\w-]+)*@@[\w-]+(\.[\w-]+)+$/;
+            var reg_1 = /^1([38]\d|5[0-35-9]|7[3678])\d{8}$/;
+            if (useraccount == "" || useraccount == null) {
+                $('.updatepwd-erro:eq(0)').html('账号不能为空！').show(500);
+                return;
+            }
+            else if (reg_1.test(useraccount) == false) {
+                $('.updatepwd-erro:eq(0)').html('账号输入有误！').show(500);
+                return;
+            }
+            else if (useremail == "" || useremail == null) {
+                $('.updatepwd-erro:eq(0)').html('邮箱不能为空！').show(500);
+                return;
+            }
+            else if (reg.test(useremail) == false) {
+                $('.updatepwd-erro:eq(0)').html('邮箱输入有误！').show(500);
+                return;
+            }
+            else {
+                $('.updatepwd-erro:eq(0)').html('').hide(500);
+                $.post({
+                    url: "@Url.Action("UpdatePwd_1")",
+                    data: { UserAccount: useraccount, UserEmail: useremail },
+                    success: function (data) {
+                        if (data == 0) {
+                            $('.updatepwd-erro:eq(0)').html('账号与邮箱匹配错误！').show(500);
+                            return;
+                        }
+                        else {
+                            $('.txt-useremail:eq(1)').val(useremail);
+                            $('.updatepwd-div3:eq(0)').hide();
+                            $('.updatepwd-div3:eq(1)').show();
+                            $('.div2_div:eq(1)').addClass('style_1').siblings('div').removeClass('style_1');
+                        }
+                    },
+                    error: function () {
+                        alert('出现错误！');
+                    }
+                })
+            }
+        })
+        //获取验证码
+        $('.yzm-but').click(function () {
+            $.post({
+                url: "@Url.Action("GetYzm")",
+                data: { UserEmail: useremail },
+                success: function (data) {
+                    if (data == 0) {
+                        alert("验证码发送失败，请检查网络设置。");
+                    }
+                    else {
+                        alert('验证码发送成功。');
+                        //调用方法
+                        YzmStop();
+                    }
+                },
+                error: function () {
+                    alert('出现错误!');
+                }
+            })
+        })
+
+        $('.but_1:eq(1)').click(function () {
+            var yzm = $('.txt-yzm').val().toLowerCase().trim();
+            if (yzm == "" || yzm == null) {
+                $('.updatepwd-erro:eq(1)').html('请输入验证码！').show(500);
+                return;
+            }
+            else {
+                $.post({
+                    url: "@Url.Action("UpdatePwd_2")",
+                    data: { yzm: yzm },
+                    success: function (data) {
+                        if (data == 0) {
+                            $('.updatepwd-erro:eq(1)').html('验证码错误！').show(500);
+                            return;
+                        }
+                        else {
+                            $('.updatepwd-div3:eq(1)').hide();
+                            $('.updatepwd-div3:eq(2)').show();
+                            $('.div2_div:eq(2)').addClass('style_1').siblings('div').removeClass('style_1');
+                        }
+                    },
+                    error: () => {
+                        alert('出现错误！');
+                    }
+                })
+            }
+        })
+        //设置新密码
+        $('.but_1:eq(2)').click(function () {
+            var userpwd = $('.txt-userpwd').val().trim();
+            var isuserpwd = $('.txt-isuserpwd').val().trim();
+            //密码确认密码验证
+                if (userpwd == "" || userpwd == null) {
+                    $('.updatepwd-erro:eq(2)').html('密码不能为空！').show(500);
+                    return;
+                }
+                else if (userpwd.length < 6 || userpwd.length > 12) {
+                    $('.updatepwd-erro:eq(2)').html('密码长度为6-12位！').show(500);
+                    return;
+                }
+                else if (isuserpwd == "" || isuserpwd == null) {
+                    $('.updatepwd-erro:eq(2)').html('确认密码不能为空！').show(500);
+                    return;
+                }
+                else if (userpwd != isuserpwd) {
+                    $('.updatepwd-erro:eq(2)').html('确认密码与密码不一致！').show(500);
+                    return;
+                }
+                else {
+                    $('.updatepwd-erro:eq(2)').html('').hide(500);
+                    //更改密码
+                    $.post({
+                        url: "@Url.Action("UpdatePwd_3")",
+                        data: { UserPwd: userpwd },
+                        success: function (data) {
+                            if (data == 0) {
+                                $('.updatepwd-erro:eq(2)').html('密码修改失败！').show(500);
+                            }
+                            else {
+                                //密码修改成功
+                                $('.updatepwd-erro:eq(2)').html('').hide(500);
+                                $('.updatepwd-div3:eq(2)').hide();
+                                $('.updatepwd-div3:eq(3)').show();
+                                $('.div2_div:eq(3)').addClass('style_1').siblings('div').removeClass('style_1');
+                                var num = 5;
+                                var goindextimer= setInterval(function () {
+                                    $('.spantoindex').html('' + num + '秒后返回首页！');
+                                    num--;
+                                    if (num <= 0) {
+                                        //关闭计时器
+                                        clearInterval(goindextimer);
+                                        clearInterval(goindextimer);
+                                        //跳转到首页
+                                        window.location = "/Home/Index";
+                                    }
+                                }, 1000)
+                            }
+                        },
+                        error: () => {
+                        alert('出现错误！');
+                        }
+                    })
+                }
+        })
+
+        //定义停止验证码按钮的方法
+        function YzmStop() {
+            var num = 60;
+            var yzmtimer = setInterval(function () {
+                $('.yzm-but').attr("disabled", "disabled").val("重新发送(" + num + ")");
+                num--;
+                if (num < 0) {
+                    $('.yzm-but').attr("disabled", true).val("重新发送");
+                    //关闭计时器
+                    clearInterval(yzmtimer);
+                }
+                }, 1000);
+        }
+    })
+</script>

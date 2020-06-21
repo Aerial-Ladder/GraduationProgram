@@ -1,7 +1,10 @@
 ﻿@using Models;
+@model List<GoodsTable>
 @{
     //所有分类
     List<TypeTable> TypeList = ViewBag.Type;
+    //图片
+    List<GoodsPhoto> GoodsPhoto = ViewBag.GoodsPhoto;
 }
 @{
     ViewBag.Title = "Index";
@@ -137,16 +140,21 @@
                 <div class="title"><em class="mz_red"></em>&nbsp;&nbsp;热销&nbsp;&nbsp;&nbsp;&nbsp;HOT SALE<a href="#">更多</a></div>
                 <div class="con">
                     @{
-                        for (int i = 0; i < 8; i++)
+                        foreach (var item in Model.OrderBy(p => p.GoodsHot).Take(8))
                         {
-                            <div class="card" style="width: 18rem;">
-                                <img height="180" src="~/Content/Images/ad-1.jpg" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">名称</h5>
-                                    <p class="card-text">信息</p>
-                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                            <a href="#" style="color:black;">
+                                <div class="card" style="width: 18rem;">
+                                    <img height="180" src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p=>p.GoodsID==item.GoodsID).PhotoPath" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <div class="card-div1">@item.GoodsName</div>
+                                        <div class="card-div2">@item.GoodsDescribe</div>
+                                        <div class="card-div3">
+                                            <span class="span-left">@string.Format("{0:C}", item.GoodsPrice)</span>
+                                            <span class="span-right">@string.Format("{0:C}", item.OldGoodsPrice)</span>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         }
                     }
                 </div>
@@ -155,16 +163,21 @@
                 <div class="title"><em class="mz_red"></em>&nbsp;&nbsp;经典服装&nbsp;&nbsp;&nbsp;&nbsp;CLASSIC CLOTHING<a href="#">更多</a></div>
                 <div class="con">
                     @{
-                        for (int i = 0; i < 8; i++)
+                        foreach (var item in ViewBag.goods_1)
                         {
-                            <div class="card" style="width: 18rem;">
-                                <img height="180" src="~/Content/Images/ad-1.jpg" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">名称</h5>
-                                    <p class="card-text">信息</p>
-                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                            <a href="#" style="color:black;">
+                                <div class="card" style="width: 18rem;">
+                                    <img height="180" src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p=>p.GoodsID==item.GoodsID).PhotoPath" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <div class="card-div1">@item.GoodsName</div>
+                                        <div class="card-div2">@item.GoodsDescribe</div>
+                                        <div class="card-div3">
+                                            <span class="span-left">@string.Format("{0:C}", item.GoodsPrice)</span>
+                                            <span class="span-right">@string.Format("{0:C}", item.OldGoodsPrice)</span>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         }
                     }
                 </div>
@@ -173,16 +186,44 @@
                 <div class="title"><em class="mz_red"></em>&nbsp;&nbsp;电脑办公&nbsp;&nbsp;&nbsp;&nbsp;COMPUTER OFFICE<a href="#">更多</a></div>
                 <div class="con">
                     @{
-                        for (int i = 0; i < 8; i++)
+                        foreach (var item in ViewBag.goods_2)
                         {
-                            <div class="card" style="width: 18rem;">
-                                <img height="180" src="~/Content/Images/ad-1.jpg" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">名称</h5>
-                                    <p class="card-text">信息</p>
-                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                            <a href="#" style="color:black;">
+                                <div class="card" style="width: 18rem;">
+                                    <img height="180" src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p=>p.GoodsID==item.GoodsID).PhotoPath" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <div class="card-div1">@item.GoodsName</div>
+                                        <div class="card-div2">@item.GoodsDescribe</div>
+                                        <div class="card-div3">
+                                            <span class="span-left">@string.Format("{0:C}", item.GoodsPrice)</span>
+                                            <span class="span-right">@string.Format("{0:C}", item.OldGoodsPrice)</span>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="louceng">
+                <div class="title"><em class="mz_red"></em>&nbsp;&nbsp;生活日用&nbsp;&nbsp;&nbsp;&nbsp;DAILY NECESSITIES<a href="#">更多</a></div>
+                <div class="con">
+                    @{
+                        foreach (var item in ViewBag.goods_3)
+                        {
+                            <a href="#" style="color:black;">
+                                <div class="card" style="width: 18rem;">
+                                    <img height="180" src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p=>p.GoodsID==item.GoodsID).PhotoPath" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <div class="card-div1">@item.GoodsName</div>
+                                        <div class="card-div2">@item.GoodsDescribe</div>
+                                        <div class="card-div3">
+                                            <span class="span-left">@string.Format("{0:C}", item.GoodsPrice)</span>
+                                            <span class="span-right">@string.Format("{0:C}", item.OldGoodsPrice)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
                         }
                     }
                 </div>
@@ -191,16 +232,21 @@
                 <div class="title"><em class="mz_red"></em>&nbsp;&nbsp;食品饮食&nbsp;&nbsp;&nbsp;&nbsp;FOOD AND DIET<a href="#">更多</a></div>
                 <div class="con">
                     @{
-                        for (int i = 0; i < 8; i++)
+                        foreach (var item in ViewBag.goods_4)
                         {
-                            <div class="card" style="width: 18rem;">
-                                <img height="180" src="~/Content/Images/ad-1.jpg" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">名称</h5>
-                                    <p class="card-text">信息</p>
-                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                            <a href="#" style="color:black;">
+                                <div class="card" style="width: 18rem;">
+                                    <img height="180" src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p=>p.GoodsID==item.GoodsID).PhotoPath" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <div class="card-div1">@item.GoodsName</div>
+                                        <div class="card-div2">@item.GoodsDescribe</div>
+                                        <div class="card-div3">
+                                            <span class="span-left">@string.Format("{0:C}", item.GoodsPrice)</span>
+                                            <span class="span-right">@string.Format("{0:C}", item.OldGoodsPrice)</span>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         }
                     }
                 </div>

@@ -27,7 +27,8 @@ namespace DAL
         public static List<TypeTable> SelectAllType() {
             using (LgShopDBEntities db = new LgShopDBEntities())
             {
-                db.Configuration.LazyLoadingEnabled = false;
+                //修改了false值为true
+                db.Configuration.LazyLoadingEnabled = true;
                 return db.TypeTable.Include("TypeTable1").ToList();
             }
         }

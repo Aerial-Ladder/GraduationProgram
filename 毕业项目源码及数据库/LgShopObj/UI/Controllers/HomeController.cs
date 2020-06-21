@@ -25,14 +25,21 @@ namespace UI.Controllers
             Session["Type"] = TypeTableBll.SelectTypeTable();
             //获得所有分类数据
             ViewBag.Type = TypeTableBll.SelectAllType();
-            return View();
+            //获取图片
+            ViewBag.GoodsPhoto = GoodsPhotoBll.SelectAllGoodsPhoto();
+            ViewBag.goods_1 = GoodsBll.SelectType1Goods(1).OrderBy(p => p.GoodsHot).Take(8);
+            ViewBag.goods_2 = GoodsBll.SelectType1Goods(2).OrderBy(p => p.GoodsHot).Take(8);
+            ViewBag.goods_3 = GoodsBll.SelectType1Goods(3).OrderBy(p => p.GoodsHot).Take(8);
+            ViewBag.goods_4 = GoodsBll.SelectType1Goods(4).OrderBy(p => p.GoodsHot).Take(8);
+            return View(GoodsBll.SelectAllGoods());
         }
 
         /// <summary>
         /// 商城购物车
         /// </summary>
         /// <returns></returns>
-        public ActionResult ShopCar() {
+        public ActionResult ShopCar()
+        {
             return View();
         }
 
@@ -41,14 +48,15 @@ namespace UI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult GetTypeAjax(int index) {
+        public JsonResult GetTypeAjax(int index)
+        {
             //获取数据
-            var list = TypeTableBll.SelectAllType().Where(p=>p.TID==index).Select(p=>new { TypeName=p.TypeName,TID=p.TID,TypeID=p.TypeID });
+            var list = TypeTableBll.SelectAllType().Where(p => p.TID == index).Select(p => new { TypeName = p.TypeName, TID = p.TID, TypeID = p.TypeID });
             JsonSerializerSettings jsonstring = new JsonSerializerSettings();
             jsonstring.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            string ret_1 = JsonConvert.SerializeObject(list,jsonstring);
-            string ret_2= JsonConvert.SerializeObject(TypeTableBll.SelectIndexType(index).Select(p => new { TypeName = p.TypeName, TID = p.TID, TypeID = p.TypeID }), jsonstring);
-            return Json(new { list_1=ret_1,list_2=ret_2 },JsonRequestBehavior.AllowGet);
+            string ret_1 = JsonConvert.SerializeObject(list, jsonstring);
+            string ret_2 = JsonConvert.SerializeObject(TypeTableBll.SelectIndexType(index).Select(p => new { TypeName = p.TypeName, TID = p.TID, TypeID = p.TypeID }), jsonstring);
+            return Json(new { list_1 = ret_1, list_2 = ret_2 }, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -58,7 +66,8 @@ namespace UI.Controllers
         /// </summary>
         /// <param name="Emial">用户邮箱</param>
         /// <returns></returns>
-        public JsonResult GetYzm(string UserEmail) {
+        public JsonResult GetYzm(string UserEmail)
+        {
             //发送邮件的地址，标题，内容
             string to = UserEmail;
             //创建发送邮件的q服务器对象先引用命名空间
@@ -85,7 +94,7 @@ namespace UI.Controllers
             }
             //将生成的验证码存入session中
             Session["yzm"] = yzm;
-            mail.Body =  $"本次的验证码为:{yzm},请尽快完成操作！";
+            mail.Body = $"本次的验证码为:{yzm},请尽快完成操作！";
 
             try
             {
@@ -103,6 +112,7 @@ namespace UI.Controllers
             return Json(1, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
         /// <summary>
         /// 用户注册
         /// </summary>
@@ -113,7 +123,8 @@ namespace UI.Controllers
         /// <param name="UserEmail">邮箱</param>
         /// <param name="Yzm">用户输入的验证码</param>
         /// <returns></returns>
-        public JsonResult RegistAjax(string UserName,string UserPwd,string UserCard,string UserPhont,string UserEmail,string Yzm) {
+        public JsonResult RegistAjax(string UserName, string UserPwd, string UserCard, string UserPhont, string UserEmail, string Yzm)
+        {
             //判断验证码是否输入正确
             if (Session["yzm"].ToString().Trim().ToLower() == Yzm.Trim().ToLower())
             {
@@ -125,10 +136,10 @@ namespace UI.Controllers
                     UserEmail = UserEmail,
                     UserAge = UserCard.GetUserBirthdays().GetUserAge(),
                     UserSex = UserCard.GetUserSex(),
-                    UserPhont =UserPhont,
-                    UserCard=UserCard,
-                    UserBirthdays=UserCard.GetUserBirthdays(),
-                    ReceivingAddress=""
+                    UserPhont = UserPhont,
+                    UserCard = UserCard,
+                    UserBirthdays = UserCard.GetUserBirthdays(),
+                    ReceivingAddress = ""
                 };
                 if (UserInfoBll.AddUserInfo(user))
                 {
@@ -140,6 +151,7 @@ namespace UI.Controllers
             return Json(0, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
         /// <summary>
         /// 用户登录
         /// </summary>
@@ -147,19 +159,88 @@ namespace UI.Controllers
         /// <param name="UserPwd">密码</param>
         /// <param name="UserYzm">图片验证码</param>
         /// <returns></returns>
-        public JsonResult LoginAjax(string UserAccount,string UserPwd,string UserYzm) {
+        public JsonResult LoginAjax(string UserAccount, string UserPwd, string UserYzm)
+        {
             if (Session["useryzm"].ToString().Trim().ToLower() == UserYzm.Trim().ToLower())
             {
                 UserInfo user = UserInfoBll.UserInfoLogin(UserAccount, UserPwd);
-                if ( user!= null)
+                if (user != null)
                 {
                     //记录用户信息
                     Session["user"] = user;
+                    Session["userid"] = user.UserID;
                     return Json(2, JsonRequestBehavior.AllowGet);
                 }
-                else { 
-                return Json(1, JsonRequestBehavior.AllowGet);
+                else
+                {
+                    return Json(1, JsonRequestBehavior.AllowGet);
                 }
+            }
+            return Json(0, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 忘记密码
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult UpdatePwd()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        /// <summary>
+        /// 匹配邮箱
+        /// </summary>
+        /// <param name="UserAccount">账号</param>
+        /// <param name="UserEmail">邮箱</param>
+        /// <returns></returns>
+        public JsonResult UpdatePwd_1(string UserAccount, string UserEmail)
+        {
+            UserInfo user = UserInfoBll.UpdatePwd_1(UserAccount, UserEmail);
+            if (user!=null)
+            {
+                Session["userid"] = user.UserID;
+                return Json(1, JsonRequestBehavior.AllowGet);
+            }
+            return Json(0, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        /// <summary>
+        /// 匹配验证码
+        /// </summary>
+        /// <param name="yzm">验证码</param>
+        /// <returns></returns>
+        public JsonResult UpdatePwd_2(string yzm)
+        {
+            try
+            {
+                if (Session["yzm"].ToString().Trim().ToLower() == yzm.Trim().ToLower())
+                {
+                    return Json(1, JsonRequestBehavior.AllowGet);
+                }
+                else {
+                    return Json(0, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception)
+            {
+                return Json(0, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="UserPwd">用户密码</param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult UpdatePwd_3(string UserPwd) {
+            if (UserInfoBll.UpdateUserPwd_2(UserPwd, Session["userid"].ToString()))
+            {
+                return Json(1, JsonRequestBehavior.AllowGet);
             }
             return Json(0, JsonRequestBehavior.AllowGet);
         }

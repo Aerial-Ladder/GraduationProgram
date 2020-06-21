@@ -1,66 +1,80 @@
-﻿
+﻿@using Models;
 @{
     ViewBag.Title = "GoodsIndex";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    List<TypeTable> TypeList = ViewBag.Type;
+    List<GoodsPhoto> GoodsPhoto = ViewBag.GoodsPhoto;
 }
 
 @*样式表*@
 <link href="~/Content/css/GoodsIndex.css" rel="stylesheet" />
-
+@*引入*@
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <div class="GoodsIndex_div">
     <div class="Gindex-div1">
         <span class="div1_span"></span>&nbsp;&nbsp;<span>所有商品分类</span>
     </div>
     <div class="Gindex-div2">
-        <ul class="div2_ul">
-            <li><h5 class="ion-ios-arrow-down">&nbsp;&nbsp;经典服装</h5></li>
-            <li><span class="div2_ul--span">男装</span><a href="#">11111</a><a href="#">2222</a></li>
-            <li><span class="div2_ul--span">男装1</span><a href="#">11111</a><a href="#">2222</a></li>
-            <li><span class="div2_ul--span">男装1111</span><a href="#">11111</a><a href="#">2222</a></li>
-            <li><span class="div2_ul--span">男装</span><a href="#">11111</a><a href="#">2222</a></li>
-        </ul>
-        <ul class="div2_ul">
-            <li><h5 class="ion-ios-arrow-down">&nbsp;&nbsp;电脑办公</h5></li>
-            <li><span class="div2_ul--span">男装</span><a href="#">11111</a><a href="#">2222</a></li>
-            <li><span class="div2_ul--span">男装1</span><a href="#">11111</a><a href="#">2222</a></li>
-            <li><span class="div2_ul--span">男装1111</span><a href="#">11111</a><a href="#">2222</a></li>
-            <li><span class="div2_ul--span">男装</span><a href="#">11111</a><a href="#">2222</a></li>
-        </ul>
-        <ul class="div2_ul">
-            <li><h5 class="ion-ios-arrow-down">&nbsp;&nbsp;经典服装</h5></li>
-            <li><span class="div2_ul--span">男装</span><a href="#">11111</a><a href="#">2222</a></li>
-            <li><span class="div2_ul--span">男装1</span><a href="#">11111</a><a href="#">2222</a></li>
-            <li><span class="div2_ul--span">男装1111</span><a href="#">11111</a><a href="#">2222</a></li>
-            <li><span class="div2_ul--span">男装</span><a href="#">11111</a><a href="#">2222</a></li>
-        </ul>
-        <ul class="div2_ul">
-            <li><h5 class="ion-ios-arrow-down">&nbsp;&nbsp;经典服装</h5></li>
-            <li><span class="div2_ul--span">男装</span><a href="#">11111</a><a href="#">2222</a></li>
-            <li><span class="div2_ul--span">男装1</span><a href="#">11111</a><a href="#">2222</a></li>
-            <li><span class="div2_ul--span">男装1111</span><a href="#">11111</a><a href="#">2222</a></li>
-            <li><span class="div2_ul--span">男装</span><a href="#">11111</a><a href="#">2222</a></li>
-        </ul>
+        @{
+            foreach (var item in TypeList.Where(p => p.TID == null))
+            {
+                <ul class="div2_ul">
+                    <li><h5 class="ion-ios-arrow-down">&nbsp;&nbsp;@item.TypeName</h5></li>
+                    @foreach (var item_1 in TypeList.Where(p => p.TID == item.TypeID))
+                    {
+                        <li>
+                            <span class="div2_ul--span">@item_1.TypeName</span>
+                            @{
+                                foreach (var item_2 in TypeList.Where(p => p.TID == item_1.TypeID))
+                                {
+                                    <a href="#">@item_2.TypeName</a>
+                                }
+                            }
+                        </li>
+                    }
+                </ul>
+            }
+        }
     </div>
     <div class="Gindex-div1">
         <span class="div1_span"></span>&nbsp;&nbsp;<span>商品列表</span>
     </div>
-    <div class="Gindex-div3">
-        @{
-            for (int i = 0; i < 12; i++)
+    <div class="Gindex-div3" id="Goods_1">
+        @*@{
+            foreach (var item in ViewBag.Goods)
             {
-                <div class="card" style="width:18rem">
-                    <img height="180" src="~/Content/Images/ad-1.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">名称</h5>
-                        <p class="card-text">信息</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                <a href="#" class="div3_a">
+                    <div class="card" style="width: 18rem;">
+                        <img height="180" src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p=>p.GoodsID==item.GoodsID).PhotoPath" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <div class="card-div1">@item.GoodsName</div>
+                            <div class="card-div2">@item.GoodsDescribe</div>
+                            <div class="card-div3">
+                                <span class="span-left">@string.Format("{0:C}", item.GoodsPrice)</span>
+                                <span class="span-right">@string.Format("{0:C}", item.OldGoodsPrice)</span>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </a>
             }
         }
-    </div>
-    <div class="Gindex-div4">
-
+        <div class="Gindex-div4">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">上一页</a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        @Ajax.ActionLink("下一页", "Show", "Goods", new { pageindex = 2 }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "Goods_1", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                    </li>
+                </ul>
+            </nav>
+        </div>*@
+        @Html.Partial("Show",TempData["Goods"] as ViewDataDictionary)
     </div>
 </div>
 
@@ -79,5 +93,5 @@
             })
         })
     </script>
-    }
+}
 

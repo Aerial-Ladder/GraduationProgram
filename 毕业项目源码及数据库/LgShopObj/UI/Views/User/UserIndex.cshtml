@@ -1,6 +1,7 @@
 ﻿@using Models;
+@model UserInfo
 @{
-    UserInfo user = Session["user"] as UserInfo;
+    UserInfo user = Model;
 }
 @{
     ViewBag.Title = "UserIndex";
@@ -11,8 +12,23 @@
 
 <div class="UserIndex">
     <div class="UserIndex-div1">
-        <div class="Udiv1_top"><img /></div>
-        <div class="Udiv1_userimg"><img src="~/Content/Images/@user.UserPhoto" /></div>
+        <div class="Udiv1_top">
+            @{
+                if (Model.CoverPhoto == "" || Model.CoverPhoto == null)
+                {
+                    <img />
+                }
+                else
+                {
+                    <img src="~/Content/Images/@Model.CoverPhoto" />
+                }
+            }
+        </div>
+        <div class="Udiv1_userimg"><img src="~/Content/Images/@user.UserPhoto" /><div class="userphoto-hidden">点击更改头像</div></div>
+        <form method="post" action="/User/UserPhotoUpdate" id="updatephoto-form" enctype="multipart/form-data">
+            <input type="text" id="ef" name="isuserphoto" style="visibility:hidden" />
+            <input type="file" id="_ef" name="file_1" style="visibility:hidden" />
+        </form>
         <span class="Udiv1_username">@user.UserName</span>
         <a href="#" class="Udiv1_a1" data-target="#UserInfo" data-toggle="modal"><span class="ion-ios-arrow-down">&nbsp;&nbsp;查看详细资料</span></a>
         <a href="#" class="Udiv1_a2 btn btn-info" data-target="#UpdateUser" data-toggle="modal">编辑个人资料</a>
@@ -24,8 +40,10 @@
             <a href="#" class="top_a">我的评价</a>
             <a href="#" class="top_a">我的账户</a>
             <a href="#" class="top_a">我的收藏</a>
+            <a href="#" class="top_a">我的反馈</a>
         </div>
         <div class="Udiv2_div1">
+            @*内容*@
         </div>
     </div>
 </div>
@@ -68,18 +86,18 @@
             </div>
             <div class="modal-body">
                 <ul class="update-ul">
-                    <li><label for="UserName">用户名：</label><input class="txt UserName" name="UserName" type="text" /><br/><span class="update-erro"></span></li>
+                    <li><label for="UserName">用户名：</label><input class="txt UserName" name="UserName" type="text" /><br /><span class="update-erro"></span></li>
                     <li><label for="UserPhont">手机号：</label><input class="txt UserPhont" name="UserPhont" type="text" /><span class="update-erro"></span></li>
                     <li><label for="UserCard">身份证号：</label><input class="txt UserCard" name="UserCard" type="text" /><span class="update-erro"></span></li>
                     <li><label for="UserEmail">邮箱：</label><input class="txt UserEmail" name="UserEmail" type="text" /><span class="update-erro"></span></li>
                     <li>
-                        <label for="ReceivingAddress">收货地址：</label><span class="update-span">编辑收货地址</span><br/>
+                        <label for="ReceivingAddress">收货地址：</label><span class="update-span">编辑收货地址</span><br />
                         <textarea rows="3" cols="30" class="ReceivingAddress txt_1" disabled="disabled"></textarea>
                         <div class="update-hidden">
                             <select id="city_1" class="city custom-select"><option>请选择</option></select>
                             <select id="city_2" class="city custom-select"></select>
                             <select id="city_3" class="city custom-select"></select>
-                            <textarea rows="2" cols="30" class="txt_1"></textarea><br/>
+                            <textarea rows="2" cols="30" class="txt_1"></textarea><br />
                             <span class="update-erro"></span>
                         </div>
                     </li>
@@ -191,7 +209,6 @@
                     var city_1 = $('#city_1 option:selected').val();
                     var city_2 = $('#city_2 option:selected').val();
                     var mycity = $('.txt_1:eq(1)').val().trim();
-                    alert(city_1);
                     if (city_1 == "请选择" || city_2 == "请选择"  || mycity == "") {
                         $('.update-erro:eq(4)').html('请完善收货地址！').show(500);
                         return;
@@ -219,12 +236,45 @@
                         }
                         else {
                             //修改成功
-                            //window.location = "/User/UserIndex";
                             location.reload();
                         }
                     },
                     error: function () {
                         alert('错误！');
+                    }
+                })
+            })
+
+            //更换头像
+            $('.Udiv1_userimg').hover(function () {
+                $('.userphoto-hidden').stop().slideDown(500);
+            }, function () {
+                $('.userphoto-hidden').stop().slideUp(500);
+            })
+            $('.Udiv1_userimg').click(function () {
+                var inputObj = $('#_ef');
+                $('#ef').val("0");
+                inputObj.click();
+                inputObj.bind('change', function () {
+                    var file = $('#_ef').get(0).files[0];
+                    if (file) {
+                        $('#updatephoto-form').submit();
+                    } else {
+                        return;
+                    }
+                })
+            })
+            //封面图片
+            $('.Udiv1_a3').click(function () {
+                var inputObj = $('#_ef');
+                $('#ef').val("1");
+                inputObj.click();
+                inputObj.bind('change', function () {
+                    var file = $('#_ef').get(0).files[0];
+                    if (file) {
+                        $('#updatephoto-form').submit();
+                    } else {
+                        return;
                     }
                 })
             })

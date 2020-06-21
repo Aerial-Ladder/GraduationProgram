@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Models;
 using UI.Models;
 using BLL;
+using System.IO;
 
 namespace UI.Controllers
 {
@@ -14,7 +15,7 @@ namespace UI.Controllers
         // GET: User
         public ActionResult UserIndex()
         {
-            return View();
+            return View(UserInfoBll.SelectUser(Convert.ToInt32(Session["userid"])));
         }
 
         /// <summary>
@@ -77,6 +78,68 @@ namespace UI.Controllers
             if (UserInfoBll.UserInfoUpdate(updateUser))
             {
                 Session["user"] = UserInfoBll.SelectUser(user.UserID);
+                return Json(1, JsonRequestBehavior.AllowGet);
+            }
+            return Json(0, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 修改头像
+        /// </summary>
+        /// <param name="file_1">图片路径</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult UserPhotoUpdate(HttpPostedFileBase file_1, string isuserphoto)
+        {
+            if (file_1 != null)
+            {
+                if (file_1.ContentLength == 0)
+                {
+                    //文件大小（以字节为单位）为0，返回到视图
+                    return RedirectToAction("UserIndex");
+                }
+                else
+                {
+                    UserInfo user = Session["user"] as UserInfo;
+                    string fileName = Path.GetFileName(file_1.FileName);
+                    if (isuserphoto == "0")
+                    {
+                        UserInfoBll.UpdateUserPhoto(fileName, user.UserID, true);
+                    }
+                    else
+                    {
+                        UserInfoBll.UpdateUserPhoto(fileName, user.UserID, false);
+                    }
+                    Session["user"] = UserInfoBll.SelectUser(user.UserID);
+                    //保存文件
+                    //应用程序需要有服务器UploadFile文件夹的读写权限
+                    file_1.SaveAs(Server.MapPath("~/Content/Images/" + fileName));
+                }
+            }
+            return RedirectToAction("UserIndex");
+        }
+
+        /// <summary>
+        /// 用户反馈界面
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult UserFeedback()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 用户反馈界面
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult UserFeedback(string UserFeedback)
+        {
+            //调用新增反馈方法
+            if (FeedbackBll.AddFeedback(UserFeedback, Session["userid"].ToString()))
+            {
+                //新增成功
                 return Json(1, JsonRequestBehavior.AllowGet);
             }
             return Json(0, JsonRequestBehavior.AllowGet);
