@@ -26,3 +26,4 @@ E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\
 E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\BLL\obj\Debug\BLL.csproj.CopyComplete
 E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\BLL\obj\Debug\BLL.dll
 E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\BLL\obj\Debug\BLL.pdb
+E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\LgShopObj\BLL\bin\Debug\Newtonsoft.Json.dll

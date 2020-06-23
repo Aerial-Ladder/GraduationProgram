@@ -131,6 +131,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\GoodsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ShopCarController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -310,10 +311,10 @@
     <Content Include="Views\Goods\GoodsIndex.cshtml" />
     <Content Include="Views\Goods\GoodsDesc.cshtml" />
     <Content Include="Views\User\UserIndex.cshtml" />
-    <Content Include="Views\Home\ShopCar.cshtml" />
     <Content Include="Views\Home\UpdatePwd.cshtml" />
     <Content Include="Views\User\UserFeedback.cshtml" />
     <Content Include="Views\Goods\Show.cshtml" />
+    <Content Include="Views\ShopCar\ShopCarIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

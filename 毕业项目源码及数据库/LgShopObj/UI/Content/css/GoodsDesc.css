@@ -79,6 +79,7 @@ a{
     height:50px;
     border-bottom:1px dashed grey;
     line-height:50px;
+    font-size:1.0em;
 }
 .span-solid {
     border-right: 1px solid grey;
@@ -228,3 +229,17 @@ a{
 .user_pl{
     color:black;
 }
+.span_good{
+    color:red;
+}
+.span_good:before {
+    font-family: Glyphicons;
+    content: "\f2fc";
+}
+.span_bad {
+    color: black;
+}
+    .span_bad:before {
+        font-family: Glyphicons;
+        content: "\f3ae";
+    }

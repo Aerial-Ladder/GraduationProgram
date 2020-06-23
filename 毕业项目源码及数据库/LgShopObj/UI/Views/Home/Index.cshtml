@@ -30,7 +30,7 @@
         <div class="div1-div1">
             <ul class="div1-ul2">
                 <li>
-                    <span class="ion-tshirt"></span>
+                    <span class="div1-ul2_span ion-tshirt"></span>
                     <span class="span_big">经典服装</span>
                     <svg class="bi bi-caret-right-fill ul2-span" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor">
                         <path d="M12.14 8.753l-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
@@ -56,7 +56,7 @@
                     </div>
                 </li>
                 <li>
-                    <span class="ion-monitor"></span>
+                    <span class="div1-ul2_span ion-monitor"></span>
                     <span class="span_big">电脑办公</span>
                     <svg class="bi bi-caret-right-fill ul2-span" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor">
                         <path d="M12.14 8.753l-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
@@ -80,7 +80,7 @@
                     </div>
                 </li>
                 <li>
-                    <span class="ion-ios-lightbulb-outline"></span>
+                    <span class="div1-ul2_span_1 ion-ios-lightbulb-outline"></span>
                     <span class="span_big">&nbsp;生活日用&nbsp;</span>
                     <svg class="bi bi-caret-right-fill ul2-span" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor">
                         <path d="M12.14 8.753l-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
@@ -104,7 +104,7 @@
                     </div>
                 </li>
                 <li>
-                    <span class="ion-ios-wineglass-outline"></span>
+                    <span class="div1-ul2_span_1 ion-ios-wineglass-outline"></span>
                     <span class="span_big">&nbsp;食品饮食&nbsp;&nbsp;</span>
                     <svg class="bi bi-caret-right-fill ul2-span" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor">
                         <path d="M12.14 8.753l-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
@@ -137,12 +137,12 @@
         <!--模块-->
         <div class="louceng_box">
             <div class="louceng">
-                <div class="title"><em class="mz_red"></em>&nbsp;&nbsp;热销&nbsp;&nbsp;&nbsp;&nbsp;HOT SALE<a href="#">更多</a></div>
+                <div class="title"><em class="mz_red"></em>&nbsp;&nbsp;热销&nbsp;&nbsp;&nbsp;&nbsp;HOT SALE<a href="/Goods/GoodsIndex">更多</a></div>
                 <div class="con">
                     @{
                         foreach (var item in Model.OrderBy(p => p.GoodsHot).Take(8))
                         {
-                            <a href="#" style="color:black;">
+                            <a href="/Goods/GoodsDesc?goodsid=@item.GoodsID" style="color:black;">
                                 <div class="card" style="width: 18rem;">
                                     <img height="180" src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p=>p.GoodsID==item.GoodsID).PhotoPath" class="card-img-top" alt="...">
                                     <div class="card-body">
@@ -160,12 +160,12 @@
                 </div>
             </div>
             <div class="louceng">
-                <div class="title"><em class="mz_red"></em>&nbsp;&nbsp;经典服装&nbsp;&nbsp;&nbsp;&nbsp;CLASSIC CLOTHING<a href="#">更多</a></div>
+                <div class="title"><em class="mz_red"></em>&nbsp;&nbsp;经典服装&nbsp;&nbsp;&nbsp;&nbsp;CLASSIC CLOTHING<a href="/Goods/GoodsIndex?typeid_2=1">更多</a></div>
                 <div class="con">
                     @{
                         foreach (var item in ViewBag.goods_1)
                         {
-                            <a href="#" style="color:black;">
+                            <a href="/Goods/GoodsDesc?goodsid=@item.GoodsID" style="color:black;">
                                 <div class="card" style="width: 18rem;">
                                     <img height="180" src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p=>p.GoodsID==item.GoodsID).PhotoPath" class="card-img-top" alt="...">
                                     <div class="card-body">
@@ -183,12 +183,12 @@
                 </div>
             </div>
             <div class="louceng">
-                <div class="title"><em class="mz_red"></em>&nbsp;&nbsp;电脑办公&nbsp;&nbsp;&nbsp;&nbsp;COMPUTER OFFICE<a href="#">更多</a></div>
+                <div class="title"><em class="mz_red"></em>&nbsp;&nbsp;电脑办公&nbsp;&nbsp;&nbsp;&nbsp;COMPUTER OFFICE<a href="/Goods/GoodsIndex?typeid_2=2">更多</a></div>
                 <div class="con">
                     @{
                         foreach (var item in ViewBag.goods_2)
                         {
-                            <a href="#" style="color:black;">
+                            <a href="/Goods/GoodsDesc?goodsid=@item.GoodsID" style="color:black;">
                                 <div class="card" style="width: 18rem;">
                                     <img height="180" src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p=>p.GoodsID==item.GoodsID).PhotoPath" class="card-img-top" alt="...">
                                     <div class="card-body">
@@ -206,12 +206,12 @@
                 </div>
             </div>
             <div class="louceng">
-                <div class="title"><em class="mz_red"></em>&nbsp;&nbsp;生活日用&nbsp;&nbsp;&nbsp;&nbsp;DAILY NECESSITIES<a href="#">更多</a></div>
+                <div class="title"><em class="mz_red"></em>&nbsp;&nbsp;生活日用&nbsp;&nbsp;&nbsp;&nbsp;DAILY NECESSITIES<a href="/Goods/GoodsIndex?typeid_2=3">更多</a></div>
                 <div class="con">
                     @{
                         foreach (var item in ViewBag.goods_3)
                         {
-                            <a href="#" style="color:black;">
+                            <a href="/Goods/GoodsDesc?goodsid=@item.GoodsID" style="color:black;">
                                 <div class="card" style="width: 18rem;">
                                     <img height="180" src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p=>p.GoodsID==item.GoodsID).PhotoPath" class="card-img-top" alt="...">
                                     <div class="card-body">
@@ -229,12 +229,12 @@
                 </div>
             </div>
             <div class="louceng">
-                <div class="title"><em class="mz_red"></em>&nbsp;&nbsp;食品饮食&nbsp;&nbsp;&nbsp;&nbsp;FOOD AND DIET<a href="#">更多</a></div>
+                <div class="title"><em class="mz_red"></em>&nbsp;&nbsp;食品饮食&nbsp;&nbsp;&nbsp;&nbsp;FOOD AND DIET<a href="/Goods/GoodsIndex?typeid_2=4">更多</a></div>
                 <div class="con">
                     @{
                         foreach (var item in ViewBag.goods_4)
                         {
-                            <a href="#" style="color:black;">
+                            <a href="/Goods/GoodsDesc?goodsid=@item.GoodsID" style="color:black;">
                                 <div class="card" style="width: 18rem;">
                                     <img height="180" src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p=>p.GoodsID==item.GoodsID).PhotoPath" class="card-img-top" alt="...">
                                     <div class="card-body">
@@ -322,7 +322,7 @@
                         var newdata = data_2.filter(function (e) { return e.TID === data_1[i].TypeID });
                         for (var j = 0; j < newdata.length; j++) {
                             //每个小a标签
-                            var $a = $("<a href='#'>" + newdata[j].TypeName + "</a>");
+                            var $a = $("<a href='/Goods/GoodsIndex?typeid_1="+newdata[j].TypeID+"'>" + newdata[j].TypeName + "</a>");
                             //$('.div-hidden:eq(' + i + ')').append($a);
                             $($div).append($a);
                         }

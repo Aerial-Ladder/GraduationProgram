@@ -1,7 +1,9 @@
-﻿
+﻿@using Models
+@model GoodsTable
 @{
     ViewBag.Title = "GoodsDesc";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    List<GoodsPhoto> GoodsPhoto = ViewBag.GoodsPhoto;
 }
 
 @*//样式表*@
@@ -26,24 +28,39 @@
     </div>
     <div class="Desc_div2">
         <ul class="Ddiv2_ul">
-            <li><h5 class="Ddiv2_ul--h5">商品的名称啊啊啊啊</h5></li>
-            <li><span class="Ddiv2_ul--span1">商品的名称啊啊啊啊</span></li>
+            <li><h5 class="Ddiv2_ul--h5">@Model.GoodsName</h5></li>
+            <li><span class="Ddiv2_ul--span1">@Model.GoodsDescribe</span></li>
             <li>
                 <div class="Ddiv2_ul--div1">
-                    市场价：<span class="Ddiv2_ul--span2">￥800.00</span><br />
-                    商城价：<span class="Ddiv2_ul--span3">￥155.00</span>
+                    市场价：<span class="Ddiv2_ul--span2">@string.Format("{0:C}", Model.OldGoodsPrice)</span><br />
+                    商城价：<span class="Ddiv2_ul--span3">@string.Format("{0:C}", Model.GoodsPrice)</span>
                 </div>
             </li>
             <li>
                 <div class="Ddiv2_ul--div2">
-                    <span class="Ddiv2_ul--span4 span-solid">销量：<span class="span-red">48484</span></span>
-                    <span class="Ddiv2_ul--span4 span-solid">累计评价：<span class="span-red">84</span></span>
-                    <span class="Ddiv2_ul--span4">商品评价&nbsp;⭐⭐⭐⭐⭐</span>
+                    <span class="Ddiv2_ul--span4 span-solid">销量：<span class="span-red">@Model.GoodsHot</span></span>
+                    <span class="Ddiv2_ul--span4 span-solid">累计评价：<span class="span-red">0</span></span>
+                    <span class="Ddiv2_ul--span4">
+                        商品评分:&nbsp;
+                        @{
+                            for (int i = 0; i < 5; i++)
+                            {
+                                if (i < Model.GoodsStar)
+                                {
+                                    <span class="span_good"></span>
+                                }
+                                else
+                                {
+                                    <span class="span_bad"></span>
+                                }
+                            }
+                        }
+                    </span>
                 </div>
             </li>
             <li>
                 <div class="Ddiv2_ul--div3">
-                    购买数量:&nbsp;&nbsp;<button>-</button><input type="text" value="1"/><button>+</button>&nbsp;&nbsp;(当前库存：<span class="span-red">484848</span>&nbsp;件)
+                    购买数量:&nbsp;&nbsp;<button class="jian">-</button><input class="input_num" disabled="disabled" type="text" value="1" /><button class="add">+</button>&nbsp;&nbsp;(当前库存：<span class="span-red">@Model.GoodsInventory</span>&nbsp;件)
                 </div>
             </li>
             <li>
@@ -83,11 +100,14 @@
                 <div class="div_user"><img src="~/Content/Images/default.jpg" /></div>
                 <span class="div_username">用户名</span>
             </div>
-            <div class="div4_div1--div3">评论详情:&nbsp;<span class="user_pl">
-                @{for (int i = 0; i < 20; i++)
-                {
-                    @:真的不错啊！
-                }} </span></div>
+            <div class="div4_div1--div3">
+                评论详情:&nbsp;<span class="user_pl">
+                    @{for (int i = 0; i < 20; i++)
+                        {
+                            @:真的不错啊！
+                        }}
+                </span>
+            </div>
         </div>
     </div>
 </div>
@@ -99,7 +119,54 @@
             $('.Ddiv3_div1').click(function () {
                 $(this).addClass('style_1').siblings().removeClass('style_1');
             })
+            //加入购物车点击事件
+            $('.goshopcar').click(function () {
+                if ($('.user-yes').is(':hidden')) {
+                    $('.login').click();
+                }
+                else {
+                    $.post({
+                        url: "@Url.Action("AddShopCar")",
+                        data: { GoodsId:@Model.GoodsID, ShoppingNum: $('.input_num').val() },
+                        success: function (data) {
+                            if (data == 0) {
+                                alert('加入购物车失败，请重试！');
+                            }
+                            else if (data == 1) {
+                                alert('您的购物车中已有该商品！');
+                            }
+                            else {
+                                alert('添加购物车成功！');
+                                $('.user-shopcar span').addClass('car-red');
+                                //重新加载网页
+                                location.reload();
+                            }
+                        },
+                        error: () => {
+                            alert('出现错误！');
+                        }
+                    })
+                }
+            })
+            //立即购买点击事件
+            $('.bug').click(function () {
+                if ($('.user-yes').is(':hidden')) {
+                    $('.login').click();
+                }
+            })
             BigShow();
+            $('.jian').click(function () {
+                var values = $('.input_num').val();
+                if (parseInt(values) > 1) {
+                    $('.input_num').val(parseInt(values)-1);
+                }
+            })
+            $('.add').click(function () {
+                var values = $('.input_num').val();
+                if (parseInt(values) < 10) {
+                    $('.input_num').val(parseInt(values)+1);
+                }
+            })
             function BigShow() {
                 var biger = document.getElementById('biger');
                 var main = document.getElementById('main');
@@ -107,11 +174,18 @@
                 var mask = document.getElementById('mask');
                 var wrap = biger.parentNode;
                 var imgArr = [
-                    { "path": "../Content/Images/ad-1.jpg" },
-                    { "path": "../Content/Images/ad-2.jpg" },
-                    { "path": "../Content/Images/ad-3.jpg" },
-                    { "path": "../Content/Images/ad-4.jpg" },
-                    { "path": "../Content/Images/ad-5.jpg" }
+                    @{
+                        for (int i = 0; i < GoodsPhoto.Count(); i++)
+                        {
+                            if (i == GoodsPhoto.Count())
+                            {
+                            @:{ "path": "../Content/GoodImgs/@GoodsPhoto[i].PhotoPath" }
+                            }
+                            else {
+                            @:{ "path": "../Content/GoodImgs/@GoodsPhoto[i].PhotoPath" },
+                            }
+                        }
+                    }
                 ];
                 var imgSum = imgArr.length;
                 if (imgSum > 5) {

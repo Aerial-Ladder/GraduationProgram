@@ -31,16 +31,11 @@ namespace UI.Controllers
             ViewBag.goods_2 = GoodsBll.SelectType1Goods(2).OrderBy(p => p.GoodsHot).Take(8);
             ViewBag.goods_3 = GoodsBll.SelectType1Goods(3).OrderBy(p => p.GoodsHot).Take(8);
             ViewBag.goods_4 = GoodsBll.SelectType1Goods(4).OrderBy(p => p.GoodsHot).Take(8);
+            if (Session["userid"] != null)
+            {
+                Session["carcount"] = ShopingCarBll.SelectAllShopCar(Convert.ToInt32(Session["userid"])).Count();
+            }
             return View(GoodsBll.SelectAllGoods());
-        }
-
-        /// <summary>
-        /// 商城购物车
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult ShopCar()
-        {
-            return View();
         }
 
         /// <summary>

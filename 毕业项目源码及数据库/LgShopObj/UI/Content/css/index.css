@@ -106,6 +106,14 @@
     width:150px;
     height:auto;
 }
+.div1-ul2_span{
+    display: inline-block;
+    transform: translateX(-8px);
+}
+.div1-ul2_span_1 {
+    display: inline-block;
+    transform: translateX(-6px);
+}
 /*各个小图标*/
 .ion-tshirt:before {
     font-family: Glyphicons;

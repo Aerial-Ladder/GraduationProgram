@@ -37,6 +37,7 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\..\..\..\..\课程\C#\MVC\第七次课(obj)\201817380102郑靖\packages\EntityFramework.6.2.0\lib\net40\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -50,6 +51,7 @@
     <Compile Include="FeedbackDal.cs" />
     <Compile Include="GoodsDal.cs" />
     <Compile Include="GoodsPhotoDal.cs" />
+    <Compile Include="ShoppingCarDal.cs" />
     <Compile Include="TypeTableDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserInfoDal.cs" />

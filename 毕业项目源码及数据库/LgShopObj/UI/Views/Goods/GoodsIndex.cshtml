@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<TypeTable> TypeList = ViewBag.Type;
     List<GoodsPhoto> GoodsPhoto = ViewBag.GoodsPhoto;
+    List<GoodsTable> Goods = Session["Goods"] as List<GoodsTable>;
 }
 
 @*样式表*@
@@ -23,15 +24,15 @@
                     <li><h5 class="ion-ios-arrow-down">&nbsp;&nbsp;@item.TypeName</h5></li>
                     @foreach (var item_1 in TypeList.Where(p => p.TID == item.TypeID))
                     {
-                        <li>
-                            <span class="div2_ul--span">@item_1.TypeName</span>
-                            @{
-                                foreach (var item_2 in TypeList.Where(p => p.TID == item_1.TypeID))
-                                {
-                                    <a href="#">@item_2.TypeName</a>
-                                }
-                            }
-                        </li>
+                <li>
+                    <span class="div2_ul--span">@item_1.TypeName</span>
+                    @{
+                        foreach (var item_2 in TypeList.Where(p => p.TID == item_1.TypeID))
+                        {
+                            @Ajax.ActionLink(item_2.TypeName, "Show_typeid", "Goods", new { pageindex =  1,typeid=item_2.TypeID }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "Goods_1", InsertionMode = InsertionMode.Replace })
+                        }
+                    }
+                </li>
                     }
                 </ul>
             }
@@ -41,40 +42,28 @@
         <span class="div1_span"></span>&nbsp;&nbsp;<span>商品列表</span>
     </div>
     <div class="Gindex-div3" id="Goods_1">
-        @*@{
-            foreach (var item in ViewBag.Goods)
+        @{
+            if (Goods != null)
             {
-                <a href="#" class="div3_a">
-                    <div class="card" style="width: 18rem;">
-                        <img height="180" src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p=>p.GoodsID==item.GoodsID).PhotoPath" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <div class="card-div1">@item.GoodsName</div>
-                            <div class="card-div2">@item.GoodsDescribe</div>
-                            <div class="card-div3">
-                                <span class="span-left">@string.Format("{0:C}", item.GoodsPrice)</span>
-                                <span class="span-right">@string.Format("{0:C}", item.OldGoodsPrice)</span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
+                @Html.Partial("Show", Session["Goods"] as ViewDataDictionary)
+            }
+            else if (Session["Goods_tid"] != null)
+            {
+                @Html.Partial("Show", Session["Goods_tid"] as ViewDataDictionary)
+            }
+            else if (Session["Goods_typeid"] != null)
+            {
+                @Html.Partial("Show", Session["Goods_typeid"] as ViewDataDictionary)
+            }
+            else if (Session["Goods_typeid_2"] != null)
+            {
+                @Html.Partial("Show", Session["Goods_typeid_2"] as ViewDataDictionary)
+            }
+            else
+            {
+                <span class="span_null">暂无该类商品!</span>
             }
         }
-        <div class="Gindex-div4">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">上一页</a>
-                    </li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        @Ajax.ActionLink("下一页", "Show", "Goods", new { pageindex = 2 }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "Goods_1", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
-                    </li>
-                </ul>
-            </nav>
-        </div>*@
-        @Html.Partial("Show",TempData["Goods"] as ViewDataDictionary)
     </div>
 </div>
 

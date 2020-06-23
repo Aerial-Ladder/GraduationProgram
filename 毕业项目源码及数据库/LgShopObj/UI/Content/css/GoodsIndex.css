@@ -138,3 +138,17 @@ a {
         transition: all 0.4s;
         transform: scale(1.1,1.1);
     }
+    .span_null{
+        display:inline-block;
+        width:100%;
+        height:50px;
+        line-height:50px;
+        text-align:center;
+        color:gray;
+        font-size:2em;
+        margin-top:40px;
+    }
+.span_null:before {
+    font-family: Glyphicons;
+    content: "\f3ab";
+}
