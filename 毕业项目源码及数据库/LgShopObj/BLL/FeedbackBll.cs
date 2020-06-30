@@ -20,5 +20,26 @@ namespace BLL
         {
             return FeedbackDal.AddFeedback(UserFeedback,Userid);
         }
+
+        /// <summary>
+        /// 查询一个用户的所有反馈记录
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <returns></returns>
+        public static List<FeedbackTable> SeleteUserFeedback(int userid)
+        {
+            return FeedbackDal.SeleteUserFeedback(userid);
+        }
+
+        /// <summary>
+        /// 删除一条反馈记录
+        /// </summary>
+        /// <param name="feedbackid">反馈id</param>
+        /// <returns></returns>
+        public static bool UserFeedbackDal(int feedbackid)
+        {
+            return FeedbackDal.UserFeedbackDal(feedbackid)==1;
+        }
+
     }
 }

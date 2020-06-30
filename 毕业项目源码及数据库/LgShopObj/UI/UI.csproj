@@ -129,10 +129,12 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BacksTageController.cs" />
     <Compile Include="Controllers\GoodsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ShopCarController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Filter\GoLoginAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -143,6 +145,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\BackstageCss\left-side-menu.css" />
+    <Content Include="Content\BacksTageFonts\iconfont.css" />
+    <Content Include="Content\BacksTageFonts\iconfont.js" />
+    <Content Include="Content\BacksTageFonts\iconfont.svg" />
+    <Content Include="Content\BacktageImgs\logo_back.png" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -198,6 +205,9 @@
     <Content Include="Content\fonts\ionicons.ttf" />
     <Content Include="Content\fonts\ionicons.woff" />
     <Content Include="Handlers\ValidateCodeHandler.ashx" />
+    <Content Include="Content\BacksTageFonts\iconfont.eot" />
+    <Content Include="Content\BacksTageFonts\iconfont.ttf" />
+    <Content Include="Content\BacksTageFonts\iconfont.woff" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -211,6 +221,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\MyJs\jquery.min.js" />
+    <Content Include="Scripts\MyJs\jquery.slimscroll.min.js" />
+    <Content Include="Scripts\MyJs\left-side-menu.js" />
     <Content Include="Scripts\MyJs\move.js" />
     <Content Include="Scripts\MyJs\tools.js" />
     <Content Include="Scripts\popper-utils.js" />
@@ -315,6 +328,15 @@
     <Content Include="Views\User\UserFeedback.cshtml" />
     <Content Include="Views\Goods\Show.cshtml" />
     <Content Include="Views\ShopCar\ShopCarIndex.cshtml" />
+    <Content Include="Views\User\MyOrder.cshtml" />
+    <Content Include="Views\User\MyComment.cshtml" />
+    <Content Include="Views\User\MyWallet.cshtml" />
+    <Content Include="Views\Goods\GoodsComment.cshtml" />
+    <Content Include="Views\User\MyFeedback.cshtml" />
+    <Content Include="Views\User\MyCollection.cshtml" />
+    <Content Include="Views\Shared\_Backstage.cshtml" />
+    <Content Include="Views\BacksTage\Index.cshtml" />
+    <Content Include="Views\BacksTage\UserBackIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

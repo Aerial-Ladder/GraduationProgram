@@ -134,5 +134,35 @@ namespace DAL
                 }
             }
         }
+
+        /// <summary>
+        /// 用户充值余额
+        /// </summary>
+        /// <param name="money">充值的金额</param>
+        /// <param name="userid">用户id</param>
+        /// <returns></returns>
+        public static int UserAddWallet(double money,int userid) {
+            using (LgShopDBEntities db = new LgShopDBEntities()) {
+                try
+                {
+                    return db.Database.ExecuteSqlCommand($"update Userinfo set UserWallet+={money} where userid={userid}");
+                }
+                catch (Exception)
+                {
+                    return 0;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 查询所有用户的信息
+        /// </summary>
+        /// <returns></returns>
+        public static List<UserInfo> SelectAllUser() {
+            using (LgShopDBEntities db = new LgShopDBEntities()) {
+                return db.UserInfo.ToList();
+            }
+        }
+
     }
 }

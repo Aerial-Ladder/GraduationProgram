@@ -1,0 +1,68 @@
+﻿@using Models;
+@model List<UserInfo>
+<style>
+    .UserBack_top {
+        width: 100%;
+        height: 60px;
+        font-size: 1.2em;
+        line-height: 60px;
+        margin:10px 0px;
+    }
+    .span_usernum{
+        display:inline-block;
+        margin-left:60px;
+    }
+        .span_usernum:before {
+            font-family: Glyphicons;
+            content: "\f3a0";
+        }
+    .div_right {
+        float: right;
+        width: 300px;
+        height: 100%;
+        margin-right:100px;
+    }
+    .input_select {
+        width: 200px;
+        height: 40px;
+        border-radius: 5px;
+        border: 1px solid gray;
+    }
+</style>
+<div class="UserBack_top">
+    <span class="span_usernum">&nbsp;用户人数(@Model.Count())</span>
+    <div class="div_right">
+        <input type="text" class="input_select" placeholder="用户名/账号"/>
+        <a href="#" class="btn btn-primary">查找</a>
+    </div>
+</div>
+
+<table class="table tab-content">
+    <thead>
+        <tr class="bg-warning">
+            <th>编号</th>
+            <th>用户头像</th>
+            <th>用户名</th>
+            <th>账号</th>
+            <th>邮箱</th>
+            <th>用户钱包</th>
+            <th>身份证号</th>
+            <th>收货地址</th>
+        </tr>
+    </thead>
+    @{
+        foreach (var item in Model)
+        {
+        <tr>
+            <td>@item.UserID</td>
+            <td><img src="~/Content/Images/@item.UserPhoto" width="40" height="40"/></td>
+            <td>@item.UserName</td>
+            <td>@item.UserAccount</td>
+            <td>@item.UserEmail</td>
+            <td>@item.UserWallet</td>
+            <td>@item.UserCard</td>
+            <td>@item.ReceivingAddress</td>
+        </tr>
+        }
+    }
+</table>

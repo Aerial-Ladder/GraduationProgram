@@ -21,6 +21,7 @@ namespace Models
             this.FeedbackTable = new HashSet<FeedbackTable>();
             this.OrderTable = new HashSet<OrderTable>();
             this.ShoppingCartTable = new HashSet<ShoppingCartTable>();
+            this.CollectionTable = new HashSet<CollectionTable>();
         }
     
         public int UserID { get; set; }
@@ -46,5 +47,7 @@ namespace Models
         public virtual ICollection<OrderTable> OrderTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ShoppingCartTable> ShoppingCartTable { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CollectionTable> CollectionTable { get; set; }
     }
 }

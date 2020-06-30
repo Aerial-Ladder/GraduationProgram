@@ -6,7 +6,7 @@
 .ShopCar-div{
     width:70%;
     height:auto;
-    min-height:400px;
+    min-height:650px;
     margin:50px auto;
     background-color:white;
 }
@@ -31,6 +31,7 @@
 .Sdiv-div1{
     width:100%;
     height:auto;
+    text-align:center;
 }
 .table_img{
     width:60px;
@@ -113,3 +114,18 @@
 .samll_price{
     font-size:1.1em;
 }
+.shopcar_null{
+    display:inline-block;
+    width:350px;
+    margin-top:80px;
+    height:50px;
+    line-height:50px;
+    text-align:center;
+    font-size:2em;
+    color:lightgray;
+}
+    .shopcar_null:before {
+        font-family: Glyphicons;
+        content: "\f3ab";
+        font-size: 2em;
+    }

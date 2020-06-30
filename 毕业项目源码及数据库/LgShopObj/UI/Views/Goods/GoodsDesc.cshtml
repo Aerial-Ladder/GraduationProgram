@@ -4,14 +4,18 @@
     ViewBag.Title = "GoodsDesc";
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<GoodsPhoto> GoodsPhoto = ViewBag.GoodsPhoto;
+    //商品的评价
+    List<CommentTable> GoodsComment = Session["GoodsComment"] as List<CommentTable>;
+    bool iscollection = ViewBag.iscollection;
 }
 
 @*//样式表*@
 <link href="~/Content/css/GoodsDesc.css" rel="stylesheet" />
 <link href="~/Content/css/style.css" rel="stylesheet" />
 @*导入放大镜脚本*@
-@*<script src="~/Scripts/MyJs/move.js"></script>*@
 <script src="~/Scripts/MyJs/tools.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 
 <div class="Desc_div">
     <div class="Desc_div1">
@@ -39,7 +43,7 @@
             <li>
                 <div class="Ddiv2_ul--div2">
                     <span class="Ddiv2_ul--span4 span-solid">销量：<span class="span-red">@Model.GoodsHot</span></span>
-                    <span class="Ddiv2_ul--span4 span-solid">累计评价：<span class="span-red">0</span></span>
+                    <span class="Ddiv2_ul--span4 span-solid">累计评价：<span class="span-red">@GoodsComment.Count()</span></span>
                     <span class="Ddiv2_ul--span4">
                         商品评分:&nbsp;
                         @{
@@ -61,6 +65,18 @@
             <li>
                 <div class="Ddiv2_ul--div3">
                     购买数量:&nbsp;&nbsp;<button class="jian">-</button><input class="input_num" disabled="disabled" type="text" value="1" /><button class="add">+</button>&nbsp;&nbsp;(当前库存：<span class="span-red">@Model.GoodsInventory</span>&nbsp;件)
+                    <div class="like">
+                        @{
+                            if (iscollection)
+                            {
+                                <span class="likeplay like_span">&nbsp;已收藏</span>
+                            }
+                            else
+                            {
+                                <span class="likeplay nolike_span">&nbsp;我要收藏</span>
+                            }
+                        }
+                    </div>
                 </div>
             </li>
             <li>
@@ -72,43 +88,13 @@
         </ul>
     </div>
     <div class="Desc_div3">
-        <div class="Ddiv3_div1 style_1">商品评价(33)</div>
-        <div class="Ddiv3_div1">好评(22)</div>
-        <div class="Ddiv3_div1">中评(11)</div>
-        <div class="Ddiv3_div1">差评(1)</div>
+        @Ajax.ActionLink("商品评价(" + GoodsComment.Count() + ")", "GoodsComment", "Goods", new { num = 3, goodsid = Model.GoodsID }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "GoodsComment", InsertionMode = InsertionMode.Replace }, new { @class = "Ddiv3_div1 style_1" })
+        @Ajax.ActionLink("好评(" + GoodsComment.Where(p => p.CommentStarRating >= 4).Count() + ")", "GoodsComment", "Goods", new { num = 0, goodsid = Model.GoodsID }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "GoodsComment", InsertionMode = InsertionMode.Replace }, new { @class = "Ddiv3_div1" })
+        @Ajax.ActionLink("中评(" + @GoodsComment.Where(p => p.CommentStarRating == 3).Count() + ")", "GoodsComment", "Goods", new { num = 1, goodsid = Model.GoodsID }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "GoodsComment", InsertionMode = InsertionMode.Replace }, new { @class = "Ddiv3_div1" })
+        @Ajax.ActionLink("差评(" + GoodsComment.Where(p => p.CommentStarRating <= 2).Count() + ")", "GoodsComment", "Goods", new { num = 2, goodsid = Model.GoodsID }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "GoodsComment", InsertionMode = InsertionMode.Replace }, new { @class = "Ddiv3_div1" })
     </div>
-    <div class="Desc_div4">
-        <div class="div4_div1">
-            <div class="div4_div1--div1">用户评分:⭐⭐⭐⭐⭐<span class="pl_time">评分时间：2020.6.10</span></div>
-            <div class="div4_div1--div2">
-                <div class="div_user"><img src="~/Content/Images/default.jpg" /></div>
-                <span class="div_username">用户名</span>
-            </div>
-            <div class="div4_div1--div3">评论详情:&nbsp;<span class="user_pl">真的不错啊！</span></div>
-        </div>
-        <div class="div4_div1">
-            <div class="div4_div1--div1">用户评分:⭐⭐⭐⭐⭐<span class="pl_time">评分时间：2020.6.10</span></div>
-            <div class="div4_div1--div2">
-                <div class="div_user"><img src="~/Content/Images/default.jpg" /></div>
-                <span class="div_username">用户名</span>
-            </div>
-            <div class="div4_div1--div3">评论详情:&nbsp;<span class="user_pl">真的不错啊！</span></div>
-        </div>
-        <div class="div4_div1">
-            <div class="div4_div1--div1">用户评分:⭐⭐⭐⭐⭐<span class="pl_time">评分时间：2020.6.10</span></div>
-            <div class="div4_div1--div2">
-                <div class="div_user"><img src="~/Content/Images/default.jpg" /></div>
-                <span class="div_username">用户名</span>
-            </div>
-            <div class="div4_div1--div3">
-                评论详情:&nbsp;<span class="user_pl">
-                    @{for (int i = 0; i < 20; i++)
-                        {
-                            @:真的不错啊！
-                        }}
-                </span>
-            </div>
-        </div>
+    <div class="Desc_div4" id="GoodsComment">
+        @Html.Partial("GoodsComment", Session["GoodsComment"] as ViewDataDictionary)
     </div>
 </div>
 
@@ -119,6 +105,30 @@
             $('.Ddiv3_div1').click(function () {
                 $(this).addClass('style_1').siblings().removeClass('style_1');
             })
+
+            //收藏点击事件
+            $('.likeplay').click(function () {
+                if ($('.user-yes').is(':hidden')) {
+                    $('.login').click();
+                } else {
+                    $.post({
+                    url: "@Url.Action("CollectionPlay","Goods")",
+                    data: { GoodsId:@Model.GoodsID },
+                        success: function (data) {
+                            if (data == 0) {
+                                alert('收藏失败！');
+                            }
+                            else {
+                                $('.likeplay').removeClass('nolike_span').addClass('like_span').html('&nbsp;已收藏');
+                            }
+                    },
+                    error: function () {
+                        alert('出现错误！');
+                    }
+                })
+                }
+            })
+
             //加入购物车点击事件
             $('.goshopcar').click(function () {
                 if ($('.user-yes').is(':hidden')) {
@@ -152,6 +162,34 @@
             $('.bug').click(function () {
                 if ($('.user-yes').is(':hidden')) {
                     $('.login').click();
+                }
+                else {
+                    var samll_price = parseFloat($('.Ddiv2_ul--span3').html().replace(/,/g, "").substring(1, this.length)) * parseInt($('.input_num').val());
+                    $.post({
+                        url: "@Url.Action("AddOrder","Goods")",
+                        data: { GoodsId:@Model.GoodsID, ShoppingNum: $('.input_num').val(), OrderAmount: samll_price },
+                        success: function (data) {
+                            if (data == 0) {
+                                alert('购买失败！');
+                            }
+                            else if (data == 2)
+                            {
+                                alert('您的余额不足!');
+                             }
+                            else if (data == 3)
+                            {
+                                 if (confirm('您的收货地址为空，是否立即前往个人中心修改?')) {
+                                     window.location = '/User/UserIndex';
+                                 }
+                            }
+                            else {
+                                alert('已成功加入到订单！');
+                            }
+                        },
+                        error: function () {
+                            alert('出现错误！');
+                        }
+                    })
                 }
             })
             BigShow();

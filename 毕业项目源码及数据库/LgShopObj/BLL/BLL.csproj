@@ -42,9 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollectionBll.cs" />
+    <Compile Include="CommentBll.cs" />
     <Compile Include="FeedbackBll.cs" />
     <Compile Include="GoodsBll.cs" />
     <Compile Include="GoodsPhotoBll.cs" />
+    <Compile Include="OrderBll.cs" />
     <Compile Include="ShopingCarBll.cs" />
     <Compile Include="TypeTableBll.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

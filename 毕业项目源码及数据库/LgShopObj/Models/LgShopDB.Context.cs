@@ -33,5 +33,6 @@ namespace Models
         public virtual DbSet<ShoppingCartTable> ShoppingCartTable { get; set; }
         public virtual DbSet<TypeTable> TypeTable { get; set; }
         public virtual DbSet<UserInfo> UserInfo { get; set; }
+        public virtual DbSet<CollectionTable> CollectionTable { get; set; }
     }
 }

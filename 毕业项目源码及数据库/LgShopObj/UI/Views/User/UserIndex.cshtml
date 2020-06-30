@@ -9,6 +9,9 @@
 }
 
 <link href="~/Content/css/UserIndex.css" rel="stylesheet" />
+@*引入*@
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 
 <div class="UserIndex">
     <div class="UserIndex-div1">
@@ -36,14 +39,16 @@
     </div>
     <div class="UserIndex-div2">
         <div class="Udiv2_top">
-            <a href="#" class="top_a style_1">我的订单</a>
-            <a href="#" class="top_a">我的评价</a>
-            <a href="#" class="top_a">我的账户</a>
-            <a href="#" class="top_a">我的收藏</a>
-            <a href="#" class="top_a">我的反馈</a>
+            @Ajax.ActionLink("我的订单", "MyOrder", "User", new { }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "UserDiv", InsertionMode = InsertionMode.Replace }, new { @class = "top_a style_1" })
+            @Ajax.ActionLink("我的评价", "MyComment", "User", new { }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "UserDiv", InsertionMode = InsertionMode.Replace }, new { @class = "top_a" })
+            @Ajax.ActionLink("我的账户", "MyWallet", "User", new { }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "UserDiv", InsertionMode = InsertionMode.Replace }, new { @class = "top_a" })
+            @*<a href="#" class="top_a">我的收藏</a>*@
+            @Ajax.ActionLink("我的收藏", "MyCollection", "User", new { }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "UserDiv", InsertionMode = InsertionMode.Replace }, new { @class = "top_a" })
+            @Ajax.ActionLink("我的反馈", "MyFeedback", "User", new { }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "UserDiv", InsertionMode = InsertionMode.Replace }, new { @class = "top_a" })
         </div>
-        <div class="Udiv2_div1">
+        <div class="Udiv2_div1" id="UserDiv">
             @*内容*@
+            @Html.Partial("MyOrder")
         </div>
     </div>
 </div>

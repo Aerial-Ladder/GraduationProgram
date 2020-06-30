@@ -23,6 +23,9 @@
         <AssociationConnector Association="LgShopDBModel.FK__FeedbackT__UserI__276EDEB3" />
         <AssociationConnector Association="LgShopDBModel.FK__OrderTabl__UserI__2C3393D0" />
         <AssociationConnector Association="LgShopDBModel.FK__ShoppingC__UserI__1ED998B2" />
+        <EntityTypeShape EntityType="LgShopDBModel.CollectionTable" Width="1.5" PointX="8.25" PointY="4" />
+        <AssociationConnector Association="LgShopDBModel.FK__Collectio__Goods__5DCAEF64" />
+        <AssociationConnector Association="LgShopDBModel.FK__Collectio__UserI__5CD6CB2B" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

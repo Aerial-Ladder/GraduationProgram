@@ -102,5 +102,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="CollectionTable">
+      <EntityTypeMapping TypeName="LgShopDBModel.CollectionTable">
+        <MappingFragment StoreEntitySet="CollectionTable">
+          <ScalarProperty Name="IsCollection" ColumnName="IsCollection" />
+          <ScalarProperty Name="GoodsID" ColumnName="GoodsID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="CollectionID" ColumnName="CollectionID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

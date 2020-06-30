@@ -84,5 +84,30 @@ namespace BLL
         {
             return UserInfoDal.UpdateUserPwd_2(userpwd,userid);
         }
+
+        /// <summary>
+        /// 用户充值余额
+        /// </summary>
+        /// <param name="money">充值的金额</param>
+        /// <param name="userid">用户id</param>
+        /// <returns></returns>
+        public static bool UserAddWallet(double money, int userid)
+        {
+            return UserInfoDal.UserAddWallet(money,userid)==1;
+        }
+
+        /// <summary>
+        /// 查询所有用户的信息
+        /// </summary>
+        /// <returns></returns>
+        public static List<UserInfo> SelectAllUser()
+        {
+            List<UserInfo> list = UserInfoDal.SelectAllUser();
+            if (list != null && list.Count() > 0) {
+                return list;
+            }
+            return null;
+        }
+
     }
 }

@@ -492,6 +492,29 @@
                 }
                 }, 1000);
         }
+
+        //按下回车键时
+        document.onkeydown = function (event) {
+            var e = event || window.event || arguments.callee.caller.arguments;
+            if (e && e.keyCode == 13) {
+                if ($('#Login').is(':visible')) {
+                    //触发登录按钮
+                    $('.btn-login').click();
+                }
+                else if ($('.header-text').val().trim() != "") {
+                    //触发搜索按钮
+                    $('.searc-a').click();
+                }
+            }
+        }
+
+        //搜索按钮点击事件
+        $('.searc-a').click(function () {
+            var txt = $('.header-text').val().trim();
+            if (txt != "" && txt != null) {
+                window.location = '/Goods/GoodsIndex?txt=' + txt + '';
+            }
+        })
     })
 </script>
 

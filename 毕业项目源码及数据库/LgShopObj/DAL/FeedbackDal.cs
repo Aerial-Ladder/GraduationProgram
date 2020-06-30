@@ -29,5 +29,42 @@ namespace DAL
                 }
             }
         }
+
+        /// <summary>
+        /// 查询一个用户的所有反馈记录
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <returns></returns>
+        public static List<FeedbackTable> SeleteUserFeedback(int userid) {
+            using (LgShopDBEntities db = new LgShopDBEntities()) {
+                try
+                {
+                    return db.FeedbackTable.Where(p => p.UserID == userid).ToList();
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 删除一条反馈记录
+        /// </summary>
+        /// <param name="feedbackid">反馈id</param>
+        /// <returns></returns>
+        public static int UserFeedbackDal(int feedbackid) {
+            using (LgShopDBEntities db = new LgShopDBEntities()) {
+                try
+                {
+                    return db.Database.ExecuteSqlCommand($"delete from FeedbackTable where FeedbackID={feedbackid}");
+                }
+                catch (Exception)
+                {
+                    return 0;
+                }
+            }
+        }
+
     }
 }

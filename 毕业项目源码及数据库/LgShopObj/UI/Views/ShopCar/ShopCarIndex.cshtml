@@ -4,6 +4,8 @@
     ViewBag.Title = "ShopCar";
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<GoodsPhoto> GoodsPhoto = ViewBag.GoodsPhoto as List<GoodsPhoto>;
+    //收藏关系
+    List<CollectionTable> CollList = ViewBag.UserCollection;
 }
 
 @*//样式表*@
@@ -15,49 +17,82 @@
         <span class="top_span1">已选商品<span style="color:orange;font-size:1.2em;" class="checknum">0</span>件&nbsp;&nbsp;共&nbsp;<span style="color:orange;font-size:1.2em;" class="bigprice">¥0.00</span>&nbsp;元</span>
     </div>
     <div class="Sdiv-div1">
-        <table class="table tab-content">
-            <thead>
-                <tr>
-                    <th><input type="checkbox" class="check_all"/>全选</th>
-                    <th>商品图片</th>
-                    <th>商品名称</th>
-                    <th>单价</th>
-                    <th>数量</th>
-                    <th>小计(元)</th>
-                    <th>操作</th>
-                </tr>
-            </thead>
-            @{
-                foreach (var item in Model)
-                {
-                    <tr>
-                        <td><input type="checkbox" class="check_one" value="@item.CartID"/></td>
-                        <td><img src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p=>p.GoodsID==item.GoodsID).PhotoPath" class="table_img" /></td>
-                        <td>
-                            <span class="td_span">@item.GoodsTable.GoodsName</span>
-                        </td>
-                        <td><span class="goodsprice">@string.Format("{0:C}", item.GoodsTable.GoodsPrice)</span></td>
-                        <td>
-                            <a class="table_a jian">-</a>
-                            <input type="text" class="table_txt1" value="@item.ShoppingNum" disabled="disabled" />
-                            <a class="table_a add">+</a>
-                        </td>
-                        <td><span class="samll_price">@string.Format("{0:C}", (item.GoodsTable.GoodsPrice * item.ShoppingNum))</span></td>
-                        <td>
-                            <a href="#" class="btn btn-danger">收藏商品</a>
-                            <a href="#" class="btn btn-dark shopcar-delete">删除</a>
-                        </td>
-                    </tr>
-                }
+        @{
+            if (Model.Count() > 0)
+            {
+                <table class="table tab-content">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" class="check_all" />全选</th>
+                            <th>商品图片</th>
+                            <th>商品名称</th>
+                            <th>单价</th>
+                            <th>数量</th>
+                            <th>小计(元)</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    @{
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><input type="checkbox" class="check_one" value="@item.CartID" /><input class="goodsid" type="hidden" value="@item.GoodsID" /></td>
+                                <td><img src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p => p.GoodsID == item.GoodsID).PhotoPath" class="table_img" /></td>
+                                <td>
+                                    <span class="td_span">@item.GoodsTable.GoodsName</span>
+                                </td>
+                                <td><span class="goodsprice">@string.Format("{0:C}", item.GoodsTable.GoodsPrice)</span></td>
+                                <td>
+                                    <a class="table_a jian">-</a>
+                                    <input type="text" class="table_txt1" value="@item.ShoppingNum" disabled="disabled" />
+                                    <a class="table_a add">+</a>
+                                </td>
+                                <td><span class="samll_price">@string.Format("{0:C}", (item.GoodsTable.GoodsPrice * item.ShoppingNum))</span></td>
+                                <td>
+                                    @{
+                                        if (CollList.Where(p => p.GoodsID == item.GoodsID) != null && CollList.Where(p => p.GoodsID == item.GoodsID).Count() > 0)
+                                        {
+                                            if (CollList.Single(p => p.GoodsID == item.GoodsID).IsCollection == 1)
+                                            {
+                                                <span style="color:red;margin-right:30px;">已收藏</span>
+                                            }
+                                            else
+                                            {
+                                                <input type="hidden" value="@item.GoodsID" class="gid" />
+                                                <a href="#" class="btn btn-danger shopcar-coll">收藏商品</a>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <input type="hidden" value="@item.GoodsID" class="gid" />
+                                            <a href="#" class="btn btn-danger shopcar-coll">收藏商品</a>
+                                        }
+                                    }
+                                    <a href="#" class="btn btn-dark shopcar-delete">删除</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </table>
             }
-        </table>
+            else
+            {
+                <span class="shopcar_null">&nbsp;您的购物车是空的!</span>
+            }
+        }
+
     </div>
-    <div class="Sdiv-div2">
-        <input type="checkbox" class="div2_check check_all" />全选
-        <a href="#" class="div2_a1">删除选中的商品</a>
-        <a href="#" class="div2_a2">结算</a>
-        <span class="top_span1">已选商品<span style="color:orange;font-size:1.2em;" class="checknum">0</span>件&nbsp;&nbsp;共&nbsp;<span style="color:orange;font-size:1.2em;" class="bigprice">¥0.00</span>&nbsp;元</span>
-    </div>
+    @{
+        if (Model.Count() > 0)
+        {
+            <div class="Sdiv-div2">
+                <input type="checkbox" class="div2_check check_all" />全选
+                <a href="#" class="div2_a1">删除选中的商品</a>
+                <a href="#" class="div2_a2">结算</a>
+                <span class="top_span1">已选商品<span style="color:orange;font-size:1.2em;" class="checknum">0</span>件&nbsp;&nbsp;共&nbsp;<span style="color:orange;font-size:1.2em;" class="bigprice">¥0.00</span>&nbsp;元</span>
+            </div>
+        }
+    }
 </div>
 
 @section scripts{
@@ -90,6 +125,29 @@
                         $('.bigprice').html(ToMoney(bigprice,2));
                     }
                 }
+            })
+
+            //收藏商品点击事件
+            $('.shopcar-coll').click(function () {
+                if (confirm('您确定要收藏这件商品吗?')) {
+                    var goodsid = $(this).prev('.gid').val();
+                    $.post({
+                        url: "@Url.Action("CollectionPlay","Goods")",
+                        data: { GoodsId: goodsid },
+                        success: function (data) {
+                            if (data == 0) {
+                                alert('收藏失败！');
+                            }
+                            else {
+                                //收藏成功
+                                location.reload();
+                            }
+                        },
+                        error: function () {
+                            alert('出现错误！');
+                        }
+                    })
+                 }
             })
 
             //全选按钮点击事件
@@ -133,7 +191,7 @@
                     }
                     var price = $(this).parent('td').nextAll('td').children('.samll_price').html().replace(/,/g, "");
                     bigprice += parseFloat(price.substring(1, price.length));
-                    
+
                 }
                 else {
                     checknum--;
@@ -193,22 +251,75 @@
                             arrindex++;
                         }
                     })
-                    $.post({
-                        url: "@Url.Action("ShopCarDelete","ShopCar")",
-                        data: { JsonArr: JSON.stringify(arr) },
-                        success: function (data) {
-                            if (data == 0) {
-                                alert("删除失败！");
+                    if (arrindex > 0) {
+                        $.post({
+                            url: "@Url.Action("ShopCarDelete","ShopCar")",
+                            data: { JsonArr: JSON.stringify(arr) },
+                            success: function (data) {
+                                if (data == 0) {
+                                    alert("删除失败！");
+                                }
+                                else {
+                                    //删除成功
+                                    location.reload();
+                                }
+                            },
+                            error: () => {
+                                alert('出现错误!');
                             }
-                            else {
-                                //删除成功
-                                location.reload();
+                        })
+                    } else {
+                        alert('请选中商品！');
+                    }
+                }
+            })
+
+            //结算点击事件
+            $('.div2_a2').click(function () {
+                if (confirm('您确定要结算选中的商品吗?')) {
+                    var arr = [];
+                    $('.check_one').each(function (index) {
+                        if ($(this).is(':checked')) {
+                            //创建对象
+                            var Order = {
+                                GoodsID:$(this).next('.goodsid').val(),
+                                GoodsNum:$(this).parent('td').nextAll('td').children('.table_txt1').val(),
+                                OrderAmount:parseFloat($(this).parent('td').nextAll('td').children('.samll_price').html().replace(/,/g, '').substring(1, this.lenght))
                             }
-                        },
-                        error: () => {
-                            alert('出现错误!');
+                            arr.push(Order);
                         }
                     })
+                    if (arr.length > 0) {
+                        $.post({
+                            url: "@Url.Action("AddOrder","ShopCar")",
+                            data: { OrderList: JSON.stringify(arr) },
+                            success: function (data) {
+                                if (data == 0) {
+                                    alert('加入到订单失败!');
+                                }
+                                else if (data == 2)
+                                {
+                                    alert('您的余额不足!');
+                                }
+                                else if (data == 3)
+                                {
+                                    if (confirm('您的收货地址为空，是否立即前往个人中心修改?')) {
+                                        window.location = '/User/UserIndex';
+                                    }
+                                }
+                                else {
+                                    alert('购买成功！');
+                                    location.reload();
+                                }
+                            },
+                            error: function (erro) {
+                                alert(erro);
+                            }
+                        })
+                    }
+                    else {
+                        alert('请选中你要结算的商品！');
+                    }
                 }
             })
 

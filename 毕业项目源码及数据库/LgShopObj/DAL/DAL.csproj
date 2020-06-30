@@ -48,9 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollectionDal.cs" />
+    <Compile Include="CommentDal.cs" />
     <Compile Include="FeedbackDal.cs" />
     <Compile Include="GoodsDal.cs" />
     <Compile Include="GoodsPhotoDal.cs" />
+    <Compile Include="OrderDal.cs" />
     <Compile Include="ShoppingCarDal.cs" />
     <Compile Include="TypeTableDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

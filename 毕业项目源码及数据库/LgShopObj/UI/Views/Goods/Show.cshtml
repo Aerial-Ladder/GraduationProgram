@@ -4,6 +4,7 @@
     List<GoodsPhoto> GoodsPhoto = ViewBag.GoodsPhoto;
     List<GoodsTable> list = null;
     string PartialView = "";
+    bool isnull = true;
     if (Session["Goods"] != null)
     {
         list = Session["Goods"] as List<GoodsTable>;
@@ -19,37 +20,39 @@
         list = Session["Goods_typeid_2"] as List<GoodsTable>;
         PartialView = "Goods_typeid_2";
     }
-    else
+    else if (Session["Goods_typeid"] != null)
     {
         list = Session["Goods_typeid"] as List<GoodsTable>;
         PartialView = "Show_typeid";
     }
     int pageindex = ViewBag.pageindex ?? 1;
-    double count=1;
-    if (list != null)
-    { 
-    count = ViewBag.count ?? Math.Ceiling(list.Count() / 12.00);
+    double count = 1;
+    if (list != null && list.Count() > 0)
+    {
+        count = ViewBag.count ?? Math.Ceiling(list.Count() / 12.00);
+        isnull = false;
     }
 }
+
 @{
-    if ((ViewBag.isnull??false)==false)
+    if (((ViewBag.isnull ?? false) == false) && (isnull == false))
     {
-            foreach (var item in Model ?? list.Take(12))
-            {
-                <a href="/Goods/GoodsDesc?goodsid=@item.GoodsID" class="div3_a">
-                    <div class="card" style="width: 18rem;">
-                        <img height="180" src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p=>p.GoodsID==item.GoodsID).PhotoPath" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <div class="card-div1">@item.GoodsName</div>
-                            <div class="card-div2">@item.GoodsDescribe</div>
-                            <div class="card-div3">
-                                <span class="span-left">@string.Format("{0:C}", item.GoodsPrice)</span>
-                                <span class="span-right">@string.Format("{0:C}", item.OldGoodsPrice)</span>
-                            </div>
+        foreach (var item in Model ?? list.Take(12))
+        {
+            <a href="/Goods/GoodsDesc?goodsid=@item.GoodsID" class="div3_a">
+                <div class="card" style="width: 18rem;">
+                    <img height="180" src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p=>p.GoodsID==item.GoodsID).PhotoPath" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <div class="card-div1">@item.GoodsName</div>
+                        <div class="card-div2">@item.GoodsDescribe</div>
+                        <div class="card-div3">
+                            <span class="span-left">@string.Format("{0:C}", item.GoodsPrice)</span>
+                            <span class="span-right">@string.Format("{0:C}", item.OldGoodsPrice)</span>
                         </div>
                     </div>
-                </a>
-            }
+                </div>
+            </a>
+        }
         @*按钮部分*@
         <div class="Gindex-div4">
             @*分页位置*@

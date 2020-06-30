@@ -11,7 +11,7 @@ namespace UI.Controllers
     public class GoodsController : Controller
     {
         // GET: Goods
-        public ActionResult GoodsIndex(int? tid_1,int? typeid_1,int? typeid_2)
+        public ActionResult GoodsIndex(int? tid_1,int? typeid_1,int? typeid_2,string txt="")
         {
             //清空session数据
             Session.Remove("Goods");
@@ -36,7 +36,7 @@ namespace UI.Controllers
                 Session["Goods_typeid_2"] = GoodsBll.SelectType1Goods(typeid_2??0);
             }
             else {
-                Session["Goods"] = GoodsBll.SelectAllGoods().OrderBy(p => p.GoodsHot).ToList();
+                Session["Goods"] = GoodsBll.SelectAllGoods().Where(p=>p.GoodsName.Contains(txt)).OrderBy(p => p.GoodsHot).ToList();
             }
             return View();
         }
@@ -119,7 +119,25 @@ namespace UI.Controllers
         {
             //商品图片
             ViewBag.GoodsPhoto = GoodsPhotoBll.SelectAllGoodsPhoto().Where(p=>p.GoodsID==goodsid).ToList();
+            //商品的所有评价
+            List<CommentTable> list = CommentBll.SelectGoodsComment(goodsid);
+            Session["GoodsComment"] = list;
+            //用户是否收藏商品
+            ViewBag.iscollection = CollectionBll.SelectOneCollection(Convert.ToInt32(Session["userid"]), goodsid);
             return View(GoodsBll.SelectGoodsIdGoods(goodsid));
+        }
+
+        /// <summary>
+        /// 收藏关系修改
+        /// </summary>
+        /// <param name="GoodsId">商品id</param>
+        /// <returns></returns>
+        public JsonResult CollectionPlay(int GoodsId) {
+            if (CollectionBll.CreateOrUpdateCollection(GoodsId, Convert.ToInt32(Session["userid"])))
+            {
+                return Json(1, JsonRequestBehavior.AllowGet);
+            }
+            return Json(0, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -135,6 +153,65 @@ namespace UI.Controllers
             Session["carcount"] = ShopingCarBll.SelectAllShopCar(Convert.ToInt32(Session["userid"])).Count();
             //调用新增购物车并返回值
             return Json(erroid, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 立即购买
+        /// </summary>
+        /// <param name="GoodsId">商品id</param>
+        /// <param name="ShoppingNum">购买数量</param>
+        /// <param name="OrderAmount">小计</param>
+        /// <returns></returns>
+        public JsonResult AddOrder(string GoodsId, string ShoppingNum,string OrderAmount) {
+            UserInfo user = Session["user"] as UserInfo;
+            //判断收货地址是否为空
+            if (user.ReceivingAddress == "")
+            {
+                return Json(3, JsonRequestBehavior.AllowGet);
+            }
+            //余额是否满足
+            if (user.UserWallet < Convert.ToDecimal(OrderAmount))
+            {
+                return Json(2, JsonRequestBehavior.AllowGet);
+            }
+            OrderTable ord = new OrderTable()
+            {
+                GoodsID = Convert.ToInt32(GoodsId),
+                UserID = Convert.ToInt32(Session["userid"]),
+                GoodsNum=Convert.ToInt32(ShoppingNum),
+                GetTime=DateTime.Now,
+                OrderAmount=Convert.ToDecimal(OrderAmount),
+                IsComment=0,
+                IsReceiving=0
+            };
+
+            if (OrderBll.AddOrder(ord))
+            {
+                return Json(1, JsonRequestBehavior.AllowGet);
+            }
+            return Json(0, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GoodsComment(int num,int goodsid) {
+            List<CommentTable> list = CommentBll.SelectGoodsComment(goodsid);
+            //好评
+            if (num == 0)
+            {
+                list = list.Where(p => p.CommentStarRating >= 4).ToList();
+            }
+            else if (num == 1)
+            {
+                //中评
+                list = list.Where(p => p.CommentStarRating == 3).ToList();
+            }
+            else if(num==2)
+            {
+                //差评
+                list = list.Where(p => p.CommentStarRating <=2).ToList();
+            }
+            ViewBag.num = num;
+            Session["GoodsComment"] = list;
+            return PartialView("GoodsComment");
         }
 
     }

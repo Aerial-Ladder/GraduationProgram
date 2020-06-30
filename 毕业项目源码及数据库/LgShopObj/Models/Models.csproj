@@ -50,6 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollectionTable.cs">
+      <DependentUpon>LgShopDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="CommentTable.cs">
       <DependentUpon>LgShopDB.tt</DependentUpon>
     </Compile>

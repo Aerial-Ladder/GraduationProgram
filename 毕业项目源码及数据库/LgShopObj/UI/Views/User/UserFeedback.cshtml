@@ -6,16 +6,18 @@
 
 @*//导入样式表*@
 <link href="~/Content/css/UserFeedback.css" rel="stylesheet" />
-<div class="Feedback-div">
-    <div class="Feedback-top">
-        反馈中心
+<div class="big">
+    <div class="Feedback-div">
+        <div class="Feedback-top">
+            反馈中心
+        </div>
+        <textarea class="txt-feedback" rows="5" cols="10" placeholder="请输入你想反馈的内容！(80字以内)" maxlength="80"></textarea>
+        <div class="Feedback-div1">
+            <span class="div1-clear"></span>
+            <span class="div1-num">0/80</span>
+        </div>
+        <button class="but-deedback">提&nbsp;&nbsp;交</button>
     </div>
-    <textarea class="txt-feedback" rows="5" cols="10" placeholder="请输入你想反馈的内容！(80字以内)" maxlength="80"></textarea>
-    <div class="Feedback-div1">
-        <span class="div1-clear"></span>
-        <span class="div1-num">0/80</span>
-    </div>
-    <button class="but-deedback">提&nbsp;&nbsp;交</button>
 </div>
 
 @section scripts{

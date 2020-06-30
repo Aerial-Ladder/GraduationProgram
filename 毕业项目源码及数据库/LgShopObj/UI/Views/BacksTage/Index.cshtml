@@ -1,0 +1,8 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Backstage.cshtml";
+}
+
+@Html.Partial("UserBackIndex",Session["alluserlist"] as ViewDataDictionary)
+

@@ -20,6 +20,7 @@ size=6mb
 go
 use LgShopDB
 go
+delete from FeedbackTable where FeedbackID=1
 
 --用户信息表
 create table UserInfo(
@@ -34,11 +35,12 @@ UserEmail nvarchar(30) not null,--用户邮箱
 UserPhont nvarchar(50) not null,--用户电话
 UserCard nvarchar(30) not null,--用户身份证号
 UserBirthdays date not null,--用户生日
-UserWallet decimal(2) default(0),--用户钱包（账户）
+UserWallet decimal(18,2) default(0),--用户钱包（账户）
 CoverPhoto nvarchar(100),--封面图片
 ReceivingAddress nvarchar(100) not null ,--收获地址
 )
 select * from UserInfo
+update Userinfo set UserWallet+=50 where userid=1
 update UserInfo set UserName='',UserAccount='',UserEmail='',UserAge='',UserSex='',UserCard='',ReceivingAddress='',UserBirthdays='',UserPhont='' where UserID=''
 go
 
@@ -81,8 +83,8 @@ select * from TypeTable where TID=5
 create table GoodsTable(
 GoodsID int primary key identity(1,1),--商品id
 GoodsName nvarchar(30) not null,--商品名称
-GoodsPrice decimal not null,--商品现价
-OldGoodsPrice decimal not null,--商品原价
+GoodsPrice decimal(18,2) not null,--商品现价
+OldGoodsPrice decimal(18,2) not null,--商品原价
 GoodsInventory int not null,--商品库存
 TID int foreign key references TypeTable(TypeID),--所属分类（外键）
 GoodsDescribe nvarchar(100) ,--商品描述简介
@@ -188,7 +190,7 @@ ShoppingNum int default(1) ,--购买数量
 ShoppingTime date ,--加入购物车时间
 )
 select * from ShoppingCartTable
-delete from ShoppingCartTable where userid=1 and CartID=1
+delete from ShoppingCartTable where userid=1 and GoodsID=1
 insert into ShoppingCartTable values(1,1,2,'')
 go
 
@@ -201,6 +203,8 @@ CommentContent nvarchar(200) not null,--评论内容
 CommentStarRating int,--评分星级
 CommentTime date ,--评论时间 
 )
+select * from CommentTable
+insert into CommentTable values(1,23,'',5,'')
 go
 
 --反馈表
@@ -221,7 +225,21 @@ UserID int foreign key references UserInfo(UserID),--用户id
 GoodsID int foreign key references GoodsTable(GoodsID),--商品id
 GoodsNum int ,--商品个数
 GetTime date ,--订单提交时间
-OrderAmount decimal,--订单金额
+OrderAmount decimal(18,2),--订单金额
 IsReceiving int default(0) ,--是否收货(0:未收货，1:确认收货)
 IsComment int default(0),--是否评价，评论(0:未评论，1：已评论)
 )
+select * from OrderTable
+insert into OrderTable values(1,1,5,'',12.00,0,0)
+update OrderTable set IsReceiving=1 where OrderID=1
+
+--收藏表
+create table CollectionTable(
+CollectionID int primary key identity(1,1),--收藏表
+UserID int foreign key references UserInfo(UserID),--用户id
+GoodsID int foreign key references GoodsTable(GoodsID),--商品id
+IsCollection int default(1) check(IsCollection=1 or IsCollection=0),--是否收藏（0为否,1为是）
+)
+select * from CollectionTable where userid=1 and GoodsID=1
+insert into CollectionTable values(1,25,1)
+update CollectionTable set IsCollection=0 where CollectionID=1
