@@ -243,3 +243,16 @@ IsCollection int default(1) check(IsCollection=1 or IsCollection=0),--是否收藏（
 select * from CollectionTable where userid=1 and GoodsID=1
 insert into CollectionTable values(1,25,1)
 update CollectionTable set IsCollection=0 where CollectionID=1
+
+--公告表
+create table NoticeTable(
+NoticeID int primary key identity(1,1),--公告id
+UserID int foreign key references UserInfo(UserID),--用户id(外键)
+NoticeTitle nvarchar(50) not null,--公告标题
+NoticeContent nvarchar(200) not null,--公告内容
+NoticeTime date default(getdate()),--公告时间
+IsLook int default(0) check(IsLook=0 or IsLook=1),--用户是否查看(0为否)
+)
+drop table NoticeTable
+insert into NoticeTable values(null,'网站上市通知','新的网站乐购商城要上市了！','2020-07-01',1)
+
