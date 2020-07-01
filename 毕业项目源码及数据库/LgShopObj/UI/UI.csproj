@@ -132,6 +132,7 @@
     <Compile Include="Controllers\BacksTageController.cs" />
     <Compile Include="Controllers\GoodsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NoticeController.cs" />
     <Compile Include="Controllers\ShopCarController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Filter\GoLoginAttribute.cs" />
@@ -161,6 +162,7 @@
     <Content Include="Content\css\grid.css" />
     <Content Include="Content\css\index.css" />
     <Content Include="Content\css\nav.css" />
+    <Content Include="Content\css\Notice.css" />
     <Content Include="Content\css\ShopCar.css" />
     <Content Include="Content\css\style.css" />
     <Content Include="Content\css\UpdatePwd.css" />
@@ -337,6 +339,8 @@
     <Content Include="Views\Shared\_Backstage.cshtml" />
     <Content Include="Views\BacksTage\Index.cshtml" />
     <Content Include="Views\BacksTage\UserBackIndex.cshtml" />
+    <Content Include="Views\Notice\NoticeIndex.cshtml" />
+    <Content Include="Views\User\MyNotice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

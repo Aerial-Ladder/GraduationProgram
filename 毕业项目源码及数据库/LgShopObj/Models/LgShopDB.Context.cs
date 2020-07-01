@@ -34,5 +34,6 @@ namespace Models
         public virtual DbSet<TypeTable> TypeTable { get; set; }
         public virtual DbSet<UserInfo> UserInfo { get; set; }
         public virtual DbSet<CollectionTable> CollectionTable { get; set; }
+        public virtual DbSet<NoticeTable> NoticeTable { get; set; }
     }
 }

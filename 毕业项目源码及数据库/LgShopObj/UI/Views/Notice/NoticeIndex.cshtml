@@ -1,0 +1,103 @@
+﻿@using Models
+@model List<NoticeTable>
+@{
+    ViewBag.Title = "NoticeIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //最新的公告
+    List<NoticeTable> newNotice = Model.Where(p => p.NoticeTime.Value.Year==DateTime.Now.Year&&p.NoticeTime.Value.Month==DateTime.Now.Month&&p.NoticeTime.Value.Day==DateTime.Now.Day).ToList();
+}
+
+<link href="~/Content/css/Notice.css" rel="stylesheet" />
+
+<div class="Notice">
+    <div class="Notice-div">
+        <div class="Notice-top">公告中心</div>
+        <div class="Notice-div1">
+            <span class="div1_span span_left style">
+                最新公告( 
+                @{
+                    if (newNotice != null && newNotice.Count() > 0)
+                    {
+                        @newNotice.Count()
+                    }
+                    else
+                    {
+                        @:0
+                    }
+                })
+            </span>
+            <span class="div1_span span_right">
+                所有公告(
+                @{
+                    if (Model != null && Model.Count() > 0)
+                    {
+                        @Model.Count()
+                    }
+                    else
+                    {
+                        @:0
+                    }
+                }
+                )
+            </span>
+        </div>
+        <div class="Notice_show1">
+            @{
+                if (newNotice != null && newNotice.Count() > 0)
+                {
+                    foreach (var item in newNotice)
+                    {
+                        <div class="show_div">
+                            <span class="span_title">&nbsp;&nbsp;@item.NoticeTitle</span>
+                            <span class="span_conten"><span style="color:gray">公告内容:&nbsp;&nbsp;</span>@item.NoticeContent</span>
+                            <span class="span_time">@string.Format("{0:D}", item.NoticeTime)</span>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="new_null">暂无最新公告！</div>
+                }
+            }
+        </div>
+        <div class="Notice_show2">
+            @{
+                if (Model != null && Model.Count() > 0)
+                {
+                    foreach (var item in Model)
+                    {
+                        <div class="show_div">
+                            <span class="span_title">&nbsp;&nbsp;@item.NoticeTitle</span>
+                            <span class="span_conten"><span style="color:gray">公告内容:&nbsp;&nbsp;</span>@item.NoticeContent</span>
+                            <span class="span_time">@string.Format("{0:D}", item.NoticeTime)</span>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="all_null">暂无公告！</div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('.Notice_show2').hide();
+            $('.div1_span').click(function () {
+                $(this).addClass('style').siblings().removeClass('style');
+                var index = $(this).index();
+                if (index == 0) {
+                    $('.Notice_show1').show();
+                    $('.Notice_show2').hide();
+                }
+                else {
+                    $('.Notice_show1').hide();
+                    $('.Notice_show2').show();
+                }
+            })
+        })
+    </script>
+}

@@ -80,6 +80,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LgShopDB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="NoticeTable.cs">
+      <DependentUpon>LgShopDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="OrderTable.cs">
       <DependentUpon>LgShopDB.tt</DependentUpon>
     </Compile>

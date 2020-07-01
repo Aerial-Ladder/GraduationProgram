@@ -209,6 +209,11 @@
       <End Role="UserInfo" EntitySet="UserInfo" />
       <End Role="CollectionTable" EntitySet="CollectionTable" />
     </AssociationSet>
+    <EntitySet Name="NoticeTable" EntityType="LgShopDBModel.NoticeTable" />
+    <AssociationSet Name="FK__NoticeTab__UserI__75A278F5" Association="LgShopDBModel.FK__NoticeTab__UserI__75A278F5">
+      <End Role="UserInfo" EntitySet="UserInfo" />
+      <End Role="NoticeTable" EntitySet="NoticeTable" />
+    </AssociationSet>
   </EntityContainer>
   <Association Name="FK__TypeTable__TID__15502E78">
     <End Type="LgShopDBModel.TypeTable" Role="TypeTable" Multiplicity="0..1" />
@@ -245,6 +250,7 @@
     <NavigationProperty Name="OrderTable" Relationship="LgShopDBModel.FK__OrderTabl__UserI__2C3393D0" FromRole="UserInfo" ToRole="OrderTable" />
     <NavigationProperty Name="ShoppingCartTable" Relationship="LgShopDBModel.FK__ShoppingC__UserI__1ED998B2" FromRole="UserInfo" ToRole="ShoppingCartTable" />
     <NavigationProperty Name="CollectionTable" Relationship="LgShopDBModel.FK__Collectio__UserI__5CD6CB2B" FromRole="UserInfo" ToRole="CollectionTable" />
+    <NavigationProperty Name="NoticeTable" Relationship="LgShopDBModel.FK__NoticeTab__UserI__75A278F5" FromRole="UserInfo" ToRole="NoticeTable" />
   </EntityType>
   <Association Name="FK__CommentTa__UserI__239E4DCF">
     <End Type="LgShopDBModel.UserInfo" Role="UserInfo" Multiplicity="0..1" />
@@ -325,6 +331,30 @@
         <PropertyRef Name="UserID" />
       </Principal>
       <Dependent Role="CollectionTable">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="NoticeTable">
+    <Key>
+      <PropertyRef Name="NoticeID" />
+    </Key>
+    <Property Name="NoticeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="NoticeTitle" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="NoticeContent" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="NoticeTime" Type="DateTime" Precision="0" />
+    <Property Name="IsLook" Type="Int32" />
+    <NavigationProperty Name="UserInfo" Relationship="LgShopDBModel.FK__NoticeTab__UserI__75A278F5" FromRole="NoticeTable" ToRole="UserInfo" />
+  </EntityType>
+  <Association Name="FK__NoticeTab__UserI__75A278F5">
+    <End Type="LgShopDBModel.UserInfo" Role="UserInfo" Multiplicity="0..1" />
+    <End Type="LgShopDBModel.NoticeTable" Role="NoticeTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfo">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="NoticeTable">
         <PropertyRef Name="UserID" />
       </Dependent>
     </ReferentialConstraint>

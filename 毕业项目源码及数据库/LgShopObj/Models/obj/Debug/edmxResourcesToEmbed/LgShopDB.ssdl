@@ -52,6 +52,17 @@
     <Property Name="GoodsStar" Type="int" />
     <Property Name="GoodsHot" Type="int" />
   </EntityType>
+  <EntityType Name="NoticeTable">
+    <Key>
+      <PropertyRef Name="NoticeID" />
+    </Key>
+    <Property Name="NoticeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="NoticeTitle" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="NoticeContent" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="NoticeTime" Type="date" />
+    <Property Name="IsLook" Type="int" />
+  </EntityType>
   <EntityType Name="OrderTable">
     <Key>
       <PropertyRef Name="OrderID" />
@@ -186,6 +197,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__NoticeTab__UserI__75A278F5">
+    <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1" />
+    <End Role="NoticeTable" Type="Self.NoticeTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfo">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="NoticeTable">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__OrderTabl__Goods__2D27B809">
     <End Role="GoodsTable" Type="Self.GoodsTable" Multiplicity="0..1" />
     <End Role="OrderTable" Type="Self.OrderTable" Multiplicity="*" />
@@ -252,6 +275,7 @@
     <EntitySet Name="FeedbackTable" EntityType="Self.FeedbackTable" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="GoodsPhoto" EntityType="Self.GoodsPhoto" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="GoodsTable" EntityType="Self.GoodsTable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NoticeTable" EntityType="Self.NoticeTable" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OrderTable" EntityType="Self.OrderTable" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ShoppingCartTable" EntityType="Self.ShoppingCartTable" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TypeTable" EntityType="Self.TypeTable" Schema="dbo" store:Type="Tables" />
@@ -283,6 +307,10 @@
     <AssociationSet Name="FK__GoodsTable__TID__182C9B23" Association="Self.FK__GoodsTable__TID__182C9B23">
       <End Role="TypeTable" EntitySet="TypeTable" />
       <End Role="GoodsTable" EntitySet="GoodsTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK__NoticeTab__UserI__75A278F5" Association="Self.FK__NoticeTab__UserI__75A278F5">
+      <End Role="UserInfo" EntitySet="UserInfo" />
+      <End Role="NoticeTable" EntitySet="NoticeTable" />
     </AssociationSet>
     <AssociationSet Name="FK__OrderTabl__Goods__2D27B809" Association="Self.FK__OrderTabl__Goods__2D27B809">
       <End Role="GoodsTable" EntitySet="GoodsTable" />

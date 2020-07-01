@@ -112,5 +112,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="NoticeTable">
+      <EntityTypeMapping TypeName="LgShopDBModel.NoticeTable">
+        <MappingFragment StoreEntitySet="NoticeTable">
+          <ScalarProperty Name="IsLook" ColumnName="IsLook" />
+          <ScalarProperty Name="NoticeTime" ColumnName="NoticeTime" />
+          <ScalarProperty Name="NoticeContent" ColumnName="NoticeContent" />
+          <ScalarProperty Name="NoticeTitle" ColumnName="NoticeTitle" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="NoticeID" ColumnName="NoticeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

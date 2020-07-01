@@ -204,3 +204,15 @@
     transform: translateY(-135px);
     display: none;
 }
+.span_Tips{
+    display:inline-block;
+    width:15px;
+    color:white;
+    line-height:15px;
+    text-align:center;
+    height:15px;
+    border-radius:50%;
+    background-color:red;
+    font-size:0.5em;
+    transform:translateX(-20px) translateY(-8px);
+}

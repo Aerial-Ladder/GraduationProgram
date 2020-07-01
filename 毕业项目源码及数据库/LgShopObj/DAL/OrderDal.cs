@@ -27,6 +27,8 @@ namespace DAL
                         db.Database.ExecuteSqlCommand($"delete from ShoppingCartTable where userid={userid} and GoodsID={item.GoodsID}");
                         //商品库存减少
                         db.GoodsTable.SingleOrDefault(p => p.GoodsID == item.GoodsID).GoodsInventory -= item.GoodsNum ?? 0;
+                        //新增商品发货消息
+                        db.Database.ExecuteSqlCommand($"insert into NoticeTable values({userid},'商品发货通知','尊敬的{item.UserInfo.UserName}用户，您于{string.Format("{0:D}",item.GetTime)}购买的商品{item.GoodsTable.GoodsName}已发货，请注意查收！','{DateTime.Now}',0)");
                     }
                     //扣除用户余额
                     db.UserInfo.Find(userid).UserWallet -= price;
@@ -54,6 +56,8 @@ namespace DAL
                     db.SaveChanges();
                     //扣除用户余额
                     db.UserInfo.Find(ord.UserID).UserWallet -= ord.OrderAmount;
+                    //新增商品发货消息
+                    db.Database.ExecuteSqlCommand($"insert into NoticeTable values({ord.UserID},'商品发货通知','尊敬的{ord.UserInfo.UserName}用户，您于{string.Format("{0:D}", ord.GetTime)}购买的商品{ord.GoodsTable.GoodsName}已发货，请注意查收！','{DateTime.Now}',0)");
                     return db.SaveChanges() == 1;
                 }
                 catch (Exception)

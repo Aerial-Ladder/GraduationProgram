@@ -47,6 +47,7 @@
     <Compile Include="FeedbackBll.cs" />
     <Compile Include="GoodsBll.cs" />
     <Compile Include="GoodsPhotoBll.cs" />
+    <Compile Include="NoticeBll.cs" />
     <Compile Include="OrderBll.cs" />
     <Compile Include="ShopingCarBll.cs" />
     <Compile Include="TypeTableBll.cs" />

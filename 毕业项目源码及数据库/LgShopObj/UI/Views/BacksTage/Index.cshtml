@@ -3,6 +3,9 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Backstage.cshtml";
 }
-
-@Html.Partial("UserBackIndex",Session["alluserlist"] as ViewDataDictionary)
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<div id="UserIndex">
+    @Html.Partial("UserBackIndex")
+</div>
 

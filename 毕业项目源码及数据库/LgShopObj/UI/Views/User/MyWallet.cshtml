@@ -352,9 +352,8 @@
                         }
                         else {
                             $('.close').click();
-                            $('.top_a:eq(2)').empty();
-                            $('.top_a:eq(2)').append($("<span id='addwallet_click'>我的账户</span>"))
-                            $('#addwallet_click').trigger('click');
+                            //我的评价点击
+                            $('.top_a:eq(2)')[0].click();
                         }
                     },
                     error: function () {

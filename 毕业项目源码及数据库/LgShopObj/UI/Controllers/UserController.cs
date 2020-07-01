@@ -21,6 +21,8 @@ namespace UI.Controllers
             Session["userorder"] = OrderBll.SelectUserOrder(Convert.ToInt32(Session["userid"]));
             //获取所有图片
             Session["goodphotos"] = GoodsPhotoBll.SelectAllGoodsPhoto();
+            //获得用户未查看的消息
+            ViewBag.nolook = NoticeBll.SelectUserNotice(Convert.ToInt32(Session["userid"])).Where(p=>p.IsLook==0).ToList();
             return View(UserInfoBll.SelectUser(Convert.ToInt32(Session["userid"])));
         }
 
@@ -342,6 +344,31 @@ namespace UI.Controllers
         public ActionResult MyCollection() {
             List<CollectionTable> list = CollectionBll.SelectUserCollection(Convert.ToInt32(Session["userid"])).Where(p=>p.IsCollection==1).ToList();
             return PartialView("MyCollection",list);
+        }
+
+        /// <summary>
+        /// 我的消息分布视图
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult MyNotice() {
+            List<NoticeTable> list = NoticeBll.SelectUserNotice(Convert.ToInt32(Session["userid"])).OrderByDescending(p=>p.NoticeID).ToList();
+            //修改用户未查看的消息为已经查看
+            NoticeBll.UpdateUserNotice(Convert.ToInt32(Session["userid"]));
+            return PartialView("MyNotice",list);
+        }
+
+        [HttpPost]
+        /// <summary>
+        /// 用户删除消息
+        /// </summary>
+        /// <param name="NoticeID">消息id</param>
+        /// <returns></returns>
+        public JsonResult NoticeDel(string NoticeID) {
+            if (NoticeBll.DeleteNotice(Convert.ToInt32(NoticeID)))
+            {
+                return Json(1, JsonRequestBehavior.AllowGet);
+            }
+            return Json(0, JsonRequestBehavior.AllowGet);
         }
 
     }
