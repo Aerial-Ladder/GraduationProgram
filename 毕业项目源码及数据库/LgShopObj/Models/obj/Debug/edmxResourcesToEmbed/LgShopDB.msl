@@ -4,6 +4,7 @@
     <EntitySetMapping Name="CommentTable">
       <EntityTypeMapping TypeName="LgShopDBModel.CommentTable">
         <MappingFragment StoreEntitySet="CommentTable">
+          <ScalarProperty Name="Reportingnums" ColumnName="Reportingnums" />
           <ScalarProperty Name="CommentID" ColumnName="CommentID" />
           <ScalarProperty Name="UserID" ColumnName="UserID" />
           <ScalarProperty Name="GoodsID" ColumnName="GoodsID" />

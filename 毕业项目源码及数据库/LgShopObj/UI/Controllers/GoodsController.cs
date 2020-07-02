@@ -124,6 +124,11 @@ namespace UI.Controllers
             Session["GoodsComment"] = list;
             //用户是否收藏商品
             ViewBag.iscollection = CollectionBll.SelectOneCollection(Convert.ToInt32(Session["userid"]), goodsid);
+            //加载或更新用户购物车数量
+            if (Session["userid"] != null)
+            {
+                Session["carcount"] = ShopingCarBll.SelectAllShopCar(Convert.ToInt32(Session["userid"])).Count();
+            }
             return View(GoodsBll.SelectGoodsIdGoods(goodsid));
         }
 
@@ -212,6 +217,19 @@ namespace UI.Controllers
             ViewBag.num = num;
             Session["GoodsComment"] = list;
             return PartialView("GoodsComment");
+        }
+
+        /// <summary>
+        /// 评论举报
+        /// </summary>
+        /// <param name="CommentID">评论id</param>
+        /// <returns></returns>
+        public JsonResult AddReport(string CommentID) {
+            if (CommentBll.AddReport(Convert.ToInt32(CommentID)))
+            {
+                return Json(1, JsonRequestBehavior.AllowGet);
+            }
+            return Json(0, JsonRequestBehavior.AllowGet);
         }
 
     }

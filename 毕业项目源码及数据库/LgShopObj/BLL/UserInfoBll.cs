@@ -109,5 +109,15 @@ namespace BLL
             return null;
         }
 
+        /// <summary>
+        /// 删除某个用户
+        /// </summary>
+        /// <param name="userid">用户id</param>
+        /// <returns></returns>
+        public static bool UserDelete(int userid)
+        {
+            return UserInfoDal.UserDelete(userid) == 1;
+        }
+
     }
 }

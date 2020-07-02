@@ -2,102 +2,22 @@
 @{
     List<UserInfo> list = Session["alluserlist"] as List<UserInfo>;
     int pageindex = ViewBag.pageindex ?? 1;
-    double count = 1;
+    double count = Convert.ToDouble(Session["userpagecount"]);
+    int usercount = Convert.ToInt32(Session["usercount"]);
 }
-<style>
-    .UserBack_top {
-        width: 100%;
-        height: 60px;
-        font-size: 1.2em;
-        line-height: 60px;
-        margin: 10px 0px;
-    }
 
-    .span_usernum {
-        display: inline-block;
-        margin-left: 60px;
-    }
+@*样式表*@
+<link href="~/Content/BackstageCss/UserBackIndex.css" rel="stylesheet" />
 
-        .span_usernum:before {
-            font-family: Glyphicons;
-            content: "\f3a0";
-        }
-
-    .div_right {
-        float: right;
-        width: 300px;
-        height: 100%;
-        margin-right: 100px;
-    }
-
-    .input_select {
-        width: 200px;
-        height: 40px;
-        border-radius: 5px;
-        border: 1px solid gray;
-    }
-
-    .table {
-        text-align: center;
-    }
-
-    .tr_content {
-        line-height: 40px;
-    }
-
-    .user_null {
-        width: 100%;
-        height: 60px;
-        line-height: 60px;
-        text-align: center;
-        font-size: 2em;
-        color: gray;
-        margin-top: 40px;
-    }
-
-        .user_null:before {
-            font-family: Glyphicons;
-            content: "\f3ab";
-        }
-
-    .user-div {
-        width: 100%;
-        height: auto;
-        min-height: 720px;
-    }
-
-    .user_bot {
-        width: 100%;
-        height: auto;
-        background-color: gray;
-    }
-
-    .user_ul li {
-        width: 100%;
-        height: 40px;
-        line-height: 40px;
-        margin-left: 20px;
-        font-size: 1.1em;
-    }
-</style>
 <div class="UserBack_top">
     <span class="span_usernum">
-        &nbsp;用户人数(@{
-            if (list == null)
-            {
-                @:0
-            }
-            else
-            {
-                @list.Count();
-            }
-        })
+        &nbsp;用户人数(@usercount)
     </span>
     <div class="div_right">
         @using (Ajax.BeginForm("UserBackIndex", "BacksTage", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "UserIndex", InsertionMode = InsertionMode.Replace }))
         {
-            <input type="text" class="input_select" name="text" placeholder="用户名/账号" />
-            <input type="submit" class="btn btn-primary" value="查找" />
+            <input type="text" class="input_select" value="@ViewBag.text" name="text" placeholder="用户名/账号" />
+            <input type="submit" class="btn btn-primary btn-select" value="查找" />
         }
     </div>
 </div>
@@ -134,8 +54,8 @@
                             <td>@item.ReceivingAddress</td>
                             <td>
                                 <a href="#" data-toggle="modal" data-target="#UserDesc" data-whatever="@item.UserID" class="btn btn-outline-primary">详情</a>
-                                <a href="#" class="btn btn-outline-success">修改</a>
-                                <a href="#" class="btn btn-outline-danger">删除</a>
+                                <a href="#" data-toggle="modal" data-target="#UserUpdate" data-whatever="@item.UserID" class="btn btn-outline-success">修改</a>
+                                <a href="#" class="btn btn-outline-danger user-del">删除</a>
                             </td>
                         </tr>
                     }
@@ -271,21 +191,55 @@
     </div>
 </div>
 
+
+<!-- 修改用户资料模态框 -->
+<div class="modal fade" id="UserUpdate" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">&nbsp;修改用户资料</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Ajax.BeginForm("UserUpdate", "BacksTage",new { pageindex=pageindex,text=ViewBag.text }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "UserIndex", InsertionMode = InsertionMode.Replace },new { id="UpdateForm",enctype="multipart/form-data" })) {
+                <ul class="update-ul">
+                    <li>
+                        <input type="hidden" name="ReceivingAddress" class="ReceivingAddress" />
+                        <input type="hidden" name="UserID" class="UserID"/>
+                        <label for="UserPhoto">用户头像：</label>
+                        <img src="~/Content/Images/default.jpg" width="40" height="40" />
+                        <input class="UserPhoto" name="UserPhoto" type="file" />
+                    </li>
+                    <li><label for="UserName">用户名：</label><input class="txt UserName" name="UserName" type="text" /><br /><span class="update-erro"></span></li>
+                    <li><label for="UserPhont">手机号：</label><input class="txt UserPhont" name="UserPhont" type="text" /><span class="update-erro"></span></li>
+                    <li><label for="UserCard">身份证号：</label><input class="txt UserCard" name="UserCard" type="text" /><span class="update-erro"></span></li>
+                    <li><label for="UserEmail">邮箱：</label><input class="txt UserEmail" name="UserEmail" type="text" /><span class="update-erro"></span></li>
+                    <li><span class="update-but">保&nbsp;&nbsp;存</span></li>
+                </ul>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script type="text/javascript">
     $(function () {
+        $('.modal-backdrop').remove();
         //用户信息详情
         $('#UserDesc').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var userid = button.data('whatever');
             var modal = $(this);
             $.post({
-                url: "@Url.Action("UserDesc","BacksTage")",
+                url: "@Url.Action("UserDesc", "BacksTage")",
                 data: { UserID: userid },
                 success: function (data) {
                     if (data == null) {
                         alert('查看详情失败！');
                     } else {
-                        console.log(data);
                         $('.user_ul li:eq(0) img').attr('src', '../Content/Images/' + data.user.UserPhoto + '');
                         $('.user_ul li:eq(1)').html('用户名:&nbsp;&nbsp;' + data.user.UserName + '');
                         $('.user_ul li:eq(2)').html('账号:&nbsp;&nbsp;' + data.user.UserAccount + '');
@@ -303,6 +257,127 @@
                     alert("出现错误！");
                 }
             })
+        })
+
+        //修改用户详情
+        $('#UserUpdate').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var userid = button.data('whatever');
+            var modal = $(this);
+            $.post({
+                url: "@Url.Action("UserDesc","BacksTage")",
+                data: { UserID: userid },
+                success: function (data) {
+                    if (data == null) {
+                        alert('查看失败！');
+                    } else {
+                        $('.update-ul li img').attr('src', '../Content/Images/' + data.user.UserPhoto + '');
+                        //隐藏的标签
+                        modal.find('.ReceivingAddress').val(data.user.ReceivingAddress);
+                        modal.find('.UserID').val(userid);
+                        //显示的标签
+                        modal.find('.UserName').val(data.user.UserName);
+                        modal.find('.UserPhont').val(data.user.UserPhont);
+                        modal.find('.UserEmail').val(data.user.UserEmail);
+                        modal.find('.UserCard').val(data.user.UserCard);
+                    }
+                },
+                error: function () {
+                    alert("出现错误！");
+                }
+            })
+        })
+
+        //修改用户保存按钮点击事件
+        $('.update-but').click(function () {
+            var username = $('.UserName').val().trim();
+            var userphont = $('.UserPhont').val().trim();
+            var usercard = $('.UserCard').val().trim();
+            var useremail = $('.UserEmail').val().trim();
+            var reg = /^1([38]\d|5[0-35-9]|7[3678])\d{8}$/;
+            var regcar = /^[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
+            var reg_em = /^[\w-]+(\.[\w-]+)*@@[\w-]+(\.[\w-]+)+$/;
+            if (username == "" || username == null) {
+                $('.update-erro:eq(0)').html('用户名不能为空！').show(500);
+                return;
+            }
+            else if (username.length > 10) {
+                $('.update-erro:eq(0)').html('用户名长度不能大于10！').show(500);
+                return;
+            }
+            else {
+                $('.update-erro:eq(0)').html('').hide(500);
+            }
+            //电话验证
+            if (userphont == "" || userphont == null) {
+                $('.update-erro:eq(1)').html('手机号不能为空！').show(500);
+                return;
+            }
+            else if (reg.test(userphont) == false) {
+                $('.update-erro:eq(1)').html('手机号输入有误！').show(500);
+                return;
+            }
+            else {
+                $('.update-erro:eq(1)').html('').hide(500);
+            }
+            //身份证号码验证
+            if (usercard == "" || usercard == null) {
+                $('.update-erro:eq(2)').html('身份证号不能为空！').show(500);
+                return;
+            }
+            else if (regcar.test(usercard) == false) {
+                $('.update-erro:eq(2)').html('身份证号输入有误！').show(500);
+                return;
+            }
+            else {
+                $('.update-erro:eq(2)').html('').hide(500);
+            }
+            //邮箱验证
+            if (useremail == "" || useremail == null) {
+                $('.update-erro:eq(3)').html('邮箱不能为空！').show(500);
+                return;
+            }
+            else if (reg_em.test(useremail) == false) {
+                $('.update-erro:eq(3)').html('邮箱格式不正确！').show(500);
+                return;
+            }
+            else {
+                $('.update-erro:eq(3)').html('').hide(500);
+                //表单提交
+                $('#UpdateForm').submit();
+            }
+            
+        })
+
+        //模态框关闭事件
+        $('.close').click(function () {
+            $('.update-erro').html('').hide(500);
+        })
+
+        //删除用户点击事件
+        $('.user-del').click(function () {
+            if (confirm('您确定要删除该用户吗?')) {
+                var userid = $(this).parent().parent().children('td').html();
+                $.post({
+                    url: "@Url.Action("UserDel","BacksTage")",
+                    data: { UserID: userid },
+                    success: function (data) {
+                        if (data == 0) {
+                            alert('该用户有购物订单，无法删除！');
+                        }
+                        else if (data == 1) {
+                            alert('该用户存在余额，无法删除!')
+                        }
+                        else {
+                            //删除成功时
+                            $('.btn-select')[0].click();
+                        }
+                    },
+                    error: function () {
+                        alert('出现错误！');
+                    }
+                })
+            }
         })
 
          //转化成价格格式

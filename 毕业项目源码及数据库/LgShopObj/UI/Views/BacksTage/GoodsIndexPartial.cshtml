@@ -1,0 +1,169 @@
+﻿@using Models
+@{
+    List<GoodsPhoto> GoodsPhoto = Session["GoodsPhoto"] as List<GoodsPhoto>;
+    List<GoodsTable> GoodsTable = Session["allgoods"] as List<GoodsTable>;
+    int pageindex = ViewBag.pageindex ?? 1;
+    double count = Convert.ToDouble(Session["goodpagecount"]);
+    int goodscount = Convert.ToInt32(Session["goodscount"]);
+}
+<link href="~/Content/BackstageCss/GoodsIndexPartial.css" rel="stylesheet" />
+
+<div class="GoodsBack_top">
+    <span class="span_usernum">
+        &nbsp;商品数量(@goodscount)
+    </span>
+    <div class="div_right">
+        @using (Ajax.BeginForm("GoodsIndexPartial", "BacksTage", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackGoodsDiv", InsertionMode = InsertionMode.Replace }))
+        {
+            <select class="goods_select">
+                <option value="0">所有商品</option>
+                <option value="1">经典服装</option>
+                <option value="2">电脑办公</option>
+                <option value="3">生活日用</option>
+                <option value="4">食品饮食</option>
+            </select>
+            <input type="text" class="input_select" value="@ViewBag.text" name="text" placeholder="商品名称" />
+            <input type="submit" class="btn btn-primary btn-select" value="查找" />
+        }
+    </div>
+</div>
+
+@{
+    if (GoodsTable != null && GoodsTable.Count() > 0)
+    {
+        <div class="Goods_div">
+            <table class="table table-striped table-bordered">
+                <thead style="color: white;text-align:center;">
+                    <tr class="bg-secondary">
+                        <th>编号</th>
+                        <th>商品图片</th>
+                        <th>商品名</th>
+                        <th>现价</th>
+                        <th>原价</th>
+                        <th>库存</th>
+                        <th>分类</th>
+                        <th>描述</th>
+                        <th>星级</th>
+                        <th>销量</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                @{
+                    foreach (var item in GoodsTable)
+                    {
+                        <tr class="tr_content bg-light">
+                            <td>@item.GoodsID</td>
+                            <td><img src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p=>p.GoodsID==item.GoodsID).PhotoPath" width="60" height="60" /></td>
+                            <td>@item.GoodsName</td>
+                            <td>@string.Format("{0:C}", item.GoodsPrice)</td>
+                            <td>@string.Format("{0:C}", item.OldGoodsPrice)</td>
+                            <td>@item.GoodsInventory</td>
+                            <td>@item.TypeTable.TypeName</td>
+                            <td>@item.GoodsDescribe</td>
+                            <td>@item.GoodsStar</td>
+                            <td>@item.GoodsHot</td>
+                            <td></td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+        <div class="goods_bot">
+            @*分页位置*@
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+
+                    @{
+                        if (pageindex <= 1)
+                        {
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">上一页</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item">
+                                @Ajax.ActionLink("上一页", "GoodsIndexPartial", "BacksTage", new { pageindex = pageindex - 1 }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackGoodsDiv", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                            </li>
+                        }
+                    }
+
+                    @{
+                        if (pageindex != 1 && pageindex != count)
+                        {
+                            for (int i = pageindex - 1; i < pageindex + 2; i++)
+                            {
+                                if (i == pageindex)
+                                {
+                                    <li class="page-item active">
+                                        @Ajax.ActionLink(i.ToString(), "GoodsIndexPartial", "BacksTage", new { pageindex = i }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackGoodsDiv", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                                else if (i <= count)
+                                {
+                                    <li class="page-item">
+                                        @Ajax.ActionLink(i.ToString(), "GoodsIndexPartial", "BacksTage", new { pageindex = i }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackGoodsDiv", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                            }
+                        }
+                        else if (pageindex == 1)
+                        {
+                            for (int i = 0; i <= pageindex + 2; i++)
+                            {
+                                if (i == pageindex)
+                                {
+                                    <li class="page-item active">
+                                        @Ajax.ActionLink(i.ToString(), "GoodsIndexPartial", "BacksTage", new { pageindex = i }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackGoodsDiv", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                                else if (i > 0 && i <= count)
+                                {
+                                    <li class="page-item">
+                                        @Ajax.ActionLink(i.ToString(), "GoodsIndexPartial", "BacksTage", new { pageindex = i }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackGoodsDiv", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            for (int i = pageindex - 2; i <= count; i++)
+                            {
+                                if (i == count)
+                                {
+                                    <li class="page-item active">
+                                        @Ajax.ActionLink(i.ToString(), "GoodsIndexPartial", "BacksTage", new { pageindex = i }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackGoodsDiv", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                                else if (i > 0)
+                                {
+                                    <li class="page-item">
+                                        @Ajax.ActionLink(i.ToString(), "GoodsIndexPartial", "BacksTage", new { pageindex = i }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackGoodsDiv", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                            }
+                        }
+                    }
+                    @{
+                        if (pageindex == count)
+                        {
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">下一页</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item">
+                                @Ajax.ActionLink("下一页", "GoodsIndexPartial", "BacksTage", new { pageindex = pageindex + 1 }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackGoodsDiv", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                            </li>
+                        }
+                    }
+                </ul>
+            </nav>
+        </div>
+    }
+    else
+    {
+        <div class="goods_null">&nbsp;暂无商品信息！</div>
+    }
+}

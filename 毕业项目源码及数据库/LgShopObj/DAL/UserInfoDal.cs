@@ -167,5 +167,25 @@ namespace DAL
             }
         }
 
+        /// <summary>
+        /// 删除某个用户
+        /// </summary>
+        /// <param name="userid">用户id</param>
+        /// <returns></returns>
+        public static int UserDelete(int userid) {
+            using (LgShopDBEntities db = new LgShopDBEntities())
+            {
+                try
+                {
+                    db.UserInfo.Remove(db.UserInfo.Find(userid));
+                    return db.SaveChanges();
+                }
+                catch (Exception)
+                {
+                    return 0;
+                }
+            }
+        }
+
     }
 }

@@ -202,9 +202,9 @@ GoodsID int foreign key references GoodsTable(GoodsID),--商品id
 CommentContent nvarchar(200) not null,--评论内容
 CommentStarRating int,--评分星级
 CommentTime date ,--评论时间 
+Reportingnums int default(0),--举报数
 )
 select * from CommentTable
-insert into CommentTable values(1,23,'',5,'')
 go
 
 --反馈表

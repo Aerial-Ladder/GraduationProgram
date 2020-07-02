@@ -12,6 +12,7 @@
     <Property Name="CommentTime" Type="DateTime" Precision="0" />
     <NavigationProperty Name="GoodsTable" Relationship="Self.FK__CommentTa__Goods__239E4DCF" FromRole="CommentTable" ToRole="GoodsTable" />
     <NavigationProperty Name="UserInfo" Relationship="LgShopDBModel.FK__CommentTa__UserI__239E4DCF" FromRole="CommentTable" ToRole="UserInfo" />
+    <Property Name="Reportingnums" Type="Int32" />
   </EntityType>
   <EntityType Name="FeedbackTable">
     <Key>

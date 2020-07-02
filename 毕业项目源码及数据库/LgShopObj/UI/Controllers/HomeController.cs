@@ -239,5 +239,19 @@ namespace UI.Controllers
             }
             return Json(0, JsonRequestBehavior.AllowGet);
         }
+
+        /// <summary>
+        /// 转到管理员界面
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GoAdmin(string a="") {
+            if (a == "admin")
+            {
+                Session["admin"] = "admin";
+                return RedirectToAction("Index", "BacksTage");
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
     }
 }

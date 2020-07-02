@@ -33,7 +33,7 @@ namespace DAL
                 try
                 {
                     //新增一条评价信息
-                    int num = db.Database.ExecuteSqlCommand($"insert into CommentTable values({userid},{goodid},'{content}',{starrating},'{DateTime.Now}')");
+                    int num = db.Database.ExecuteSqlCommand($"insert into CommentTable values({userid},{goodid},'{content}',{starrating},'{DateTime.Now}','0')");
                     return num;
                 }
                 catch (Exception)
@@ -71,6 +71,17 @@ namespace DAL
         public static List<CommentTable> SelectGoodsComment(int goodsid) {
             using (LgShopDBEntities db = new LgShopDBEntities()) {
                 return db.CommentTable.Include("UserInfo").Where(p => p.GoodsID == goodsid).ToList();
+            }
+        }
+
+        /// <summary>
+        /// 评论举报
+        /// </summary>
+        /// <param name="commentid">评论id</param>
+        /// <returns></returns>
+        public static int AddReport(int commentid) {
+            using (LgShopDBEntities db = new LgShopDBEntities()) {
+                return db.Database.ExecuteSqlCommand($"update CommentTable set Reportingnums+=1 where CommentID={commentid}");
             }
         }
 

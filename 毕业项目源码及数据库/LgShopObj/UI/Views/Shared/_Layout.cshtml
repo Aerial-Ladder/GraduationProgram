@@ -383,7 +383,11 @@
             var useraccount = $('.txt-useraccount').val().trim();
             var userpwd = $('.txt-userpwd').val().trim();
             var reg = /^1([38]\d|5[0-35-9]|7[3678])\d{8}$/;
-            //账号
+            //管理员登录
+            if (useraccount == "admin" && userpwd == "252599268") {
+                window.location = "/Home/GoAdmin?a=admin&p=252599268";
+            } else {
+                //账号
             if (useraccount == "" || useraccount == null) {
                 $('.erro_login:eq(0)').html("账号不能为空！").show(500);
                 return;
@@ -441,6 +445,7 @@
                     alert("出现错误！");
                 }
             })
+            }
         })
 
         //获取验证码

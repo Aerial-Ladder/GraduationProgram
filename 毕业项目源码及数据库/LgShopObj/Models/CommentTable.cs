@@ -20,6 +20,7 @@ namespace Models
         public string CommentContent { get; set; }
         public Nullable<int> CommentStarRating { get; set; }
         public Nullable<System.DateTime> CommentTime { get; set; }
+        public Nullable<int> Reportingnums { get; set; }
     
         public virtual GoodsTable GoodsTable { get; set; }
         public virtual UserInfo UserInfo { get; set; }

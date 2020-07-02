@@ -53,5 +53,15 @@ namespace BLL
             return CommentDal.SelectGoodsComment(goodsid);
         }
 
+        /// <summary>
+        /// 评论举报
+        /// </summary>
+        /// <param name="commentid">评论id</param>
+        /// <returns></returns>
+        public static bool AddReport(int commentid)
+        {
+            return CommentDal.AddReport(commentid) == 1;
+        }
+
     }
 }

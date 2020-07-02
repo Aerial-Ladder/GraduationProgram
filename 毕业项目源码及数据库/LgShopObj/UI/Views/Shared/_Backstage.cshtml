@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{ 
+    int li_1 = Convert.ToInt32(Session["li_1"]);
+    int li_2 = Convert.ToInt32(Session["li_2"]);
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -6,9 +10,16 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
+
+    @*默认选中*@
+    <script type="text/javascript">
+    $(function () {
+        $('.lsm-sidebar-item:eq(' +@li_1+')').addClass("lsm-sidebar-show");
+        $('.lsm-sidebar-item:eq(' +@li_1+') ul li a:eq(' +@li_2+')').addClass("active");
+    })
+    </script>
     <link href="~/Content/BackstageCss/left-side-menu.css" rel="stylesheet" />
     <link href="~/Content/BacksTageFonts/iconfont.css" rel="stylesheet" />
-    @*<script src="~/Scripts/MyJs/jquery.min.js"></script>*@
     <script src="~/Scripts/MyJs/jquery.slimscroll.min.js"></script>
     <script src="~/Scripts/MyJs/left-side-menu.js"></script>
     <style>
@@ -48,7 +59,7 @@
         }
 
             .out_a:hover {
-                color:#B2B8B3;
+                color: #B2B8B3;
                 text-decoration: none;
                 transform: scale(1.1,1.1);
                 transition: all 0.4s;
@@ -59,7 +70,7 @@
     <div class="top" style="width: 100%;height: 80px;background-color: #3B3E47;position:fixed;top:0px;left:0px;">
         <div class="logo"><img src="~/Content/BacktageImgs/logo_back.png" /></div>
         <div class="out">
-            <a href="/Home/Index" onclick="return confirm('您确定退出吗?');" class="out_a">
+            <a href="/BacksTage/AdminOut" onclick="return confirm('您确定退出吗?');" class="out_a">
                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-box-arrow-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M11.646 11.354a.5.5 0 0 1 0-.708L14.293 8l-2.647-2.646a.5.5 0 0 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0z" />
                     <path fill-rule="evenodd" d="M4.5 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5z" />
@@ -77,14 +88,14 @@
                         <li class="lsm-sidebar-item">
                             <a href="javascript:;"><i class="my-icon lsm-sidebar-icon icon_1"></i><span>用户管理</span><i class="my-icon lsm-sidebar-more"></i></a>
                             <ul>
-                                <li><a class="active" href="/BacksTage/Index"><span>用户列表</span></a></li>
-                                <li><a href="javascript:;"><span>新增用户</span></a></li>
+                                <li><a href="/BacksTage/Index"><span>用户列表</span></a></li>
+                                <li><a href="/BacksTage/AddUser"><span>新增用户</span></a></li>
                             </ul>
                         </li>
                         <li class="lsm-sidebar-item">
                             <a href="javascript:;"><i class="my-icon lsm-sidebar-icon icon_2"></i><span>商品管理</span><i class="my-icon lsm-sidebar-more"></i></a>
                             <ul>
-                                <li><a href="javascript:;"><span>地爆天星1</span></a></li>
+                                <li><a href="/BacksTage/BackGoodsIndex"><span>商品列表</span></a></li>
                                 <li><a href="javascript:;"><span>神罗天征1</span></a></li>
                                 <li><a href="javascript:;"><span>八门遁甲1</span></a></li>
                             </ul>
@@ -118,5 +129,7 @@
     @RenderSection("backscripts", required: false)
 </body>
 </html>
+
+
 
 

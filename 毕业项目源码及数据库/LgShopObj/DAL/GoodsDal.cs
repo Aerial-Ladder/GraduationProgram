@@ -16,7 +16,7 @@ namespace DAL
         public static List<GoodsTable> SelectAllGoods() {
             using (LgShopDBEntities db = new LgShopDBEntities())
             {
-                return db.GoodsTable.ToList();
+                return db.GoodsTable.Include("TypeTable").ToList();
             }
         }
 

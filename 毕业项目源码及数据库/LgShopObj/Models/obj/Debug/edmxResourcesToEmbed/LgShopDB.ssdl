@@ -19,6 +19,7 @@
     <Property Name="CommentContent" Type="nvarchar" MaxLength="200" Nullable="false" />
     <Property Name="CommentStarRating" Type="int" />
     <Property Name="CommentTime" Type="date" />
+    <Property Name="Reportingnums" Type="int" />
   </EntityType>
   <EntityType Name="FeedbackTable">
     <Key>
@@ -137,7 +138,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CommentTa__Goods__24927208">
+  <Association Name="FK__CommentTa__Goods__04E4BC85">
     <End Role="GoodsTable" Type="Self.GoodsTable" Multiplicity="0..1" />
     <End Role="CommentTable" Type="Self.CommentTable" Multiplicity="*" />
     <ReferentialConstraint>
@@ -149,7 +150,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CommentTa__UserI__239E4DCF">
+  <Association Name="FK__CommentTa__UserI__03F0984C">
     <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1" />
     <End Role="CommentTable" Type="Self.CommentTable" Multiplicity="*" />
     <ReferentialConstraint>
@@ -288,11 +289,11 @@
       <End Role="UserInfo" EntitySet="UserInfo" />
       <End Role="CollectionTable" EntitySet="CollectionTable" />
     </AssociationSet>
-    <AssociationSet Name="FK__CommentTa__Goods__24927208" Association="Self.FK__CommentTa__Goods__24927208">
+    <AssociationSet Name="FK__CommentTa__Goods__04E4BC85" Association="Self.FK__CommentTa__Goods__04E4BC85">
       <End Role="GoodsTable" EntitySet="GoodsTable" />
       <End Role="CommentTable" EntitySet="CommentTable" />
     </AssociationSet>
-    <AssociationSet Name="FK__CommentTa__UserI__239E4DCF" Association="Self.FK__CommentTa__UserI__239E4DCF">
+    <AssociationSet Name="FK__CommentTa__UserI__03F0984C" Association="Self.FK__CommentTa__UserI__03F0984C">
       <End Role="UserInfo" EntitySet="UserInfo" />
       <End Role="CommentTable" EntitySet="CommentTable" />
     </AssociationSet>

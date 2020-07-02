@@ -1,0 +1,109 @@
+﻿.UserBack_top {
+    width: 100%;
+    height: 60px;
+    font-size: 1.2em;
+    line-height: 60px;
+    margin: 10px 0px;
+}
+
+.span_usernum {
+    display: inline-block;
+    margin-left: 60px;
+}
+
+    .span_usernum:before {
+        font-family: Glyphicons;
+        content: "\f3a0";
+    }
+
+.div_right {
+    float: right;
+    width: 300px;
+    height: 100%;
+    margin-right: 100px;
+}
+
+.input_select {
+    width: 200px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+
+.table {
+    text-align: center;
+}
+
+.tr_content {
+    line-height: 40px;
+}
+
+.user_null {
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    font-size: 2em;
+    color: gray;
+    margin-top: 40px;
+}
+
+    .user_null:before {
+        font-family: Glyphicons;
+        content: "\f3ab";
+    }
+
+.user-div {
+    width: 100%;
+    height: auto;
+    min-height: 732px;
+}
+
+.user_bot {
+    width: 100%;
+    height: auto;
+    background-color: gray;
+}
+
+.user_ul li {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    margin-left: 20px;
+    font-size: 1.1em;
+}
+
+.txt {
+    width: 100%;
+    height: 35px;
+    border-radius: 5px;
+    border: 1px solid grey;
+    transition: all 0.4s;
+}
+
+.update-ul {
+    width: 100%;
+    height: 100%;
+}
+
+    .update-ul li {
+        margin: 20px 0px;
+        padding-left: 40px;
+    }
+
+.update-but {
+    cursor:pointer;
+    display:inline-block;
+    width: 260px;
+    height: 40px;
+    line-height:40px;
+    border: 1px solid orange;
+    background-color: orange;
+    border-radius: 5px;
+    text-align: center;
+    margin-left: 60px;
+    transition: all 0.4s;
+}
+.update-erro{
+    color:red;
+}

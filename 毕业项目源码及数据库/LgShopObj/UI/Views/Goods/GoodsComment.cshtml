@@ -11,12 +11,30 @@
         color: gainsboro;
         text-align: center;
         line-height: 60px;
-        margin:60px auto;
+        margin: 60px auto;
     }
 
         .comment_null:before {
             font-family: Glyphicons;
             content: "\f3ab";
+        }
+
+    .Report {
+        display: inline-block;
+        margin-left: 30px;
+        transition: all 0.4s;
+        cursor: pointer;
+    }
+
+        .Report:hover {
+            transform: scale(1.1,1.1);
+            transition: all 0.4s;
+            color: red;
+        }
+
+        .Report:before {
+            font-family: Glyphicons;
+            content: "\f3bc";
         }
 </style>
 @{
@@ -40,6 +58,10 @@
                             }
                         }
                     }
+                    <input type="hidden" value="@item.CommentID" class="CommentID" />
+                    <span class="Report">
+                        举报
+                    </span>
                     <span class="pl_time">
                         评分时间：@string.Format("{0:D}", item.CommentTime)
                     </span>
@@ -69,4 +91,34 @@
         <div class="comment_null">&nbsp;该商品暂无评价！</div>
     }
 }
+
+<script>
+    $(function () {
+        //举报点击事件
+        $('.Report').click(function () {
+            if ($('.user-yes').is(':hidden')) {
+                    $('.login').click();
+                }
+            else {
+                if (confirm('您确定要举报这条评论吗?')) {
+                    var cid = $(this).prev().val();
+                $.post({
+                    url: "@Url.Action("AddReport","Goods")",
+                    data: { CommentID: cid },
+                    success: function (data) {
+                        if (data == 0) {
+                            alert('举报失败！');
+                        } else {
+                            alert('举报成功，请等待处理！');
+                        }
+                    },
+                    error: function () {
+                        alert('出现错误！');
+                    }
+                })
+                }
+             }
+        })
+    })
+</script>
 
