@@ -45,18 +45,24 @@
 
     .update-erro {
         display: inline-block;
-        max-height:20px;
+        max-height: 20px;
         width: 100%;
         color: red;
         font-size: 0.6em !important;
     }
+
+    .ion-android-person-add:before {
+        font-family: Glyphicons;
+        content: "\f39f";
+    }
 </style>
 
 <ul class="adduser-ul">
+    <li><h2 class="ion-android-person-add">&nbsp;新增用户</h2></li>
     <li><label for="UserName">用户名：</label><input class="txt UserName" maxlength="12" name="UserName" type="text" /><br /><span class="update-erro"></span></li>
     <li><label for="UserPhont">手机号：</label><input class="txt UserPhont" name="UserPhont" maxlength="15" type="text" /><br /><span class="update-erro"></span></li>
-    <li><label for="UserPhont">密码：</label><input class="txt UserPwd" name="UserPassword" type="password"  maxlength="15"/><br /><span class="update-erro"></span></li>
-    <li><label for="UserPhont">确认密码：</label><input class="txt IsUserPwd" type="password" maxlength="15"/><br /><span class="update-erro"></span></li>
+    <li><label for="UserPhont">密码：</label><input class="txt UserPwd" name="UserPassword" type="password" maxlength="15" /><br /><span class="update-erro"></span></li>
+    <li><label for="UserPhont">确认密码：</label><input class="txt IsUserPwd" type="password" maxlength="15" /><br /><span class="update-erro"></span></li>
     <li><label for="UserCard">身份证号：</label><input class="txt UserCard" name="UserCard" maxlength="25" type="text" /><br /><span class="update-erro"></span></li>
     <li><label for="UserEmail">邮箱：</label><input class="txt UserEmail" name="UserEmail" maxlength="25" type="text" /><br /><span class="update-erro"></span></li>
     <li><button class="add-but">提&nbsp;&nbsp;交</button></li>

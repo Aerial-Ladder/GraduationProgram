@@ -1,0 +1,108 @@
+﻿.TypeDiv{
+    width:98%;
+    margin:0px auto;
+    height:auto;
+    min-height:100px;
+}
+.type_div1{
+    width:100%;
+    height:40px;
+    border-left:3px solid orange;
+    font-size:1.3em;
+    font-weight:bold;
+    line-height:40px;
+    padding-left:1em;
+    margin:20px 0px;
+}
+/*修改图标*/
+.ion-android-create:before {
+    font-family: Glyphicons;
+    content: "\f37e";
+}
+.span_update, .span_add, .span_del {
+    display: inline-block;
+    cursor: pointer;
+    width: 25px;
+    height: 40px;
+    transition: all 0.4s;
+    text-align: center;
+}
+    .span_update:hover {
+        transform:scale(1.1,1.1);
+        transition:all 0.4s;
+    }
+    .span_add:hover {
+        transform: scale(1.1,1.1);
+        transition: all 0.4s;
+    }
+    .span_del:hover {
+        transform: scale(1.1,1.1);
+        transition: all 0.4s;
+    }
+/*删除图标*/
+.ion-close-round:before {
+    font-family: Glyphicons;
+    content: "\f129";
+}
+/*新增图标*/
+.ion-android-add:before {
+    font-family: Glyphicons;
+    content: "\f2c7";
+}
+.type_div2{
+    width:100%;
+    height:40px;
+    margin:10px 0px;
+    overflow:hidden;
+}
+.div2_left, .div2_right {
+    height: 40px;
+    line-height:40px;
+}
+.div2_left {
+    float: left;
+    width:auto;
+    min-width: 5%;
+    text-align:left;
+    font-size:1.3em;
+    padding-left:10px;
+}
+.div2_right {
+    float: left;
+    width:88%;
+    font-size:1.1em;
+    color:gray;
+}
+.right_div{
+    margin:0px 8px;
+    display:inline-block;
+    width:auto;
+    height:40px;
+}
+.update-span,.add-span{
+    cursor: pointer;
+    display: inline-block;
+    width: 260px;
+    height: 40px;
+    line-height: 40px;
+    border: 1px solid orange;
+    background-color: orange;
+    border-radius: 5px;
+    text-align: center;
+    transition: all 0.4s;
+}
+.type_ul, .typeadd_ul {
+    width: 260px;
+    margin: 0px auto;
+}
+.type_ul li,.typeadd_ul li {
+    width: 100%;
+    height: auto;
+    min-height: 40px;
+    line-height: 40px;
+    font-size: 1.1em;
+    margin:20px 0px;
+}
+.update-erro,.add-erro {
+    color: red;
+}

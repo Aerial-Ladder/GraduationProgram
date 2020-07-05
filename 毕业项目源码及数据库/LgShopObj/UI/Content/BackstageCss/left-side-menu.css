@@ -54,8 +54,18 @@ a{text-decoration:none;}
     font-family: Glyphicons;
     content: "\f12c";
 }
+.icon_5::after {
+    font-family: Glyphicons;
+    content: "\f3ba";
+}
 
-.lsm-sidebar-more{float:right;margin-right: 20px;font-size: 12px;transition: transform .3s;}
+
+.lsm-sidebar-more {
+    float: right;
+    margin-right: 20px;
+    font-size: 12px;
+    transition: transform .3s;
+}
 
 /* 导航右侧箭头 换用其他字体需要替换*/
 .lsm-sidebar-more::after{content: "\e621";}

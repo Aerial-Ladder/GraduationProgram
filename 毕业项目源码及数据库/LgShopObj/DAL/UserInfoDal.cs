@@ -16,7 +16,7 @@ namespace DAL
         /// <returns></returns>
         public static int AddUserInfo(UserInfo user) {
             using (LgShopDBEntities db = new LgShopDBEntities()) {
-                return db.Database.ExecuteSqlCommand($"insert into UserInfo values('{user.UserName}','{user.UserAccount}','{user.UserPassword}','default.jpg','{user.UserSex}',{user.UserAge},'{user.UserEmail}','{user.UserPhont}','{user.UserCard}','{user.UserBirthdays}',0,'','')");
+                return db.Database.ExecuteSqlCommand($"insert into UserInfo values('{user.UserName}','{user.UserAccount}','{user.UserPassword}','default.jpg','{user.UserSex}',{user.UserAge},'{user.UserEmail}','{user.UserPhont}','{user.UserCard}','{user.UserBirthdays}',0,'','',0)");
             }
         }
 
@@ -31,7 +31,7 @@ namespace DAL
             {
                 try
                 {
-                    return db.UserInfo.SingleOrDefault(p => p.UserAccount == UserAccount && p.UserPassword == UserPwd);
+                    return db.UserInfo.SingleOrDefault(p => p.UserAccount == UserAccount && p.UserPassword == UserPwd&&p.IsDelte==0);
                 }
                 catch (Exception)
                 {
@@ -177,7 +177,7 @@ namespace DAL
             {
                 try
                 {
-                    db.UserInfo.Remove(db.UserInfo.Find(userid));
+                    db.UserInfo.Find(userid).IsDelte = 1;
                     return db.SaveChanges();
                 }
                 catch (Exception)

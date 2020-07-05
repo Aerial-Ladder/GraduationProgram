@@ -37,6 +37,7 @@
     <EntitySetMapping Name="GoodsTable">
       <EntityTypeMapping TypeName="LgShopDBModel.GoodsTable">
         <MappingFragment StoreEntitySet="GoodsTable">
+          <ScalarProperty Name="IsDelte" ColumnName="IsDelte" />
           <ScalarProperty Name="GoodsID" ColumnName="GoodsID" />
           <ScalarProperty Name="GoodsName" ColumnName="GoodsName" />
           <ScalarProperty Name="GoodsPrice" ColumnName="GoodsPrice" />
@@ -86,6 +87,7 @@
     <EntitySetMapping Name="UserInfo">
       <EntityTypeMapping TypeName="LgShopDBModel.UserInfo">
         <MappingFragment StoreEntitySet="UserInfo">
+          <ScalarProperty Name="IsDelte" ColumnName="IsDelte" />
           <ScalarProperty Name="ReceivingAddress" ColumnName="ReceivingAddress" />
           <ScalarProperty Name="CoverPhoto" ColumnName="CoverPhoto" />
           <ScalarProperty Name="UserWallet" ColumnName="UserWallet" />

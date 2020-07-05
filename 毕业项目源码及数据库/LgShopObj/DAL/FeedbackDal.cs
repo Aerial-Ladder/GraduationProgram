@@ -66,5 +66,28 @@ namespace DAL
             }
         }
 
+        /// <summary>
+        /// 查询所有反馈
+        /// </summary>
+        /// <returns></returns>
+        public static List<FeedbackTable> SelectAllFeedback() {
+            using (LgShopDBEntities db = new LgShopDBEntities()) {
+                db.Configuration.LazyLoadingEnabled = false;
+                return db.FeedbackTable.Include("UserInfo").ToList();
+            }
+        }
+
+        /// <summary>
+        /// 处理反馈
+        /// </summary>
+        /// <param name="feedbackid">反馈id</param>
+        /// <returns></returns>
+        public static int UpdateFeedback(int feedbackid) {
+            using (LgShopDBEntities db = new LgShopDBEntities()) {
+                db.FeedbackTable.Find(feedbackid).IsDealwith = 1;
+                return db.SaveChanges();
+            }
+        }
+
     }
 }

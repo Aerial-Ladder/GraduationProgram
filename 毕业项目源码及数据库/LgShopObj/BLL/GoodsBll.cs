@@ -82,5 +82,36 @@ namespace BLL
             return GoodsDal.SelectGoodsIdGoods(goodsid);
         }
 
+        /// <summary>
+        /// 修改商品信息
+        /// </summary>
+        /// <param name="good"></param>
+        /// <returns></returns>
+        public static bool UpdateGoods(GoodsTable good)
+        {
+            return GoodsDal.UpdateGoods(good) == 1;
+        }
+
+        /// <summary>
+        /// 商品停售或出售
+        /// </summary>
+        /// <param name="goodsid">商品id</param>
+        /// <returns></returns>
+        public static bool GoodsDel(int goodsid)
+        {
+            return GoodsDal.GoodsDel(goodsid)==1;
+        }
+
+        /// <summary>
+        /// 新增商品
+        /// </summary>
+        /// <param name="good">商品对象</param>
+        /// <returns></returns>
+        public static bool AddGoods(GoodsTable good)
+        {
+            return GoodsDal.AddGoods(good)==1;
+        }
+
+
     }
 }

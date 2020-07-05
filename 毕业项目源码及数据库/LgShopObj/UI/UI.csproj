@@ -130,6 +130,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BacksTageController.cs" />
+    <Compile Include="Controllers\BackTypeController.cs" />
     <Compile Include="Controllers\GoodsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NoticeController.cs" />
@@ -147,6 +148,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\BackstageCss\BackFeedback.css" />
+    <Content Include="Content\BackstageCss\BackType.css" />
     <Content Include="Content\BackstageCss\GoodsIndexPartial.css" />
     <Content Include="Content\BackstageCss\left-side-menu.css" />
     <Content Include="Content\BackstageCss\UserBackIndex.css" />
@@ -347,6 +350,10 @@
     <Content Include="Views\BacksTage\AddUser.cshtml" />
     <Content Include="Views\BacksTage\BackGoodsIndex.cshtml" />
     <Content Include="Views\BacksTage\GoodsIndexPartial.cshtml" />
+    <Content Include="Views\BacksTage\AddGoods.cshtml" />
+    <Content Include="Views\BackType\BackTypeIndex.cshtml" />
+    <Content Include="Views\BackType\BackFeedbackIndex.cshtml" />
+    <Content Include="Views\BackType\BackFeedbackPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

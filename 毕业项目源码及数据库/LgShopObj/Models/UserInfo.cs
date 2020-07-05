@@ -39,6 +39,7 @@ namespace Models
         public Nullable<decimal> UserWallet { get; set; }
         public string CoverPhoto { get; set; }
         public string ReceivingAddress { get; set; }
+        public Nullable<int> IsDelte { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CommentTable> CommentTable { get; set; }

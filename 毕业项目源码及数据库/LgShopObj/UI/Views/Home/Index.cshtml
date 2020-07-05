@@ -139,7 +139,7 @@
                 <div class="title"><em class="mz_red"></em>&nbsp;&nbsp;热销&nbsp;&nbsp;&nbsp;&nbsp;HOT SALE<a href="/Goods/GoodsIndex">更多</a></div>
                 <div class="con">
                     @{
-                        foreach (var item in Model.OrderBy(p => p.GoodsHot).Take(8))
+                        foreach (var item in Model.OrderByDescending(p => p.GoodsHot).Take(8))
                         {
                             <a href="/Goods/GoodsDesc?goodsid=@item.GoodsID" style="color:black;">
                                 <div class="card" style="width: 18rem;">

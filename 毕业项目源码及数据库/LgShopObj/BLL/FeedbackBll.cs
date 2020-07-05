@@ -41,5 +41,24 @@ namespace BLL
             return FeedbackDal.UserFeedbackDal(feedbackid)==1;
         }
 
+        /// <summary>
+        /// 查询所有反馈
+        /// </summary>
+        /// <returns></returns>
+        public static List<FeedbackTable> SelectAllFeedback()
+        {
+            return FeedbackDal.SelectAllFeedback();
+        }
+
+        /// <summary>
+        /// 处理反馈
+        /// </summary>
+        /// <param name="feedbackid">反馈id</param>
+        /// <returns></returns>
+        public static bool UpdateFeedback(int feedbackid)
+        {
+            return FeedbackDal.UpdateFeedback(feedbackid)==1;
+        }
+
     }
 }

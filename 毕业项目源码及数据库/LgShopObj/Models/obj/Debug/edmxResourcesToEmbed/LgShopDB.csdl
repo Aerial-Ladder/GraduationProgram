@@ -53,6 +53,7 @@
     <NavigationProperty Name="OrderTable" Relationship="Self.FK__OrderTabl__Goods__2C3393D0" FromRole="GoodsTable" ToRole="OrderTable" />
     <NavigationProperty Name="ShoppingCartTable" Relationship="Self.FK__ShoppingC__Goods__1ED998B2" FromRole="GoodsTable" ToRole="ShoppingCartTable" />
     <NavigationProperty Name="CollectionTable" Relationship="LgShopDBModel.FK__Collectio__Goods__5DCAEF64" FromRole="GoodsTable" ToRole="CollectionTable" />
+    <Property Name="IsDelte" Type="Int32" />
   </EntityType>
   <EntityType Name="OrderTable">
     <Key>
@@ -252,6 +253,7 @@
     <NavigationProperty Name="ShoppingCartTable" Relationship="LgShopDBModel.FK__ShoppingC__UserI__1ED998B2" FromRole="UserInfo" ToRole="ShoppingCartTable" />
     <NavigationProperty Name="CollectionTable" Relationship="LgShopDBModel.FK__Collectio__UserI__5CD6CB2B" FromRole="UserInfo" ToRole="CollectionTable" />
     <NavigationProperty Name="NoticeTable" Relationship="LgShopDBModel.FK__NoticeTab__UserI__75A278F5" FromRole="UserInfo" ToRole="NoticeTable" />
+    <Property Name="IsDelte" Type="Int32" />
   </EntityType>
   <Association Name="FK__CommentTa__UserI__239E4DCF">
     <End Type="LgShopDBModel.UserInfo" Role="UserInfo" Multiplicity="0..1" />

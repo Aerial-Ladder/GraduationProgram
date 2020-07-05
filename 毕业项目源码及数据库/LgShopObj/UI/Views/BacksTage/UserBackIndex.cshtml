@@ -2,8 +2,13 @@
 @{
     List<UserInfo> list = Session["alluserlist"] as List<UserInfo>;
     int pageindex = ViewBag.pageindex ?? 1;
-    double count = Convert.ToDouble(Session["userpagecount"]);
-    int usercount = Convert.ToInt32(Session["usercount"]);
+    double count = 0;
+    int usercount = 0;
+    if (list != null && list.Count() > 0)
+    {
+        count = Convert.ToDouble(Session["userpagecount"]);
+        usercount = Convert.ToInt32(Session["usercount"]);
+    }
 }
 
 @*样式表*@
@@ -37,6 +42,7 @@
                         <th>用户钱包</th>
                         <th>身份证号</th>
                         <th>收货地址</th>
+                        <th>账号状态</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -52,10 +58,29 @@
                             <td>@string.Format("{0:C}", item.UserWallet)</td>
                             <td>@item.UserCard</td>
                             <td>@item.ReceivingAddress</td>
+                            @{
+                                if (item.IsDelte == 0)
+                                {
+                                    <td>正常</td>
+                                }
+                                else
+                                {
+                                    <td style="color:red;">禁用</td>
+                                }
+                            }
                             <td>
                                 <a href="#" data-toggle="modal" data-target="#UserDesc" data-whatever="@item.UserID" class="btn btn-outline-primary">详情</a>
                                 <a href="#" data-toggle="modal" data-target="#UserUpdate" data-whatever="@item.UserID" class="btn btn-outline-success">修改</a>
-                                <a href="#" class="btn btn-outline-danger user-del">删除</a>
+                                @{
+                                    if (item.IsDelte == 0)
+                                    {
+                                        <a href="#" class="btn btn-outline-danger user-del">禁用</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="#" class="btn btn-outline-danger user-nodel">启用</a>
+                                    }
+                                }
                             </td>
                         </tr>
                     }
@@ -203,21 +228,22 @@
                 </button>
             </div>
             <div class="modal-body">
-                @using (Ajax.BeginForm("UserUpdate", "BacksTage",new { pageindex=pageindex,text=ViewBag.text }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "UserIndex", InsertionMode = InsertionMode.Replace },new { id="UpdateForm",enctype="multipart/form-data" })) {
-                <ul class="update-ul">
-                    <li>
-                        <input type="hidden" name="ReceivingAddress" class="ReceivingAddress" />
-                        <input type="hidden" name="UserID" class="UserID"/>
-                        <label for="UserPhoto">用户头像：</label>
-                        <img src="~/Content/Images/default.jpg" width="40" height="40" />
-                        <input class="UserPhoto" name="UserPhoto" type="file" />
-                    </li>
-                    <li><label for="UserName">用户名：</label><input class="txt UserName" name="UserName" type="text" /><br /><span class="update-erro"></span></li>
-                    <li><label for="UserPhont">手机号：</label><input class="txt UserPhont" name="UserPhont" type="text" /><span class="update-erro"></span></li>
-                    <li><label for="UserCard">身份证号：</label><input class="txt UserCard" name="UserCard" type="text" /><span class="update-erro"></span></li>
-                    <li><label for="UserEmail">邮箱：</label><input class="txt UserEmail" name="UserEmail" type="text" /><span class="update-erro"></span></li>
-                    <li><span class="update-but">保&nbsp;&nbsp;存</span></li>
-                </ul>
+                @using (Ajax.BeginForm("UserUpdate", "BacksTage", new { pageindex = pageindex, text = ViewBag.text }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "UserIndex", InsertionMode = InsertionMode.Replace }, new { id = "UpdateForm", enctype = "multipart/form-data" }))
+                {
+                    <ul class="update-ul">
+                        <li>
+                            <input type="hidden" name="ReceivingAddress" class="ReceivingAddress" />
+                            <input type="hidden" name="UserID" class="UserID" />
+                            <label for="UserPhoto">用户头像：</label>
+                            <img src="~/Content/Images/default.jpg" width="40" height="40" />
+                            <input class="UserPhoto" name="UserPhoto" type="file" />
+                        </li>
+                        <li><label for="UserName">用户名：</label><input class="txt UserName" name="UserName" type="text" /><br /><span class="update-erro"></span></li>
+                        <li><label for="UserPhont">手机号：</label><input class="txt UserPhont" name="UserPhont" type="text" /><span class="update-erro"></span></li>
+                        <li><label for="UserCard">身份证号：</label><input class="txt UserCard" name="UserCard" type="text" /><span class="update-erro"></span></li>
+                        <li><label for="UserEmail">邮箱：</label><input class="txt UserEmail" name="UserEmail" type="text" /><span class="update-erro"></span></li>
+                        <li><span class="update-but">保&nbsp;&nbsp;存</span></li>
+                    </ul>
                 }
             </div>
         </div>
@@ -346,7 +372,7 @@
                 //表单提交
                 $('#UpdateForm').submit();
             }
-            
+
         })
 
         //模态框关闭事件
