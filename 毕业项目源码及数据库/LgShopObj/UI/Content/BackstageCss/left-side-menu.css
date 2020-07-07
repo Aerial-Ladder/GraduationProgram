@@ -58,7 +58,10 @@ a{text-decoration:none;}
     font-family: Glyphicons;
     content: "\f3ba";
 }
-
+.icon_6::after {
+    font-family: Glyphicons;
+    content: "\f3b2";
+}
 
 .lsm-sidebar-more {
     float: right;

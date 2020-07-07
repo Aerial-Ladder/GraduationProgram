@@ -1,0 +1,73 @@
+﻿.BackComment_top {
+    width: 100%;
+    height: 60px;
+    font-size: 1.2em;
+    line-height: 60px;
+    margin: 10px 0px;
+}
+
+.span_plbacknum {
+    display: inline-block;
+    margin-left: 60px;
+}
+
+    .span_plbacknum:before {
+        font-family: Glyphicons;
+        content: "\f3b2";
+    }
+
+.div_right {
+    float: right;
+    width: 300px;
+    height: 100%;
+    margin-right: 100px;
+}
+
+.plback_select {
+    width: 200px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+.table {
+    text-align: center;
+}
+
+.tr_content {
+    line-height: 40px;
+}
+
+.plback_null {
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    font-size: 2em;
+    color: gray;
+    margin-top: 40px;
+}
+
+    .plback_null:before {
+        font-family: Glyphicons;
+        content: "\f3ab";
+    }
+
+.plback-div {
+    width: 100%;
+    height: auto;
+    min-height: 732px;
+}
+
+.plback_bot {
+    width: 100%;
+    height: auto;
+    background-color: gray;
+}
+.plback_span {
+    display: inline-block;
+    width: 100%;
+    height: auto;
+    font-size: 1.2em;
+    line-height: 30px;
+    text-indent: 2em;
+}

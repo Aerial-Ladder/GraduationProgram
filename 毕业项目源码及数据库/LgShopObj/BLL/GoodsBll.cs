@@ -38,6 +38,16 @@ namespace BLL
         }
 
         /// <summary>
+        /// 管理员查询第一分类的商品信息
+        /// </summary>
+        /// <param name="typeid">第一分类id</param>
+        /// <returns></returns>
+        public static List<GoodsTable> SelectType1GoodsAdmin(int typeid)
+        {
+            return GoodsDal.SelectType1GoodsAdmin(typeid);
+        }
+
+        /// <summary>
         /// 根据tid查找商品信息
         /// </summary>
         /// <param name="tid">商品tid</param>
@@ -110,6 +120,16 @@ namespace BLL
         public static bool AddGoods(GoodsTable good)
         {
             return GoodsDal.AddGoods(good)==1;
+        }
+
+        /// <summary>
+        /// 查询推荐商品
+        /// </summary>
+        /// <param name="typeid">商品id</param>
+        /// <returns></returns>
+        public static List<GoodsTable> SelectGetGoods(int typeid)
+        {
+            return GoodsDal.SelectGetGoods(typeid);
         }
 
 

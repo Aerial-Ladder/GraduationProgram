@@ -124,6 +124,14 @@
 
 @section scripts{
     <script type="text/javascript">
+        //模态框关闭点击事件
+        $('.close').click(function () {
+            $('.ReceivingAddress').show();
+            $('.update-hidden').hide();
+            $('.update-hidden select').val('');
+            $('.update-span').html("编辑收货地址");
+        })
+
         $(function () {
             $('.update-span').click(function () {
                 $('.update-hidden').toggle();

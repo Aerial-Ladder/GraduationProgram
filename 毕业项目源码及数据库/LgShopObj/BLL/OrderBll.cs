@@ -17,7 +17,7 @@ namespace BLL
         /// <returns></returns>
         public static bool AddOrders(List<OrderTable> list,int userid,decimal price)
         {
-            return OrderDal.AddOrders(list,userid,price);
+            return OrderDal.AddOrders(list,userid,price)>0;
         }
 
         /// <summary>

@@ -39,6 +39,7 @@ CoverPhoto nvarchar(100),--封面图片
 ReceivingAddress nvarchar(100) not null ,--收获地址
 IsDelte int default(0),--是否删除
 )
+--select * from UserInfo
 go
 
 --分类表
@@ -70,11 +71,20 @@ insert into TypeTable values('饼干',18),('面包',18),('曲奇',18),('蛋卷',18),('沙
 insert into TypeTable values('方便面',19),('火腿肠',19),('八宝粥',19),('罐头',19)
 insert into TypeTable values('水',20),('碳酸饮料',20),('功能饮料',20),('咖啡',20),('奶茶',20),('麦片谷类',20)
 select * from TypeTable
+
+select * from GoodsTable where TID in (
+select TypeID from TypeTable where TID in(
+select TypeID from TypeTable where TID =(
+select TypeID from TypeTable where TypeID =( select TID from TypeTable where TypeID=(select TID from TypeTable where TypeID=26))))) and IsGet=1
+
+select * from CommentTable where GoodsID in(
+select GoodsID from GoodsTable where TID in(
+select TypeID from TypeTable where TID in( select TypeID from TypeTable where TID=1)))
+
 go
 --select * from TypeTable where TID=5
 --select * from TypeTable where TID in (select TypeID from TypeTable where TID is null)
 --select * from TypeTable t1,TypeTable t2 where t1.TID=t2.TypeID  and t2.TID=1
-update TypeTable set TypeName='经典服装',TID=null where TypeID=1
 
 --商品信息表
 create table GoodsTable(
@@ -88,73 +98,71 @@ GoodsDescribe nvarchar(100) ,--商品描述简介
 GoodsStar int default(0) ,--商品星级
 GoodsHot int ,--销售热度
 IsDelte int default(0),--是否停售(0:否,1:是)
+IsGet int default(0),--是否推荐(0:否，1：是)
 )
---update GoodsTable set GoodsName='',GoodsPrice=,OldGoodsPrice=,GoodsInventory=,TID=,GoodsDescribe='' where GoodsID=1
-select * from GoodsTable
+--select * from GoodsTable
 go
 --添加商品信息数据
 --男装
-insert into GoodsTable values('凡客卫衣 男款 黑色',69.00,138.00,1500,21,'色泽自然,不易起球不易掉毛，柔软舒适 新型织造工艺',4,12,0),
-('羽绒服 无缝锁温智能发热鹅绒服 黑色',319.00,638.00,2000,21,'无缝锁温智能发热鹅绒服，智能调温，给你双倍温暖，整衣可水洗需要搭配充电宝，本产品不包含充电宝',5,600,0),
-('针织裤 重水洗拉绒 收脚口',69.00,138.00,600,22,'专业设备缝制，适合出游，运动',4,500,0),
-('帆布鞋 男款 藏蓝色',69.00,138.00,400,23,'低密度环保鞋垫，耐磨防滑',4,10,0),
-('男款运动潮鞋 S20502 黑色',239.00,469.00,260,23,'轻盈舒适，看得到的重量！',5,1200,0),
-('杰凯威男士头层牛皮自动扣皮带',149.50,299.00,500,24,'精选头层牛皮，网红双D，自动扣',3,115,0)
+insert into GoodsTable values('凡客卫衣 男款 黑色',69.00,138.00,1500,21,'色泽自然,不易起球不易掉毛，柔软舒适 新型织造工艺',4,12,0,0),
+('羽绒服 无缝锁温智能发热鹅绒服 黑色',319.00,638.00,2000,21,'无缝锁温智能发热鹅绒服，智能调温，给你双倍温暖，整衣可水洗需要搭配充电宝，本产品不包含充电宝',5,600,0,0),
+('针织裤 重水洗拉绒 收脚口',69.00,138.00,600,22,'专业设备缝制，适合出游，运动',4,500,0,0),
+('帆布鞋 男款 藏蓝色',69.00,138.00,400,23,'低密度环保鞋垫，耐磨防滑',4,10,0,0),
+('男款运动潮鞋 S20502 黑色',239.00,469.00,260,23,'轻盈舒适，看得到的重量！',5,1200,0,0),
+('杰凯威男士头层牛皮自动扣皮带',149.50,299.00,500,24,'精选头层牛皮，网红双D，自动扣',3,115,0,0)
 --女装
-insert into GoodsTable values('女式柔软防皱印花衬衫',164.50,329.00,1250,25,'时尚翻领设计，时尚大方，尽显女性脖颈美',4,560,0),
-('女款牛仔裤 修身铅笔裤 ',69.00,138.00,1250,26,'外观平滑，柔软舒适',4,120,0),
-('女款运动潮鞋小白鞋 ',128.00,458.00,1250,27,'细选好料，拼接设计',4,500,0)
+insert into GoodsTable values('女式柔软防皱印花衬衫',164.50,329.00,1250,25,'时尚翻领设计，时尚大方，尽显女性脖颈美',4,560,0,0),
+('女款牛仔裤 修身铅笔裤 ',69.00,138.00,1250,26,'外观平滑，柔软舒适',4,120,0,0),
+('女款运动潮鞋小白鞋 ',128.00,458.00,1250,27,'细选好料，拼接设计',4,500,0,0)
 --童装
-insert into GoodsTable values('童装卫衣 圆领 ',59.00,118.00,400,29,'柔软舒适',4,200,0)
+insert into GoodsTable values('童装卫衣 圆领 ',59.00,118.00,400,29,'柔软舒适',4,200,0,0)
 --中老年装
-insert into GoodsTable values('林先森中老年上装 ',122.00,428.00,520,33,'柔软舒适，适合老年人',4,120,0)
+insert into GoodsTable values('林先森中老年上装 ',122.00,428.00,520,33,'柔软舒适，适合老年人',4,120,0,0)
 --办公设备
-insert into GoodsTable values('三星黑白激光多功能一体机 ',868.00,1000.00,400,36,'首页打印时间：少于 8.5 秒(自待机模式)',5,20,0)
-insert into GoodsTable values('爱普生原装喷墨文档照片打印机 ',799.00,899.00,100,37,'原厂大容量墨水',5,50,0)
-insert into GoodsTable values('惠普移动便携式打印机 ',2188.00,2488.00,20,37,'环保，方便快捷',5,62,0)
-insert into GoodsTable values('爱普生Epson LQ-730KII 发票打印 ',1699.00,1799.00,50,37,'打印发票首选爱普生',4,40,0)
-insert into GoodsTable values('得力电子密码防盗2层保险柜 ',1450.00,1600.00,150,41,'高安全性，放心装',2,10,0)
-insert into GoodsTable values('得力家用保管箱 ',995.00,1150.00,150,41,'家用放心保险柜',4,50,0)
-insert into GoodsTable values('柯尼卡美能达数码复合机',3359.00,4400.00,112,39,'数码复合机',4,210,0)
+insert into GoodsTable values('三星黑白激光多功能一体机 ',868.00,1000.00,400,36,'首页打印时间：少于 8.5 秒(自待机模式)',5,20,0,0)
+insert into GoodsTable values('爱普生原装喷墨文档照片打印机 ',799.00,899.00,100,37,'原厂大容量墨水',5,50,0,0)
+insert into GoodsTable values('惠普移动便携式打印机 ',2188.00,2488.00,20,37,'环保，方便快捷',5,62,0,0)
+insert into GoodsTable values('爱普生Epson LQ-730KII 发票打印 ',1699.00,1799.00,50,37,'打印发票首选爱普生',4,40,0,0)
+insert into GoodsTable values('得力电子密码防盗2层保险柜 ',1450.00,1600.00,150,41,'高安全性，放心装',2,10,0,0)
+insert into GoodsTable values('得力家用保管箱 ',995.00,1150.00,150,41,'家用放心保险柜',4,50,0,0)
+insert into GoodsTable values('柯尼卡美能达数码复合机',3359.00,4400.00,112,39,'数码复合机',4,210,0,0)
 --办公文具
-insert into GoodsTable values('亚太战斗金刚 A4 70g多功能复印纸',175.00,220.00,112,42,'包装：8包/箱 500张/包型号：A4类型：复印纸',4,600,0)
+insert into GoodsTable values('亚太战斗金刚 A4 70g多功能复印纸',175.00,220.00,112,42,'包装：8包/箱 500张/包型号：A4类型：复印纸',4,600,0,0)
 --办公耗材
 --电脑整机
-insert into GoodsTable values('联想笔记本电脑',3988.00,4210.00,400,51,'i7-5557U 4G 8G SSHD+500G HD5500核显 Win8.1',4,1200,0)
-insert into GoodsTable values('联想超轻薄笔记本电脑',5490.00,5600.00,100,52,'i5-7200U 8G 256G SSD 940MX 2G FHD IPS银色',4,1800,0)
-insert into GoodsTable values('华硕飞行堡垒游戏笔记本电脑',6490.00,6999.00,400,51,'(i7-4720HQ 8G 128G SSD+1TB GTX950M 4G独显) 黑色 i7-4720HQ',4,1150,0)
+insert into GoodsTable values('联想笔记本电脑',3988.00,4210.00,400,51,'i7-5557U 4G 8G SSHD+500G HD5500核显 Win8.1',4,1200,0,0)
+insert into GoodsTable values('联想超轻薄笔记本电脑',5490.00,5600.00,100,52,'i5-7200U 8G 256G SSD 940MX 2G FHD IPS银色',4,1800,0,0)
+insert into GoodsTable values('华硕飞行堡垒游戏笔记本电脑',6490.00,6999.00,400,51,'(i7-4720HQ 8G 128G SSD+1TB GTX950M 4G独显) 黑色 i7-4720HQ',4,1150,0,0)
 --纸品湿巾
-insert into GoodsTable values('顺清柔卷筒纸',23.50,28.90,120,57,'尺寸为23cm*7cm',4,200,0)
-insert into GoodsTable values('幸福阳光抽纸 ',11.50,16.00,400,58,'纸品健康/环保',5,160,0)
+insert into GoodsTable values('顺清柔卷筒纸',23.50,28.90,120,57,'尺寸为23cm*7cm',4,200,0,0)
+insert into GoodsTable values('幸福阳光抽纸 ',11.50,16.00,400,58,'纸品健康/环保',5,160,0,0)
 --衣物清洁
-insert into GoodsTable values('蓝月亮深层洁净洗衣液',38.50,50.40,120,61,'健康/环保',5,240,0)
-insert into GoodsTable values('超能植翠低泡洗衣液',46.50,49.00,400,61,'健康/环保',5,450,0)
-insert into GoodsTable values('雕牌洗衣粉',8.50,12.00,360,62,'超效加酶508g 强效去污无磷衣物清洁',5,1140,0)
+insert into GoodsTable values('蓝月亮深层洁净洗衣液',38.50,50.40,120,61,'健康/环保',5,240,0,0)
+insert into GoodsTable values('超能植翠低泡洗衣液',46.50,49.00,400,61,'健康/环保',5,450,0,0)
+insert into GoodsTable values('雕牌洗衣粉',8.50,12.00,360,62,'超效加酶508g 强效去污无磷衣物清洁',5,1140,0,0)
 --清洁用品
-insert into GoodsTable values('立白洗洁精',4.50,6.00,1400,65,'去油不伤手 金桔洗洁精500g瓶装',4,456,0)
-insert into GoodsTable values('雕牌洗洁精',16.80,19.00,860,65,'冷水去油1.5kg餐洗净',4,620,0)
-insert into GoodsTable values('威猛先生 洁厕液',6.80,9.00,560,66,'去污：采用欧洲先进技术，有效清洁，且不伤马桶表面。',4,468,0)
-insert into GoodsTable values('威露士多用途温除菌消毒液',30.90,32.00,450,67,'成分温和 衣物消毒 家居消毒 日用品消毒',4,128,0)
+insert into GoodsTable values('立白洗洁精',4.50,6.00,1400,65,'去油不伤手 金桔洗洁精500g瓶装',4,456,0,0)
+insert into GoodsTable values('雕牌洗洁精',16.80,19.00,860,65,'冷水去油1.5kg餐洗净',4,620,0,0)
+insert into GoodsTable values('威猛先生 洁厕液',6.80,9.00,560,66,'去污：采用欧洲先进技术，有效清洁，且不伤马桶表面。',4,468,0,0)
+insert into GoodsTable values('威露士多用途温除菌消毒液',30.90,32.00,450,67,'成分温和 衣物消毒 家居消毒 日用品消毒',4,128,0,0)
 --家庭清洁
-insert into GoodsTable values('黑色手提垃圾袋 ',2.50,3.00,1500,70,'手提塑料袋 购物袋 （30*45mm） 单卷　30个装/卷',4,150,0)
-insert into GoodsTable values('妙洁官方滚轮吸水胶棉拖把 ',45.50,55.00,100,70,'手压挤水海绵拖把免手洗吸水 耐用',4,500,0)
-insert into GoodsTable values('枪手无烟蚊香 ',4.50,5.00,1500,71,'10单盘清香大盘无烟型清香型 清香型',5,480,0)
+insert into GoodsTable values('黑色手提垃圾袋 ',2.50,3.00,1500,70,'手提塑料袋 购物袋 （30*45mm） 单卷　30个装/卷',4,150,0,0)
+insert into GoodsTable values('妙洁官方滚轮吸水胶棉拖把 ',45.50,55.00,100,70,'手压挤水海绵拖把免手洗吸水 耐用',4,500,0,0)
+insert into GoodsTable values('枪手无烟蚊香 ',4.50,5.00,1500,71,'10单盘清香大盘无烟型清香型 清香型',5,480,0,0)
 --休闲食品
-insert into GoodsTable values('美好时光海苔 ',15.50,25.00,600,72,'',4,40,0)
-insert into GoodsTable values('喜之郎果冻 ',12.50,20.00,1400,73,'圆你当宇航员的梦',4,5000,0)
+insert into GoodsTable values('美好时光海苔 ',15.50,25.00,600,72,'',4,40,0,0)
+insert into GoodsTable values('喜之郎果冻 ',12.50,20.00,1400,73,'圆你当宇航员的梦',4,5000,0,0)
 --饼干甜点
-insert into GoodsTable values('早餐饼干 ',9.50,12.00,120,74,'最美味的饼干',4,130,0)
+insert into GoodsTable values('早餐饼干 ',9.50,12.00,120,74,'最美味的饼干',4,130,0,0)
 --方便速食
-insert into GoodsTable values('康师傅红烧牛肉面 ',3.50,4.00,800,79,'',4,1200,0)
-insert into GoodsTable values('康师傅老坛酸菜面 ',3.50,4.00,690,79,'美味',5,1244,0)
+insert into GoodsTable values('康师傅红烧牛肉面 ',3.50,4.00,800,79,'',4,1200,0,0)
+insert into GoodsTable values('康师傅老坛酸菜面 ',3.50,4.00,690,79,'美味',5,1244,0,0)
 --饮料
-insert into GoodsTable values('怡宝 ',1.50,2.00,520,83,'美味',5,610,0)
-insert into GoodsTable values('可口可乐 ',3.50,4.00,450,84,'好喝的味道',5,400,0)
-insert into GoodsTable values('红牛 ',3.50,4.00,500,85,'你的能量超乎你的想象',5,1050,0)
+insert into GoodsTable values('怡宝 ',1.50,2.00,520,83,'美味',5,610,0,0)
+insert into GoodsTable values('可口可乐 ',3.50,4.00,450,84,'好喝的味道',5,400,0,0)
+insert into GoodsTable values('红牛 ',3.50,4.00,500,85,'你的能量超乎你的想象',5,1050,0,0)
 --多表联合查询
 --select * from GoodsTable t1,GoodsPhoto t2,TypeTable t3 where t1.GoodsID=t2.GoodsID and t1.TID=t3.TypeID
-
-
 
 go
 
@@ -194,12 +202,12 @@ UserID int foreign key references UserInfo(UserID),--用户id
 GoodsID int foreign key references GoodsTable(GoodsID),--商品id
 CommentContent nvarchar(200) not null,--评论内容
 CommentStarRating int,--评分星级
-CommentTime date ,--评论时间 
+CommentTime date default(getdate()),--评论时间 
 Reportingnums int default(0),--举报数
+IsTop int default(0) --是否置顶(0:否,1:是)
 )
 --select * from CommentTable
 go
-
 --反馈表
 create table FeedbackTable(
 FeedbackID  int primary key identity(1,1),--反馈id
@@ -208,7 +216,9 @@ FeedbackContent nvarchar(200) not null,--反馈内容
 FeedbackTime date ,--反馈时间
 IsDealwith int default(0) check(IsDealwith='0' or IsDealwith='1')--是否处理（0:未处理）
 )
-select * from FeedbackTable Order By IsDealwith
+--select * from FeedbackTable Order By IsDealwith
+
+
 go
 
 --订单表
@@ -243,5 +253,4 @@ NoticeContent nvarchar(200) not null,--公告内容
 NoticeTime date default(getdate()),--公告时间
 IsLook int default(0) check(IsLook=0 or IsLook=1),--用户是否查看(0为否)
 )
-insert into NoticeTable values(null,'商品停售公告','各位乐购商城用户你们好,于2020起wdnmd商品将从商城下架，查看详情请联系TEL:13677447830','shijian',1)
-
+--select  * from NoticeTable

@@ -63,5 +63,45 @@ namespace BLL
             return CommentDal.AddReport(commentid) == 1;
         }
 
+        /// <summary>
+        /// 查询所有评论
+        /// </summary>
+        /// <returns></returns>
+        public static List<CommentTable> SelectAllComment()
+        {
+            return CommentDal.SelectAllComment();
+        }
+
+        /// <summary>
+        /// 根据tid查询商品评论
+        /// </summary>
+        /// <param name="tid"></param>
+        /// <returns></returns>
+        public static List<CommentTable> SelectByTidComment(int tid)
+        {
+            return CommentDal.SelectByTidComment(tid);
+        }
+
+        /// <summary>
+        /// 评论是否置顶操作
+        /// </summary>
+        /// <param name="commentid">评论id</param>
+        /// <param name="istop">是否置顶</param>
+        /// <returns></returns>
+        public static bool UpdateIsTop(int commentid, string istop)
+        {
+            return CommentDal.UpdateIsTop(commentid,istop)==1;
+        }
+
+        /// <summary>
+        /// 管理员删除用户评论
+        /// </summary>
+        /// <param name="commentid">评论id</param>
+        /// <returns></returns>
+        public static bool CommentDelAdmin(int commentid)
+        {
+            return CommentDal.CommentDelAdmin(commentid)==1;
+        }
+
     }
 }

@@ -42,6 +42,11 @@ namespace UI.Controllers
         }
 
 
+        /// <summary>
+        /// 新增多个或单个订单
+        /// </summary>
+        /// <param name="OrderList">订单集合/对象</param>
+        /// <returns></returns>
         public JsonResult AddOrder(string OrderList) {
             UserInfo user = Session["user"] as UserInfo;
             //判断收货地址是否为空

@@ -7,6 +7,10 @@
     //商品的评价
     List<CommentTable> GoodsComment = Session["GoodsComment"] as List<CommentTable>;
     bool iscollection = ViewBag.iscollection;
+    //推荐商品
+    List<GoodsTable> GetGoods = ViewBag.GetGoods as List<GoodsTable>;
+    //所有图片
+    List<GoodsPhoto> PhotoList = Session["GoodsPhoto"] as List<GoodsPhoto>;
 }
 
 @*//样式表*@
@@ -95,6 +99,34 @@
     </div>
     <div class="Desc_div4" id="GoodsComment">
         @Html.Partial("GoodsComment", Session["GoodsComment"] as ViewDataDictionary)
+    </div>
+</div>
+
+@*相关推荐商品固定栏*@
+<div class="GetDiv">
+    <div class="get_top">相关商品推荐</div>
+    <div class="get_bot">
+        @{
+            if (GetGoods != null && GetGoods.Count() > 0)
+            {
+                foreach (var item in GetGoods)
+                {
+                    <a href="/Goods/GoodsDesc?goodsid=@item.GoodsID">
+                        <div class="get_goods">
+                            <dl class="get_dl">
+                                <dt><img src="~/Content/GoodImgs/@PhotoList.FirstOrDefault(p=>p.GoodsID==item.GoodsID).PhotoPath" class="get_img" /></dt>
+                                <dd>@item.GoodsName</dd>
+                                <dd>@string.Format("{0:C}", item.GoodsPrice)&nbsp;&nbsp;<span class="get_span1">@string.Format("{0:C}", item.OldGoodsPrice)</span></dd>
+                            </dl>
+                        </div>
+                    </a>
+                }
+            }
+            else
+            {
+                <div class="get_null">&nbsp;暂无相关推荐！</div>
+            }
+        }
     </div>
 </div>
 

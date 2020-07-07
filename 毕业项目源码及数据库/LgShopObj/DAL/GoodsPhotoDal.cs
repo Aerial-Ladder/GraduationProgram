@@ -16,7 +16,7 @@ namespace DAL
         public static List<GoodsPhoto> SelectAllGoodsPhoto() {
             using (LgShopDBEntities db = new LgShopDBEntities())
             {
-                return db.GoodsPhoto.ToList();
+                return db.GoodsPhoto.Include("GoodsTable").ToList();
             }
         }
 

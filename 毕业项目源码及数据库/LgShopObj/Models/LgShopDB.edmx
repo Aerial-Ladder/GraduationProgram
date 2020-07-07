@@ -25,6 +25,7 @@
           <Property Name="CommentStarRating" Type="int" />
           <Property Name="CommentTime" Type="date" />
           <Property Name="Reportingnums" Type="int" />
+          <Property Name="IsTop" Type="int" />
         </EntityType>
         <EntityType Name="FeedbackTable">
           <Key>
@@ -58,6 +59,7 @@
           <Property Name="GoodsStar" Type="int" />
           <Property Name="GoodsHot" Type="int" />
           <Property Name="IsDelte" Type="int" />
+          <Property Name="IsGet" Type="int" />
         </EntityType>
         <EntityType Name="NoticeTable">
           <Key>
@@ -121,7 +123,7 @@
           <Property Name="ReceivingAddress" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="IsDelte" Type="int" />
         </EntityType>
-        <Association Name="FK__Collectio__Goods__35BCFE0A">
+        <Association Name="FK__Collectio__Goods__37A5467C">
           <End Role="GoodsTable" Type="Self.GoodsTable" Multiplicity="0..1" />
           <End Role="CollectionTable" Type="Self.CollectionTable" Multiplicity="*" />
           <ReferentialConstraint>
@@ -133,7 +135,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Collectio__UserI__34C8D9D1">
+        <Association Name="FK__Collectio__UserI__36B12243">
           <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1" />
           <End Role="CollectionTable" Type="Self.CollectionTable" Multiplicity="*" />
           <ReferentialConstraint>
@@ -145,7 +147,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CommentTa__Goods__267ABA7A">
+        <Association Name="FK__CommentTa__Goods__276EDEB3">
           <End Role="GoodsTable" Type="Self.GoodsTable" Multiplicity="0..1" />
           <End Role="CommentTable" Type="Self.CommentTable" Multiplicity="*" />
           <ReferentialConstraint>
@@ -157,7 +159,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CommentTa__UserI__25869641">
+        <Association Name="FK__CommentTa__UserI__267ABA7A">
           <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1" />
           <End Role="CommentTable" Type="Self.CommentTable" Multiplicity="*" />
           <ReferentialConstraint>
@@ -169,7 +171,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__FeedbackT__UserI__2A4B4B5E">
+        <Association Name="FK__FeedbackT__UserI__2C3393D0">
           <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1" />
           <End Role="FeedbackTable" Type="Self.FeedbackTable" Multiplicity="*" />
           <ReferentialConstraint>
@@ -181,7 +183,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GoodsPhot__Goods__1DE57479">
+        <Association Name="FK__GoodsPhot__Goods__1ED998B2">
           <End Role="GoodsTable" Type="Self.GoodsTable" Multiplicity="0..1" />
           <End Role="GoodsPhoto" Type="Self.GoodsPhoto" Multiplicity="*" />
           <ReferentialConstraint>
@@ -205,7 +207,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__NoticeTab__UserI__3A81B327">
+        <Association Name="FK__NoticeTab__UserI__3C69FB99">
           <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1" />
           <End Role="NoticeTable" Type="Self.NoticeTable" Multiplicity="*" />
           <ReferentialConstraint>
@@ -217,7 +219,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__OrderTabl__Goods__300424B4">
+        <Association Name="FK__OrderTabl__Goods__31EC6D26">
           <End Role="GoodsTable" Type="Self.GoodsTable" Multiplicity="0..1" />
           <End Role="OrderTable" Type="Self.OrderTable" Multiplicity="*" />
           <ReferentialConstraint>
@@ -229,7 +231,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__OrderTabl__UserI__2F10007B">
+        <Association Name="FK__OrderTabl__UserI__30F848ED">
           <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1" />
           <End Role="OrderTable" Type="Self.OrderTable" Multiplicity="*" />
           <ReferentialConstraint>
@@ -241,7 +243,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ShoppingC__Goods__21B6055D">
+        <Association Name="FK__ShoppingC__Goods__22AA2996">
           <End Role="GoodsTable" Type="Self.GoodsTable" Multiplicity="0..1" />
           <End Role="ShoppingCartTable" Type="Self.ShoppingCartTable" Multiplicity="*" />
           <ReferentialConstraint>
@@ -253,7 +255,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ShoppingC__UserI__20C1E124">
+        <Association Name="FK__ShoppingC__UserI__21B6055D">
           <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1" />
           <End Role="ShoppingCartTable" Type="Self.ShoppingCartTable" Multiplicity="*" />
           <ReferentialConstraint>
@@ -288,27 +290,27 @@
           <EntitySet Name="ShoppingCartTable" EntityType="Self.ShoppingCartTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypeTable" EntityType="Self.TypeTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserInfo" EntityType="Self.UserInfo" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Collectio__Goods__35BCFE0A" Association="Self.FK__Collectio__Goods__35BCFE0A">
+          <AssociationSet Name="FK__Collectio__Goods__37A5467C" Association="Self.FK__Collectio__Goods__37A5467C">
             <End Role="GoodsTable" EntitySet="GoodsTable" />
             <End Role="CollectionTable" EntitySet="CollectionTable" />
           </AssociationSet>
-          <AssociationSet Name="FK__Collectio__UserI__34C8D9D1" Association="Self.FK__Collectio__UserI__34C8D9D1">
+          <AssociationSet Name="FK__Collectio__UserI__36B12243" Association="Self.FK__Collectio__UserI__36B12243">
             <End Role="UserInfo" EntitySet="UserInfo" />
             <End Role="CollectionTable" EntitySet="CollectionTable" />
           </AssociationSet>
-          <AssociationSet Name="FK__CommentTa__Goods__267ABA7A" Association="Self.FK__CommentTa__Goods__267ABA7A">
+          <AssociationSet Name="FK__CommentTa__Goods__276EDEB3" Association="Self.FK__CommentTa__Goods__276EDEB3">
             <End Role="GoodsTable" EntitySet="GoodsTable" />
             <End Role="CommentTable" EntitySet="CommentTable" />
           </AssociationSet>
-          <AssociationSet Name="FK__CommentTa__UserI__25869641" Association="Self.FK__CommentTa__UserI__25869641">
+          <AssociationSet Name="FK__CommentTa__UserI__267ABA7A" Association="Self.FK__CommentTa__UserI__267ABA7A">
             <End Role="UserInfo" EntitySet="UserInfo" />
             <End Role="CommentTable" EntitySet="CommentTable" />
           </AssociationSet>
-          <AssociationSet Name="FK__FeedbackT__UserI__2A4B4B5E" Association="Self.FK__FeedbackT__UserI__2A4B4B5E">
+          <AssociationSet Name="FK__FeedbackT__UserI__2C3393D0" Association="Self.FK__FeedbackT__UserI__2C3393D0">
             <End Role="UserInfo" EntitySet="UserInfo" />
             <End Role="FeedbackTable" EntitySet="FeedbackTable" />
           </AssociationSet>
-          <AssociationSet Name="FK__GoodsPhot__Goods__1DE57479" Association="Self.FK__GoodsPhot__Goods__1DE57479">
+          <AssociationSet Name="FK__GoodsPhot__Goods__1ED998B2" Association="Self.FK__GoodsPhot__Goods__1ED998B2">
             <End Role="GoodsTable" EntitySet="GoodsTable" />
             <End Role="GoodsPhoto" EntitySet="GoodsPhoto" />
           </AssociationSet>
@@ -316,23 +318,23 @@
             <End Role="TypeTable" EntitySet="TypeTable" />
             <End Role="GoodsTable" EntitySet="GoodsTable" />
           </AssociationSet>
-          <AssociationSet Name="FK__NoticeTab__UserI__3A81B327" Association="Self.FK__NoticeTab__UserI__3A81B327">
+          <AssociationSet Name="FK__NoticeTab__UserI__3C69FB99" Association="Self.FK__NoticeTab__UserI__3C69FB99">
             <End Role="UserInfo" EntitySet="UserInfo" />
             <End Role="NoticeTable" EntitySet="NoticeTable" />
           </AssociationSet>
-          <AssociationSet Name="FK__OrderTabl__Goods__300424B4" Association="Self.FK__OrderTabl__Goods__300424B4">
+          <AssociationSet Name="FK__OrderTabl__Goods__31EC6D26" Association="Self.FK__OrderTabl__Goods__31EC6D26">
             <End Role="GoodsTable" EntitySet="GoodsTable" />
             <End Role="OrderTable" EntitySet="OrderTable" />
           </AssociationSet>
-          <AssociationSet Name="FK__OrderTabl__UserI__2F10007B" Association="Self.FK__OrderTabl__UserI__2F10007B">
+          <AssociationSet Name="FK__OrderTabl__UserI__30F848ED" Association="Self.FK__OrderTabl__UserI__30F848ED">
             <End Role="UserInfo" EntitySet="UserInfo" />
             <End Role="OrderTable" EntitySet="OrderTable" />
           </AssociationSet>
-          <AssociationSet Name="FK__ShoppingC__Goods__21B6055D" Association="Self.FK__ShoppingC__Goods__21B6055D">
+          <AssociationSet Name="FK__ShoppingC__Goods__22AA2996" Association="Self.FK__ShoppingC__Goods__22AA2996">
             <End Role="GoodsTable" EntitySet="GoodsTable" />
             <End Role="ShoppingCartTable" EntitySet="ShoppingCartTable" />
           </AssociationSet>
-          <AssociationSet Name="FK__ShoppingC__UserI__20C1E124" Association="Self.FK__ShoppingC__UserI__20C1E124">
+          <AssociationSet Name="FK__ShoppingC__UserI__21B6055D" Association="Self.FK__ShoppingC__UserI__21B6055D">
             <End Role="UserInfo" EntitySet="UserInfo" />
             <End Role="ShoppingCartTable" EntitySet="ShoppingCartTable" />
           </AssociationSet>
@@ -358,6 +360,7 @@
           <NavigationProperty Name="GoodsTable" Relationship="Self.FK__CommentTa__Goods__239E4DCF" FromRole="CommentTable" ToRole="GoodsTable" />
           <NavigationProperty Name="UserInfo" Relationship="LgShopDBModel.FK__CommentTa__UserI__239E4DCF" FromRole="CommentTable" ToRole="UserInfo" />
           <Property Name="Reportingnums" Type="Int32" />
+          <Property Name="IsTop" Type="Int32" />
         </EntityType>
         <EntityType Name="FeedbackTable">
           <Key>
@@ -399,6 +402,7 @@
           <NavigationProperty Name="ShoppingCartTable" Relationship="Self.FK__ShoppingC__Goods__1ED998B2" FromRole="GoodsTable" ToRole="ShoppingCartTable" />
           <NavigationProperty Name="CollectionTable" Relationship="LgShopDBModel.FK__Collectio__Goods__5DCAEF64" FromRole="GoodsTable" ToRole="CollectionTable" />
           <Property Name="IsDelte" Type="Int32" />
+          <Property Name="IsGet" Type="Int32" />
         </EntityType>
         <EntityType Name="OrderTable">
           <Key>
@@ -716,6 +720,7 @@
           <EntitySetMapping Name="CommentTable">
             <EntityTypeMapping TypeName="LgShopDBModel.CommentTable">
               <MappingFragment StoreEntitySet="CommentTable">
+                <ScalarProperty Name="IsTop" ColumnName="IsTop" />
                 <ScalarProperty Name="Reportingnums" ColumnName="Reportingnums" />
                 <ScalarProperty Name="CommentID" ColumnName="CommentID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
@@ -749,6 +754,7 @@
           <EntitySetMapping Name="GoodsTable">
             <EntityTypeMapping TypeName="LgShopDBModel.GoodsTable">
               <MappingFragment StoreEntitySet="GoodsTable">
+                <ScalarProperty Name="IsGet" ColumnName="IsGet" />
                 <ScalarProperty Name="IsDelte" ColumnName="IsDelte" />
                 <ScalarProperty Name="GoodsID" ColumnName="GoodsID" />
                 <ScalarProperty Name="GoodsName" ColumnName="GoodsName" />

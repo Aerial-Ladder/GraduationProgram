@@ -28,8 +28,15 @@ namespace DAL
         public static int DeleteNotice(int noticeid) {
             using (LgShopDBEntities db = new LgShopDBEntities())
             {
-                db.NoticeTable.Remove(db.NoticeTable.Find(noticeid));
-                return db.SaveChanges();
+                try
+                {
+                    db.NoticeTable.Remove(db.NoticeTable.Find(noticeid));
+                    return db.SaveChanges();
+                }
+                catch (Exception)
+                {
+                    return 0;
+                }
             }
         }
 
@@ -52,7 +59,32 @@ namespace DAL
         public static List<NoticeTable> SelectAllNotice() {
             using (LgShopDBEntities db = new LgShopDBEntities())
             {
-                return db.NoticeTable.ToList();
+                return db.NoticeTable.Include("UserInfo").ToList();
+            }
+        }
+
+        /// <summary>
+        /// 新增公告
+        /// </summary>
+        /// <param name="notice">公告对象</param>
+        /// <returns></returns>
+        public static int AddNotice(NoticeTable notice) {
+            using (LgShopDBEntities db = new LgShopDBEntities()) {
+                try
+                {
+                    if (notice.UserID == 0)
+                    {
+                        return db.Database.ExecuteSqlCommand($"insert into NoticeTable values(null,'{notice.NoticeTitle}','{notice.NoticeContent}','{DateTime.Now}',1)");
+                    }
+                    else
+                    {
+                        return db.Database.ExecuteSqlCommand($"insert into NoticeTable values({notice.UserID},'{notice.NoticeTitle}','{notice.NoticeContent}','{DateTime.Now}',0)");
+                    }
+                }
+                catch (Exception)
+                {
+                    return 0;
+                }
             }
         }
 

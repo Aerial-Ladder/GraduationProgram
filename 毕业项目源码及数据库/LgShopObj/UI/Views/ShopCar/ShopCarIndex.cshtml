@@ -45,7 +45,7 @@
                                 <td>
                                     <a class="table_a jian">-</a>
                                     <input type="text" class="table_txt1" value="@item.ShoppingNum" disabled="disabled" />
-                                    <a class="table_a add">+</a>
+                                    <a class="table_a add" data-kcnum="@item.GoodsTable.GoodsInventory">+</a>
                                 </td>
                                 <td><span class="samll_price">@string.Format("{0:C}", (item.GoodsTable.GoodsPrice * item.ShoppingNum))</span></td>
                                 <td>
@@ -113,11 +113,12 @@
                 }
             })
             $('.add').click(function () {
+                var kcnum = $(this).data('kcnum');
                 var values = $(this).siblings('input').val();
                 //单价
                 var price = $(this).parent('td').prev('td').children('span').text().replace(/,/g, "");
                 var num = parseFloat(price.substring(1, price.length + 1));
-                if (parseFloat(values) < 10) {
+                if (parseFloat(values) < 10 && parseFloat(values) < kcnum) {
                     $(this).siblings('input').val(parseFloat(values) + 1);
                     $(this).parent('td').next('td').children('span').html(ToMoney((parseFloat(values) + 1) * num, 2));
                     if ($(this).parent('td').prevAll('td').children('.check_one').is(':checked')) {

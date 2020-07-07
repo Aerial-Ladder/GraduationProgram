@@ -21,6 +21,7 @@ namespace DAL
             }
         }
 
+
         /// <summary>
         /// 查询第一分类的商品信息
         /// </summary>
@@ -32,6 +33,20 @@ namespace DAL
                 return db.Database.SqlQuery<GoodsTable>($"select * from GoodsTable where TID in(select TypeID from TypeTable where TID in (select TypeID from TypeTable where TID = (select TypeID from TypeTable where TypeID = {typeid}))) and IsDelte=0").ToList();
             }
         }
+
+        /// <summary>
+        /// 管理员查询第一分类的商品信息
+        /// </summary>
+        /// <param name="typeid">第一分类id</param>
+        /// <returns></returns>
+        public static List<GoodsTable> SelectType1GoodsAdmin(int typeid)
+        {
+            using (LgShopDBEntities db = new LgShopDBEntities())
+            {
+                return db.Database.SqlQuery<GoodsTable>($"select * from GoodsTable where TID in(select TypeID from TypeTable where TID in (select TypeID from TypeTable where TID = (select TypeID from TypeTable where TypeID = {typeid})))").ToList();
+            }
+        }
+
 
         /// <summary>
         /// 根据tid查找商品信息
@@ -92,7 +107,7 @@ namespace DAL
         public static int UpdateGoods(GoodsTable good) {
             using (LgShopDBEntities db = new LgShopDBEntities())
             {
-                return db.Database.ExecuteSqlCommand($"update GoodsTable set GoodsName='{good.GoodsName}',GoodsPrice={good.GoodsPrice},OldGoodsPrice={good.OldGoodsPrice},GoodsInventory={good.GoodsInventory},TID={good.TID},GoodsDescribe='{good.GoodsDescribe}' where GoodsID={good.GoodsID}");
+                return db.Database.ExecuteSqlCommand($"update GoodsTable set GoodsName='{good.GoodsName}',GoodsPrice={good.GoodsPrice},OldGoodsPrice={good.OldGoodsPrice},GoodsInventory={good.GoodsInventory},TID={good.TID},GoodsDescribe='{good.GoodsDescribe}',IsGet={good.IsGet} where GoodsID={good.GoodsID}");
             }
         }
 
@@ -131,11 +146,34 @@ namespace DAL
             using (LgShopDBEntities db = new LgShopDBEntities()) {
                 try
                 {
-                    return db.Database.ExecuteSqlCommand($"insert into GoodsTable values('{good.GoodsName}',{good.GoodsPrice},{good.OldGoodsPrice},{good.GoodsInventory},{good.TID},'{good.GoodsDescribe}',0,0,0)");
+                    //新增商品上架公告
+                    db.Database.ExecuteSqlCommand($"insert into NoticeTable values(null,'新商品上架公告','各位乐购商城用户你们好,新商品{good.GoodsName}于{DateTime.Now.ToLongDateString().ToString()}上架，期待您的购买！','{DateTime.Now}',1)");
+                    return db.Database.ExecuteSqlCommand($"insert into GoodsTable values('{good.GoodsName}',{good.GoodsPrice},{good.OldGoodsPrice},{good.GoodsInventory},{good.TID},'{good.GoodsDescribe}',0,0,0,0)");
                 }
                 catch (Exception)
                 {
                     return 0;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 查询推荐商品
+        /// </summary>
+        /// <param name="typeid">商品id</param>
+        /// <returns></returns>
+        public static List<GoodsTable> SelectGetGoods(int typeid) {
+            using (LgShopDBEntities db = new LgShopDBEntities()) {
+                try
+                {
+                    return db.Database.SqlQuery<GoodsTable>("select * from GoodsTable where TID in ("+
+                    "select TypeID from TypeTable where TID in ("+
+                    "select TypeID from TypeTable where TID = ("+
+                    $"select TypeID from TypeTable where TypeID = ( select TID from TypeTable where TypeID = (select TID from TypeTable where TypeID ={typeid} ))))) and IsGet = 1 and IsDelte=0").ToList();
+                }
+                catch (Exception)
+                {
+                    return null;
                 }
             }
         }

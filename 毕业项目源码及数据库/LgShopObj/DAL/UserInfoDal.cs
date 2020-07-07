@@ -147,7 +147,7 @@ namespace DAL
                 try
                 {
                     //新增用户充值成功的消息
-                    db.Database.ExecuteSqlCommand($"insert into NoticeTable values({userid},'余额充值成功提醒','尊敬的用户，您于{DateTime.Now}充值的金额{money}元已到账，请注意查收！','{DateTime.Now}',0)");
+                    db.Database.ExecuteSqlCommand($"insert into NoticeTable values({userid},'余额充值成功提醒','尊敬的用户，您于{DateTime.Now.ToLocalTime().ToString()}充值的金额{money}元已到账，请注意查收！','{DateTime.Now}',0)");
                     return db.Database.ExecuteSqlCommand($"update Userinfo set UserWallet+={money} where userid={userid}");
                 }
                 catch (Exception)

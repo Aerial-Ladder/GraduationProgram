@@ -54,5 +54,15 @@ namespace BLL
             return NoticeDal.SelectAllNotice();
         }
 
+        /// <summary>
+        /// 新增公告
+        /// </summary>
+        /// <param name="notice">公告对象</param>
+        /// <returns></returns>
+        public static bool AddNotice(NoticeTable notice)
+        {
+            return NoticeDal.AddNotice(notice)==1;
+        }
+
     }
 }

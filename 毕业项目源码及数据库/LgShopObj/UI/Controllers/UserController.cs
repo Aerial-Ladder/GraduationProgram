@@ -22,7 +22,15 @@ namespace UI.Controllers
             //获取所有图片
             Session["goodphotos"] = GoodsPhotoBll.SelectAllGoodsPhoto();
             //获得用户未查看的消息
-            ViewBag.nolook = NoticeBll.SelectUserNotice(Convert.ToInt32(Session["userid"])).Where(p=>p.IsLook==0).ToList();
+            try
+            {
+                ViewBag.nolook = NoticeBll.SelectUserNotice(Convert.ToInt32(Session["userid"])).Where(p => p.IsLook == 0).ToList();
+            }
+            catch (Exception)
+            {
+                ViewBag.nolook = null;
+            }
+
             return View(UserInfoBll.SelectUser(Convert.ToInt32(Session["userid"])));
         }
 
@@ -306,7 +314,8 @@ namespace UI.Controllers
         public JsonResult AddWallet(string Money)
         {
             //调用充值方法
-            if (UserInfoBll.UserAddWallet(Convert.ToDouble(Money), Convert.ToInt32(Session["userid"]))) {
+            if (UserInfoBll.UserAddWallet(Convert.ToDouble(Money), Convert.ToInt32(Session["userid"])))
+            {
                 return Json(1, JsonRequestBehavior.AllowGet);
             }
             return Json(0, JsonRequestBehavior.AllowGet);
@@ -316,9 +325,10 @@ namespace UI.Controllers
         /// 我的反馈分布视图
         /// </summary>
         /// <returns></returns>
-        public ActionResult MyFeedback() {
+        public ActionResult MyFeedback()
+        {
             List<FeedbackTable> list = FeedbackBll.SeleteUserFeedback(Convert.ToInt32(Session["userid"]));
-            return PartialView("MyFeedback",list);
+            return PartialView("MyFeedback", list);
         }
 
         [HttpPost]
@@ -327,7 +337,8 @@ namespace UI.Controllers
         /// </summary>
         /// <param name="FeedbackID">反馈id</param>
         /// <returns></returns>
-        public ActionResult FeedbackDel(int FeedbackID) {
+        public ActionResult FeedbackDel(int FeedbackID)
+        {
             //删除反馈记录
             if (FeedbackBll.UserFeedbackDal(FeedbackID))
             {
@@ -341,20 +352,26 @@ namespace UI.Controllers
         /// 我的收藏分布视图
         /// </summary>
         /// <returns></returns>
-        public ActionResult MyCollection() {
-            List<CollectionTable> list = CollectionBll.SelectUserCollection(Convert.ToInt32(Session["userid"])).Where(p=>p.IsCollection==1).ToList();
-            return PartialView("MyCollection",list);
+        public ActionResult MyCollection()
+        {
+            List<CollectionTable> list = CollectionBll.SelectUserCollection(Convert.ToInt32(Session["userid"])).Where(p => p.IsCollection == 1).ToList();
+            return PartialView("MyCollection", list);
         }
 
         /// <summary>
         /// 我的消息分布视图
         /// </summary>
         /// <returns></returns>
-        public ActionResult MyNotice() {
-            List<NoticeTable> list = NoticeBll.SelectUserNotice(Convert.ToInt32(Session["userid"])).OrderByDescending(p=>p.NoticeID).ToList();
+        public ActionResult MyNotice()
+        {
+            List<NoticeTable> list = NoticeBll.SelectUserNotice(Convert.ToInt32(Session["userid"]));
+            if (list != null && list.Count() > 0)
+            {
+                list = list.OrderByDescending(p => p.NoticeID).ToList();
+            }
             //修改用户未查看的消息为已经查看
             NoticeBll.UpdateUserNotice(Convert.ToInt32(Session["userid"]));
-            return PartialView("MyNotice",list);
+            return PartialView("MyNotice", list);
         }
 
         [HttpPost]
@@ -363,7 +380,8 @@ namespace UI.Controllers
         /// </summary>
         /// <param name="NoticeID">消息id</param>
         /// <returns></returns>
-        public JsonResult NoticeDel(string NoticeID) {
+        public JsonResult NoticeDel(string NoticeID)
+        {
             if (NoticeBll.DeleteNotice(Convert.ToInt32(NoticeID)))
             {
                 return Json(1, JsonRequestBehavior.AllowGet);

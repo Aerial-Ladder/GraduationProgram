@@ -35,7 +35,7 @@ namespace UI.Controllers
             {
                 Session["carcount"] = ShopingCarBll.SelectAllShopCar(Convert.ToInt32(Session["userid"])).Count();
             }
-            return View(GoodsBll.SelectAllGoods());
+            return View(GoodsBll.SelectAllGoods().Where(p=>p.IsDelte==0).ToList());
         }
 
         /// <summary>

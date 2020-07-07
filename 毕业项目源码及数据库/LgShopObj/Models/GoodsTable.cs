@@ -34,6 +34,7 @@ namespace Models
         public Nullable<int> GoodsStar { get; set; }
         public Nullable<int> GoodsHot { get; set; }
         public Nullable<int> IsDelte { get; set; }
+        public Nullable<int> IsGet { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CommentTable> CommentTable { get; set; }

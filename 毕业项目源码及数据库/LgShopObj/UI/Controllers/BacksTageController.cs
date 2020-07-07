@@ -255,7 +255,7 @@ namespace UI.Controllers
             else
             {
                 //查询第一大类的商品
-                list = GoodsBll.SelectType1Goods(typeid).Where(p => p.GoodsName.Contains(text)).ToList();
+                list = GoodsBll.SelectType1GoodsAdmin(typeid).Where(p => p.GoodsName.Contains(text)).ToList();
                 //查询所有分类
                 List<TypeTable> typelist = TypeTableBll.SelectAllType();
                 //防止错误赋值给typetable导航属性

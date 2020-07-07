@@ -88,14 +88,19 @@
     }
 
     .Collection_null {
-        width: 100%;
+        width: auto;
         height: 60px;
-        color: gainsboro;
         text-align: center;
+        font-size: 1.6em;
+        color: grey;
         line-height: 60px;
-        font-size: 1.4em;
-        margin-top: 60px;
+        margin-top: 100px;
     }
+
+        .Collection_null:before {
+            font-family: Glyphicons;
+            content: "\f3ab";
+        }
 
     .div3 {
         width: 100px;
@@ -133,7 +138,7 @@
     }
     else
     {
-        <div class="Collection_null">您暂无收藏！</div>
+        <div class="Collection_null">&nbsp;您暂无收藏！</div>
     }
 }
 

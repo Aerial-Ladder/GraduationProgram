@@ -4,6 +4,7 @@
     <EntitySetMapping Name="CommentTable">
       <EntityTypeMapping TypeName="LgShopDBModel.CommentTable">
         <MappingFragment StoreEntitySet="CommentTable">
+          <ScalarProperty Name="IsTop" ColumnName="IsTop" />
           <ScalarProperty Name="Reportingnums" ColumnName="Reportingnums" />
           <ScalarProperty Name="CommentID" ColumnName="CommentID" />
           <ScalarProperty Name="UserID" ColumnName="UserID" />
@@ -37,6 +38,7 @@
     <EntitySetMapping Name="GoodsTable">
       <EntityTypeMapping TypeName="LgShopDBModel.GoodsTable">
         <MappingFragment StoreEntitySet="GoodsTable">
+          <ScalarProperty Name="IsGet" ColumnName="IsGet" />
           <ScalarProperty Name="IsDelte" ColumnName="IsDelte" />
           <ScalarProperty Name="GoodsID" ColumnName="GoodsID" />
           <ScalarProperty Name="GoodsName" ColumnName="GoodsName" />

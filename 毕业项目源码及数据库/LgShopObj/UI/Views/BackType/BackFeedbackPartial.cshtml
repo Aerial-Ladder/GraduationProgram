@@ -111,7 +111,7 @@
                         else
                         {
                             <li class="page-item">
-                                @Ajax.ActionLink("上一页", "BackFeedbackPartial", "BackType", new { pageindex = pageindex - 1 }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackFeedback", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                @Ajax.ActionLink("上一页", "BackFeedbackPartial", "BackType", new { pageindex = pageindex - 1,IsDealwith=index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackFeedback", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
                             </li>
                         }
                     }
@@ -124,13 +124,13 @@
                                 if (i == pageindex)
                                 {
                                     <li class="page-item active">
-                                        @Ajax.ActionLink(i.ToString(), "BackFeedbackPartial", "BackType", new { pageindex = i }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackFeedback", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                        @Ajax.ActionLink(i.ToString(), "BackFeedbackPartial", "BackType", new { pageindex = i,IsDealwith=index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackFeedback", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
                                     </li>
                                 }
                                 else if (i <= count)
                                 {
                                     <li class="page-item">
-                                        @Ajax.ActionLink(i.ToString(), "BackFeedbackPartial", "BackType", new { pageindex = i }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackFeedback", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                        @Ajax.ActionLink(i.ToString(), "BackFeedbackPartial", "BackType", new { pageindex = i,IsDealwith=index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackFeedback", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
                                     </li>
                                 }
                             }
@@ -142,13 +142,13 @@
                                 if (i == pageindex)
                                 {
                                     <li class="page-item active">
-                                        @Ajax.ActionLink(i.ToString(), "BackFeedbackPartial", "BackType", new { pageindex = i }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackFeedback", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                        @Ajax.ActionLink(i.ToString(), "BackFeedbackPartial", "BackType", new { pageindex = i,IsDealwith=index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackFeedback", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
                                     </li>
                                 }
                                 else if (i > 0 && i <= count)
                                 {
                                     <li class="page-item">
-                                        @Ajax.ActionLink(i.ToString(), "BackFeedbackPartial", "BackType", new { pageindex = i }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackFeedback", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                        @Ajax.ActionLink(i.ToString(), "BackFeedbackPartial", "BackType", new { pageindex = i,IsDealwith=index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackFeedback", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
                                     </li>
                                 }
                             }
@@ -160,13 +160,13 @@
                                 if (i == count)
                                 {
                                     <li class="page-item active">
-                                        @Ajax.ActionLink(i.ToString(), "BackFeedbackPartial", "BackType", new { pageindex = i }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackFeedback", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                        @Ajax.ActionLink(i.ToString(), "BackFeedbackPartial", "BackType", new { pageindex = i,IsDealwith=index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackFeedback", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
                                     </li>
                                 }
                                 else if (i > 0)
                                 {
                                     <li class="page-item">
-                                        @Ajax.ActionLink(i.ToString(), "BackFeedbackPartial", "BackType", new { pageindex = i }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackFeedback", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                        @Ajax.ActionLink(i.ToString(), "BackFeedbackPartial", "BackType", new { pageindex = i,IsDealwith=index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackFeedback", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
                                     </li>
                                 }
                             }
@@ -182,7 +182,7 @@
                         else
                         {
                             <li class="page-item">
-                                @Ajax.ActionLink("下一页", "BackFeedbackPartial", "BackType", new { pageindex = pageindex + 1 }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackFeedback", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                @Ajax.ActionLink("下一页", "BackFeedbackPartial", "BackType", new { pageindex = pageindex + 1,IsDealwith=index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackFeedback", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
                             </li>
                         }
                     }
@@ -243,7 +243,7 @@
                             alert('处理失败！');
                         } else {
                             alert('处理成功！');
-                            location.reload();
+                            $('.btn-select')[0].click();
                         }
                     },
                     error: function () {

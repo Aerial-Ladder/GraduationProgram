@@ -50,6 +50,7 @@
                         <th>星级</th>
                         <th>销量</th>
                         <th>商品状态</th>
+                        <th>是否推荐</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -76,10 +77,20 @@
                                     <td style="color:red;">停售</td>
                                 }
                             }
+                            @{
+                                if (item.IsGet == 0)
+                                {
+                                    <td>未推荐</td>
+                                }
+                                else
+                                {
+                                    <td style="color:green;">已推荐</td>
+                                }
+                            }
                             <td>
                                 <a href="#" data-toggle="modal" data-target="#GoodsDesc" data-whatever="@item.GoodsID" class="btn btn-outline-primary">详情</a>
                                 <a href="#" data-toggle="modal" data-target="#GoodsUpdate" data-whatever="@item.GoodsID" class="btn btn-outline-success">修改</a>
-                                <a href="#" class="btn btn-outline-danger goods-del">@(item.IsDelte==0?"停售":"出售")</a>
+                                <a href="#" class="btn btn-outline-danger goods-del">@(item.IsDelte == 0 ? "停售" : "出售")</a>
                             </td>
                         </tr>
                     }
@@ -253,6 +264,13 @@
                                 @*分类下拉框*@
                             </select>
                         </li>
+                        <li>
+                            <label for="IsGet">是否推荐:</label>
+                            <select name="IsGet" class="form-control GetSelect">
+                                <option value="0">不推荐</option>
+                                <option value="1">推荐</option>
+                            </select>
+                        </li>
                         <li><label for="GoodsDescribe">描述：</label><br /><textarea class="GoodsDescribe" name="GoodsDescribe" style="min-height:60px;min-width:360px;" placeholder="请输入商品描述"></textarea></li>
                         <li><span class="goodsupdate-but">保&nbsp;&nbsp;存</span></li>
                     </ul>
@@ -340,6 +358,7 @@
                             }
                             $('.TypeSelect').append(option);
                         }
+                        modal.find('.GetSelect option:eq(' + data_1.IsGet + ')').attr('selected', true);
                     }
                 },
                 error: function () {

@@ -13,6 +13,7 @@
     <NavigationProperty Name="GoodsTable" Relationship="Self.FK__CommentTa__Goods__239E4DCF" FromRole="CommentTable" ToRole="GoodsTable" />
     <NavigationProperty Name="UserInfo" Relationship="LgShopDBModel.FK__CommentTa__UserI__239E4DCF" FromRole="CommentTable" ToRole="UserInfo" />
     <Property Name="Reportingnums" Type="Int32" />
+    <Property Name="IsTop" Type="Int32" />
   </EntityType>
   <EntityType Name="FeedbackTable">
     <Key>
@@ -54,6 +55,7 @@
     <NavigationProperty Name="ShoppingCartTable" Relationship="Self.FK__ShoppingC__Goods__1ED998B2" FromRole="GoodsTable" ToRole="ShoppingCartTable" />
     <NavigationProperty Name="CollectionTable" Relationship="LgShopDBModel.FK__Collectio__Goods__5DCAEF64" FromRole="GoodsTable" ToRole="CollectionTable" />
     <Property Name="IsDelte" Type="Int32" />
+    <Property Name="IsGet" Type="Int32" />
   </EntityType>
   <EntityType Name="OrderTable">
     <Key>

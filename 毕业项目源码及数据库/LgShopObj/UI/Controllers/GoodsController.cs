@@ -36,7 +36,7 @@ namespace UI.Controllers
                 Session["Goods_typeid_2"] = GoodsBll.SelectType1Goods(typeid_2??0);
             }
             else {
-                Session["Goods"] = GoodsBll.SelectAllGoods().Where(p=>p.GoodsName.Contains(txt)).OrderBy(p => p.GoodsHot).ToList();
+                Session["Goods"] = GoodsBll.SelectAllGoods().Where(p=>p.GoodsName.Contains(txt)&&p.IsDelte==0).OrderBy(p => p.GoodsHot).ToList();
             }
             return View();
         }
@@ -48,7 +48,7 @@ namespace UI.Controllers
         /// <returns></returns>
         public ActionResult Show(int? pageindex) {
             ViewBag.GoodsPhoto = GoodsPhotoBll.SelectAllGoodsPhoto();
-            List<GoodsTable> list = GoodsBll.SelectAllGoods();
+            List<GoodsTable> list = GoodsBll.SelectAllGoods().Where(p=>p.IsDelte==0).ToList();
             ViewBag.count =Math.Ceiling(list.Count() / 12.0);
             ViewBag.pageindex = pageindex;
             return PartialView("Show",list.Skip(((pageindex??1) - 1) * 12).Take(12).ToList());
@@ -119,8 +119,8 @@ namespace UI.Controllers
         {
             //商品图片
             ViewBag.GoodsPhoto = GoodsPhotoBll.SelectAllGoodsPhoto().Where(p=>p.GoodsID==goodsid).ToList();
-            //商品的所有评价
-            List<CommentTable> list = CommentBll.SelectGoodsComment(goodsid);
+            //商品的所有评价(置顶排序)
+            List<CommentTable> list = CommentBll.SelectGoodsComment(goodsid).OrderByDescending(p=>p.IsTop).ToList();
             Session["GoodsComment"] = list;
             //用户是否收藏商品
             ViewBag.iscollection = CollectionBll.SelectOneCollection(Convert.ToInt32(Session["userid"]), goodsid);
@@ -129,7 +129,12 @@ namespace UI.Controllers
             {
                 Session["carcount"] = ShopingCarBll.SelectAllShopCar(Convert.ToInt32(Session["userid"])).Count();
             }
-            return View(GoodsBll.SelectGoodsIdGoods(goodsid));
+            //获取到的该商品的信息
+            GoodsTable good = GoodsBll.SelectGoodsIdGoods(goodsid);
+            //相关商品的推荐(5条)
+            ViewBag.GetGoods = GoodsBll.SelectGetGoods(good.TID??0).Where(p=>p.GoodsID!=good.GoodsID).OrderBy(p=>Guid.NewGuid()).ToList().Take(5);
+            Session["GoodsPhoto"] = GoodsPhotoBll.SelectAllGoodsPhoto();
+            return View(good);
         }
 
         /// <summary>
