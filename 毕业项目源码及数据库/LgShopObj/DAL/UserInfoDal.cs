@@ -187,5 +187,23 @@ namespace DAL
             }
         }
 
+        /// <summary>
+        /// 查询指定账号
+        /// </summary>
+        /// <param name="useraccount">账号</param>
+        /// <returns></returns>
+        public static UserInfo SelectUserAccount(string useraccount) {
+            using (LgShopDBEntities db = new LgShopDBEntities()) {
+                try
+                {
+                    return db.UserInfo.Single(p => p.UserAccount == useraccount);
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+        }
+
     }
 }

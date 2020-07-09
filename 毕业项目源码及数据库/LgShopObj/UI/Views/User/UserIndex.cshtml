@@ -52,6 +52,10 @@
                 {
                     <span class="span_Tips">@nolookList.Count()</span>
                 }
+                else
+                {
+                    <span class="span_Tips" style="display:none;">0</span>
+                }
             }
 
         </div>
@@ -124,6 +128,8 @@
 
 @section scripts{
     <script type="text/javascript">
+        //隐藏未查看的消息提示
+        //$('.span_Tips').hide();
         //模态框关闭点击事件
         $('.close').click(function () {
             $('.ReceivingAddress').show();

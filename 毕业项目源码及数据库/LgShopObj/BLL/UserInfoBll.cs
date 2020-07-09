@@ -119,5 +119,21 @@ namespace BLL
             return UserInfoDal.UserDelete(userid) == 1;
         }
 
+        /// <summary>
+        /// 查询指定账号
+        /// </summary>
+        /// <param name="useraccount">账号</param>
+        /// <returns></returns>
+        public static bool SelectUserAccount(string useraccount)
+        {
+            if (UserInfoDal.SelectUserAccount(useraccount) == null)
+            {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
     }
 }

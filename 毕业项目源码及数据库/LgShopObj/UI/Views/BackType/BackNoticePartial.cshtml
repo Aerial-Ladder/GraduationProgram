@@ -63,10 +63,12 @@
                     </tr>
                 </thead>
                 @{
+                    int num=0;
                     foreach (var item in list)
                     {
                         <tr class="tr_content bg-light">
-                            <td>@item.NoticeID</td>
+                            <td style="display:none">@item.NoticeID</td>
+                            <td>@(++num)</td>
                             @{
                                 if (item.UserID == null)
                                 {

@@ -90,7 +90,7 @@
                             <td>
                                 <a href="#" data-toggle="modal" data-target="#GoodsDesc" data-whatever="@item.GoodsID" class="btn btn-outline-primary">详情</a>
                                 <a href="#" data-toggle="modal" data-target="#GoodsUpdate" data-whatever="@item.GoodsID" class="btn btn-outline-success">修改</a>
-                                <a href="#" class="btn btn-outline-danger goods-del">@(item.IsDelte == 0 ? "停售" : "出售")</a>
+                                <a href="#" data-gid="@item.GoodsID" class="btn btn-outline-danger goods-del">@(item.IsDelte == 0 ? "停售" : "出售")</a>
                             </td>
                         </tr>
                     }
@@ -467,13 +467,14 @@
                 }
             })
             }
+            return false;
         })
 
         //商品停售或出售点击事件
         $('.goods-del').click(function () {
-            if (confirm('您确定要' + $(this).html() + '该商品吗?'))
-            //获取商品id
-            var goodsid = $(this).parent().parent().children(':eq(0)').text();
+            if (confirm('您确定要' + $(this).html() + '该商品吗?')) {
+                //获取商品id
+                var goodsid = $(this).data('gid');
             $.post({
                 url: "@Url.Action("GoodsDel","BacksTage")",
                 data: { GoodsID: goodsid },
@@ -489,6 +490,7 @@
                     alert('出现错误！');
                 }
             })
+            }
         })
 
 

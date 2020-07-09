@@ -11,7 +11,7 @@ namespace UI.Controllers
 {
     public class BackTypeController : Controller
     {
-        //[Admin]
+        [Admin]
         // GET: BackType
         public ActionResult BackTypeIndex()
         {

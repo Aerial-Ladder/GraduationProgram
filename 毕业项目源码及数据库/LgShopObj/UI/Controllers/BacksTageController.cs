@@ -14,7 +14,7 @@ using System.Web.Script.Serialization;
 
 namespace UI.Controllers
 {
-    //[Admin]
+    [Admin]
     public class BacksTageController : Controller
     {
         // GET: BacksTage
@@ -346,7 +346,6 @@ namespace UI.Controllers
             return Json(GoodsPhotoBll.GoodsPhotoDel(Convert.ToInt32(RID)), JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
         /// <summary>
         /// 商品出售或停售
         /// </summary>

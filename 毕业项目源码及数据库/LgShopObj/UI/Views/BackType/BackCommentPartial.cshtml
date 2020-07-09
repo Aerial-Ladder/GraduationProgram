@@ -11,6 +11,7 @@
         count = Convert.ToDouble(Session["plpagecount"]);
         plcount = Convert.ToInt32(Session["plcount"]);
     }
+    int num=0;
 }
 <link href="~/Content/BackstageCss/BackComment.css" rel="stylesheet" />
 
@@ -64,7 +65,8 @@
                     foreach (var item in list)
                     {
                         <tr class="tr_content bg-light">
-                            <td>@item.CommentID</td>
+                            <td style="display:none;">@item.CommentID</td>
+                            <td>@(++num)</td>
                             <td><img src="~/Content/Images/@item.UserInfo.UserPhoto" width="40" height="40" /></td>
                             <td>@item.UserInfo.UserName</td>
                             <td>@item.UserInfo.UserAccount</td>

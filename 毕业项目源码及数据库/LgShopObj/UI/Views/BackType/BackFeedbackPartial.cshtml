@@ -48,10 +48,12 @@
                     </tr>
                 </thead>
                 @{
+                    int num=0;
                     foreach (var item in list)
                     {
                         <tr class="tr_content bg-light">
-                            <td>@item.FeedbackID</td>
+                            <td style="display:none;">@item.FeedbackID</td>
+                            <td>@(++num)</td>
                             <td><img src="~/Content/Images/@item.UserInfo.UserPhoto" width="40" height="40" /></td>
                             <td>@item.UserInfo.UserName</td>
                             <td>@item.UserInfo.UserAccount</td>

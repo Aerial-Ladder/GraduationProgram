@@ -1,5 +1,5 @@
 ﻿@using Models;
-@{ 
+@{
     UserInfo user = Session["user"] as UserInfo;
     int count = Convert.ToInt32(Session["carcount"]);
 }
@@ -44,7 +44,7 @@
                 </div>
             </li>
             <li class="grid-cell-1"><a href="/Notice/NoticeIndex">公告</a></li>
-            <li class="grid-cell-1"><a href="#">订单</a></li>
+            <li class="grid-cell-1"><a href="#">关于</a></li>
         </ul>
         <div class="col-3 header-searc">
             <input type="text" class="header-text" placeholder=" 搜 索" />
@@ -287,8 +287,25 @@
                     $('.erro:eq(2)').html('').hide(500);
                 }
             }
-            $('.reg').removeClass('is-show');
-            $('#Reg_2').addClass('is-show');
+            //判断
+            $.post({
+                url: "@Url.Action("SelectAccount","Home")",
+                data: { UserAccount: userphont },
+                success: function (data) {
+                    if (data == 0) {
+                        $('.erro:eq(1)').html('该手机号已有用户使用！').show(500);
+                    }
+                    else {
+                        $('.erro:eq(1)').html('').hide(500);
+                        $('.reg').removeClass('is-show');
+                        $('#Reg_2').addClass('is-show');
+                    }
+                },
+                error: function () {
+                    alert('出现错误！');
+                }
+            })
+
         })
 
         $('.goto3').click(function () {

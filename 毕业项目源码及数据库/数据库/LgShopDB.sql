@@ -1,10 +1,10 @@
+
 use master
 go
 if exists(select * from SysObjects where name='LgShopDB')
 drop database LgShopDB
 go
 create database LgShopDB
-
 on primary(
 name='LgShopDB',
 filename='E:\201817380102郑靖\2020卓越项目\毕业项目源码及数据库\数据库\LgShopDB.mdf',

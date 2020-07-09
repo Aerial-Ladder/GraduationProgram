@@ -35,7 +35,7 @@ namespace UI.Controllers
             {
                 Session["carcount"] = ShopingCarBll.SelectAllShopCar(Convert.ToInt32(Session["userid"])).Count();
             }
-            return View(GoodsBll.SelectAllGoods().Where(p=>p.IsDelte==0).ToList());
+            return View(GoodsBll.SelectAllGoods().Where(p => p.IsDelte == 0).ToList());
         }
 
         /// <summary>
@@ -194,7 +194,7 @@ namespace UI.Controllers
         public JsonResult UpdatePwd_1(string UserAccount, string UserEmail)
         {
             UserInfo user = UserInfoBll.UpdatePwd_1(UserAccount, UserEmail);
-            if (user!=null)
+            if (user != null)
             {
                 Session["userid"] = user.UserID;
                 return Json(1, JsonRequestBehavior.AllowGet);
@@ -216,7 +216,8 @@ namespace UI.Controllers
                 {
                     return Json(1, JsonRequestBehavior.AllowGet);
                 }
-                else {
+                else
+                {
                     return Json(0, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -232,7 +233,8 @@ namespace UI.Controllers
         /// <param name="UserPwd">用户密码</param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult UpdatePwd_3(string UserPwd) {
+        public JsonResult UpdatePwd_3(string UserPwd)
+        {
             if (UserInfoBll.UpdateUserPwd_2(UserPwd, Session["userid"].ToString()))
             {
                 return Json(1, JsonRequestBehavior.AllowGet);
@@ -244,13 +246,24 @@ namespace UI.Controllers
         /// 转到管理员界面
         /// </summary>
         /// <returns></returns>
-        public ActionResult GoAdmin(string a="") {
+        public ActionResult GoAdmin(string a = "")
+        {
             if (a == "admin")
             {
                 Session["admin"] = "admin";
                 return RedirectToAction("Index", "BacksTage");
             }
             return RedirectToAction("Index", "Home");
+        }
+
+        public JsonResult SelectAccount(string UserAccount)
+        {
+            if (UserInfoBll.SelectUserAccount(UserAccount))
+            {
+                //可以正确注册
+                return Json(1, JsonRequestBehavior.AllowGet);
+            }
+            return Json(0, JsonRequestBehavior.AllowGet);
         }
 
     }

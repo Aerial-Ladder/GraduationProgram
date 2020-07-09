@@ -352,7 +352,10 @@
                         }
                         else {
                             $('.close').click();
-                            //我的评价点击
+                            var num = $('.span_Tips').html();
+                            num = parseInt(num) + 1;
+                            $('.span_Tips').html(num).show();
+                            //我的账户点击
                             $('.top_a:eq(2)')[0].click();
                         }
                     },

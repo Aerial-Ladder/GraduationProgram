@@ -237,7 +237,7 @@
                         data: { TypeID: typeid },
                         success: function (data) {
                             if (data == 0) {
-                                alert('该分类存在商品，无法删除！');
+                                alert('该分类存在商品或者子分类，无法删除！');
                             }
                             else {
                                 alert('删除成功！');

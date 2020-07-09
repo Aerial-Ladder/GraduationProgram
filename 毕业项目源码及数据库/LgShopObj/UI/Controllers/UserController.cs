@@ -41,6 +41,7 @@ namespace UI.Controllers
         public ActionResult UserOut()
         {
             Session.Remove("user");
+            Session.Remove("userid");
             return RedirectToAction("Index", "Home");
         }
 

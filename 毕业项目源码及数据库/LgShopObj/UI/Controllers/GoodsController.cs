@@ -131,8 +131,8 @@ namespace UI.Controllers
             }
             //获取到的该商品的信息
             GoodsTable good = GoodsBll.SelectGoodsIdGoods(goodsid);
-            //相关商品的推荐(5条)
-            ViewBag.GetGoods = GoodsBll.SelectGetGoods(good.TID??0).Where(p=>p.GoodsID!=good.GoodsID).OrderBy(p=>Guid.NewGuid()).ToList().Take(5);
+            //相关商品的推荐(3条)
+            ViewBag.GetGoods = GoodsBll.SelectGetGoods(good.TID??0).Where(p=>p.GoodsID!=good.GoodsID).OrderBy(p=>Guid.NewGuid()).Take(3).ToList();
             Session["GoodsPhoto"] = GoodsPhotoBll.SelectAllGoodsPhoto();
             return View(good);
         }

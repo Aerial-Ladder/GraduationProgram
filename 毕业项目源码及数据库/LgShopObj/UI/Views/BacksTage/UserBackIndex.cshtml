@@ -47,10 +47,12 @@
                     </tr>
                 </thead>
                 @{
+                    int index = 0;
                     foreach (var item in list)
                     {
                         <tr class="tr_content bg-light">
-                            <td>@item.UserID</td>
+                            <td style="display:none;">@item.UserID</td>
+                            <td>@(++index)</td>
                             <td><img src="~/Content/Images/@item.UserPhoto" width="40" height="40" /></td>
                             <td>@item.UserName</td>
                             <td>@item.UserAccount</td>
@@ -239,9 +241,9 @@
                             <input class="UserPhoto" name="UserPhoto" type="file" />
                         </li>
                         <li><label for="UserName">用户名：</label><input class="txt UserName" name="UserName" type="text" /><br /><span class="update-erro"></span></li>
-                        <li><label for="UserPhont">手机号：</label><input class="txt UserPhont" name="UserPhont" type="text" /><span class="update-erro"></span></li>
-                        <li><label for="UserCard">身份证号：</label><input class="txt UserCard" name="UserCard" type="text" /><span class="update-erro"></span></li>
-                        <li><label for="UserEmail">邮箱：</label><input class="txt UserEmail" name="UserEmail" type="text" /><span class="update-erro"></span></li>
+                        <li><label for="UserPhont">手机号：</label><input class="txt UserPhont" name="UserPhont" type="text" /><br /><span class="update-erro"></span></li>
+                        <li><label for="UserCard">身份证号：</label><input class="txt UserCard" name="UserCard" type="text" /><br /><span class="update-erro"></span></li>
+                        <li><label for="UserEmail">邮箱：</label><input class="txt UserEmail" name="UserEmail" type="text" /><br /><span class="update-erro"></span></li>
                         <li><span class="update-but">保&nbsp;&nbsp;存</span></li>
                     </ul>
                 }

@@ -68,7 +68,7 @@
             </li>
             <li>
                 <div class="Ddiv2_ul--div3">
-                    购买数量:&nbsp;&nbsp;<button class="jian">-</button><input class="input_num" disabled="disabled" type="text" value="1" /><button class="add">+</button>&nbsp;&nbsp;(当前库存：<span class="span-red">@Model.GoodsInventory</span>&nbsp;件)
+                    购买数量:&nbsp;&nbsp;<button class="jian">-</button><input class="input_num" disabled="disabled" type="text" value="1" /><button class="add" data-kcnum="@Model.GoodsInventory">+</button>&nbsp;&nbsp;(当前库存：<span class="span-red">@Model.GoodsInventory</span>&nbsp;件)
                     <div class="like">
                         @{
                             if (iscollection)
@@ -233,7 +233,8 @@
             })
             $('.add').click(function () {
                 var values = $('.input_num').val();
-                if (parseInt(values) < 10) {
+                var kcnum = $(this).data('kcnum');
+                if (parseInt(values) < 10 && parseInt(values) < kcnum) {
                     $('.input_num').val(parseInt(values)+1);
                 }
             })

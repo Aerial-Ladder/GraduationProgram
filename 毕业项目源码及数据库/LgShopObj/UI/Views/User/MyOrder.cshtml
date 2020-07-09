@@ -270,24 +270,40 @@
         }
 </style>
 
+
+
+<div class="MyOrder-top">
+    <span class="top_left">
+        &nbsp;订单数量(
+        @{
+            if (orderList != null && orderList.Count() > 0)
+            {
+                @orderList.Count()
+            }
+            else
+            {
+                @:0
+            }
+        }
+        )
+    </span>
+    <div class="top_right">
+        <select class="top_select form-control">
+            <option value="0" selected="@(index==0)">全部商品</option>
+            <option value="1" selected="@(index==1)">按时间排序</option>
+            <option value="2" selected="@(index==2)">按价格排序</option>
+            <option value="3" selected="@(index==3)">未收货商品</option>
+            <option value="4" selected="@(index==4)">未评价商品</option>
+            <option value="5" selected="@(index==5)">已收货商品</option>
+            <option value="6" selected="@(index==6)">已评价商品</option>
+        </select>
+        @Ajax.ActionLink("查找", "MyOrder", "User", new { }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "UserDiv", InsertionMode = InsertionMode.Replace }, new { @class = "select_a" })
+    </div>
+</div>
+
 @{
     if (orderList != null && orderList.Count() > 0)
     {
-        <div class="MyOrder-top">
-            <span class="top_left">&nbsp;订单数量(@orderList.Count())</span>
-            <div class="top_right">
-                <select class="top_select form-control">
-                    <option value="0" selected="@(index==0)">全部商品</option>
-                    <option value="1" selected="@(index==1)">按时间排序</option>
-                    <option value="2" selected="@(index==2)">按价格排序</option>
-                    <option value="3" selected="@(index==3)">未收货商品</option>
-                    <option value="4" selected="@(index==4)">未评价商品</option>
-                    <option value="5" selected="@(index==5)">已收货商品</option>
-                    <option value="6" selected="@(index==6)">已评价商品</option>
-                </select>
-                @Ajax.ActionLink("查找", "MyOrder", "User", new { }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "UserDiv", InsertionMode = InsertionMode.Replace }, new { @class = "select_a" })
-            </div>
-        </div>
         foreach (var item in orderList)
         {
             <div class="MyOrder-div">
