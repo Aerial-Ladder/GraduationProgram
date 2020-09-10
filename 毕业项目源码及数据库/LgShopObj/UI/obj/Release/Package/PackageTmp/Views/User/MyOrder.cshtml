@@ -1,0 +1,548 @@
+﻿@using Models
+@{
+    List<OrderTable> orderList = Session["userorder"] as List<OrderTable>;
+    List<GoodsPhoto> GoodsPhoto = Session["goodphotos"] as List<GoodsPhoto>;
+    int index = ViewBag.index ?? 0;
+}
+<style>
+    .MyOrder-div {
+        width: 90%;
+        height: 120px;
+        border-radius: 0px;
+        border: 1px solid gray;
+        margin: 30px auto;
+        transition: all 0.4s;
+        position: relative;
+    }
+
+        .MyOrder-div:hover {
+            border: 1px solid orange;
+            border-radius: 5px;
+            transition: all 0.4s;
+        }
+
+        .MyOrder-div div {
+            float: left;
+        }
+
+    .div_1 {
+        width: 100px;
+        height: 100px;
+        margin: 10px 20px;
+    }
+
+    .div_2 {
+        width: 230px;
+        height: 100%;
+    }
+
+    .div_1 img {
+        border: 1px solid gainsboro;
+        width: 100%;
+        height: 100%;
+    }
+
+    .goodsspan_1 {
+        overflow: hidden;
+        display: inline-block;
+        height: 25px;
+        font-weight: bold;
+        font-size: 1.1em;
+        margin-top: 20px;
+    }
+
+    .goodsspan_2 {
+        display: inline-block;
+        height: auto;
+        max-height: 60px;
+        font-size: 0.8em;
+        color: lightgray;
+        overflow: hidden;
+    }
+
+    .div_3 {
+        width: 210px;
+        height: 100%;
+        margin-left: 40px;
+        text-align: left;
+    }
+
+    .goodsspan_3 {
+        margin-top: 30px;
+        width: 100%;
+        display: inline-block;
+        color: gray;
+    }
+
+    .goodsspan_4 {
+        width: 100%;
+        display: inline-block;
+        color: gray;
+    }
+
+    .div_4 {
+        width: auto;
+        height: 100%;
+        margin-left: 30px;
+        line-height: 120px;
+    }
+
+    .goodsspan_5 {
+        color: orange;
+        font-size: 1.5em;
+        font-weight: bold;
+    }
+
+    .div_5 {
+        width: 200px;
+        height: 100%;
+        float: right !important;
+        text-align: center;
+    }
+
+        .div_5 a {
+            display: inline-block;
+        }
+
+    .div5_a1 {
+        margin: 15px 0px;
+    }
+
+    .del_a {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        color: red;
+        text-align: center;
+        font-size: 2em;
+        transition: all 0.4s;
+        line-height: 40px !important;
+        position: absolute;
+        top: -10px;
+        right: -10px;
+    }
+
+        .del_a:hover {
+            transform: scale(1.1,1.1);
+            color: red;
+            text-decoration: none;
+            transition: all 0.4s;
+        }
+
+        .del_a:before {
+            font-family: Glyphicons;
+            content: "\f2d7";
+        }
+
+    .border-gray {
+        border: 1px solid gray;
+    }
+
+    .order_null {
+        width: auto;
+        height: 60px;
+        text-align: center;
+        font-size: 1.6em;
+        color: grey;
+        line-height: 60px;
+        margin-top: 100px;
+    }
+
+        .order_null:before {
+            font-family: Glyphicons;
+            content: "\f3ab";
+        }
+
+    .MyOrder-top {
+        width: 100%;
+        height: 40px;
+        margin-top: 10px;
+        padding: 0px 30px;
+        line-height: 40px;
+    }
+
+    .top_left {
+        display: inline-block;
+        float: left;
+    }
+
+        .top_left:before {
+            font-family: Glyphicons;
+            content: "\f127";
+        }
+
+    .top_right {
+        float: right;
+        width: 200px;
+        height: 100%;
+        margin-right: 30px;
+    }
+
+    .ion-android-create:before {
+        font-family: Glyphicons;
+        content: "\f37e";
+    }
+
+    .goodsinfo {
+        width: 90%;
+        margin: 0px auto;
+        height: 80px;
+        border: 1px solid gray;
+    }
+
+    .goods_left {
+        width: 60px;
+        height: 60px;
+        float: left;
+        margin: 10px;
+        border: 1px solid gainsboro;
+    }
+
+        .goods_left img {
+            width: 100%;
+            height: 100%;
+        }
+
+    .goods_right {
+        width: 80%;
+        height: 80px;
+        line-height: 80px;
+        float: right;
+    }
+
+    .StarRat {
+        width: 100%;
+        height: 30px;
+        margin-top: 20px;
+    }
+
+    .span_good {
+        color: orange;
+    }
+
+        .span_good:before {
+            font-family: Glyphicons;
+            content: "\f2fc";
+        }
+
+    .span_bad {
+        color: black;
+    }
+
+        .span_bad:before {
+            font-family: Glyphicons;
+            content: "\f3ae";
+        }
+
+    .StarRat span {
+        font-size: 1.2em;
+    }
+
+    .comment_content {
+        width: 100%;
+        height: auto;
+        margin: 20px 0px;
+    }
+
+    .conmment_txt {
+        min-width: 100%;
+        height: 100px;
+    }
+
+    .comment_but {
+        display: block;
+        width: 180px;
+        height: 40px;
+        line-height: 40px;
+        background-color: orange;
+        border: 1px solid orange;
+        margin: 10px auto;
+        transition: all 0.4s;
+    }
+
+        .comment_but:hover {
+            transform: scale(1.1,1.1);
+            border-radius: 5px;
+            transition: all 0.4s;
+        }
+        .span_1{
+            color:gainsboro;
+        }
+</style>
+
+
+
+<div class="MyOrder-top">
+    <span class="top_left">
+        &nbsp;订单数量(
+        @{
+            if (orderList != null && orderList.Count() > 0)
+            {
+                @orderList.Count()
+            }
+            else
+            {
+                @:0
+            }
+        }
+        )
+    </span>
+    <div class="top_right">
+        <select class="top_select form-control">
+            <option value="0" selected="@(index==0)">全部商品</option>
+            <option value="1" selected="@(index==1)">按时间排序</option>
+            <option value="2" selected="@(index==2)">按价格排序</option>
+            <option value="3" selected="@(index==3)">未收货商品</option>
+            <option value="4" selected="@(index==4)">未评价商品</option>
+            <option value="5" selected="@(index==5)">已收货商品</option>
+            <option value="6" selected="@(index==6)">已评价商品</option>
+        </select>
+        @Ajax.ActionLink("查找", "MyOrder", "User", new { }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "UserDiv", InsertionMode = InsertionMode.Replace }, new { @class = "select_a" })
+    </div>
+</div>
+
+@{
+    if (orderList != null && orderList.Count() > 0)
+    {
+        foreach (var item in orderList)
+        {
+            <div class="MyOrder-div">
+                <div class="div_1"><img src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p => p.GoodsID == item.GoodsID).PhotoPath" /></div>
+                <div class="div_2">
+                    <span class="goodsspan_1">@item.GoodsTable.GoodsName</span><br />
+                    <span class="goodsspan_2">@item.GoodsTable.GoodsDescribe</span>
+                </div>
+                <div class="div_3">
+                    <span class="goodsspan_3">购买数量：@item.GoodsNum</span>
+                    <span class="goodsspan_4">购买时间:@string.Format("{0:D}", item.GetTime)</span>
+                </div>
+                <div class="div_4">
+                    <span class="goodsspan_5">@string.Format("{0:C}", item.OrderAmount)</span>
+                </div>
+                <div class="div_5">
+                    @{
+                        if (item.IsReceiving == 0)
+                        {
+                            <a class="btn btn-outline-warning div5_a1">确认收货</a><br />
+                        }
+                        else
+                        {
+                            <span class="btn border-gray div5_a1" aria-disabled="true">已收货</span><br />
+                        }
+                        if (item.IsComment == 0 && item.IsReceiving == 1)
+                        {
+                            <a href="#" data-toggle="modal" data-target="#IsComment" data-whatever="@item.OrderID" class="btn btn-outline-warning div5_a2"><span id="a2_click_@item.OrderID">立即评价</span></a>
+                        }
+                        else if (item.IsComment == 1)
+                        {
+                            <span class="btn border-gray div5_a2" aria-disabled="true">已评价</span>
+                        }
+                        else
+                        {
+                            <a href="#" data-toggle="modal" style="display:none;" data-target="#IsComment" data-whatever="@item.OrderID" class="btn btn-outline-warning div5_a2"><span id="a2_click_@item.OrderID">立即评价</span></a>
+                            <span class="span_1">收货后才可评价！</span>
+                        }
+                    }
+                </div>
+                <input type="hidden" class="orderid" value="@item.OrderID" />
+                <a href="#" class="del_a"></a>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="order_null">&nbsp;您暂无订单！</div>
+    }
+}
+
+<!-- 商品评价模态框 -->
+<div class="modal fade" id="IsComment" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title ion-android-create" id="staticBackdropLabel">&nbsp;商品评价</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="goodsinfo">
+                    <div class="goods_left"><img src="~/Content/Images/default.jpg" /></div>
+                    <div class="goods_right"><span style="color:gray;">商品名称:</span><span class="goodsname">商品的名称</span> </div>
+                </div>
+                <div class="StarRat">
+                    评分:
+                    <span class="span_bad"></span>
+                    <span class="span_bad"></span>
+                    <span class="span_bad"></span>
+                    <span class="span_bad"></span>
+                    <span class="span_bad"></span>
+                    <a style="margin-left:25px;font-size:0.9em;" class="StarRat_a"></a>
+                </div>
+                <div class="comment_content">
+                    <textarea class="conmment_txt" maxlength="80" placeholder="请输入你对该商品的评价!(80字以内)"></textarea>
+                </div>
+                <input type="button" value="确  定" class="comment_but" />
+                <input type="hidden" value="" class="model_orderid" />
+                <input type="hidden" value="" class="model_goodid" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('.del_a').hide();
+        $('.select_a').hide();
+        $('.select_a').append($("<span id='span_click'>点击</span>"));
+        $('.MyOrder-div').hover(function () {
+            if ($(this).children('div').children('.div5_a1').html() == "已收货") {
+                $(this).children('.del_a').show();
+            } else {
+                $(this).children('.del_a').hide();
+            }
+        }, function () {
+            $(this).children('.del_a').hide();
+        })
+        $('.top_select').change(function () {
+            $('.select_a').attr("href", "/User/MyOrder?num=" + $(this).val() + "");
+            $('#span_click').trigger('click');
+        })
+        //确定收货点击事件
+        $('.div5_a1').click(function () {
+            if ($(this).html() != "已收货") {
+                if (confirm('您确定要确认收货吗！')) {
+                var orderid = $(this).parent('div').next('.orderid').val();
+            $.post({
+                url: "@Url.Action("IsReceiving","User")",
+                data: { OrderId: orderid },
+                success: function (data) {
+                    if (data == 0) {
+                        alert('确认收货失败！');
+                    }
+                    else {
+                        $('#a2_click_' + orderid + '').trigger('click');
+                    }
+                },
+                error: function () {
+                    alert('出现错误！');
+                }
+            })
+            }
+            }
+        })
+        //评价
+        $('#IsComment').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var orderid = button.data('whatever');
+            var modal = $(this);
+            $.post({
+                url: "@Url.Action("AjaxSelect","User")",
+                data: { OrderId: orderid },
+                success: function (data) {
+                    $('.goods_left img').attr("src", "../Content/GoodImgs/" + data.gimg + "");
+                    $('.goodsname').html(data.gname);
+                    $('.model_orderid').val(data.oid);
+                    $('.model_goodid').val(data.gid);
+                },
+                error: function () {
+                    alert('出现错误！');
+                }
+            })
+        })
+
+        //评论确定按钮点击事件
+        $('.comment_but').click(function () {
+            var length = $('.span_good').length;
+            var text = $('.conmment_txt').val().trim();
+            if (length === 0) {
+                alert('请为商品评分！');
+                return;
+            }
+            else if (text.length <= 0) {
+                alert('请输入评论内容！');
+                return;
+            }
+            var orderid = $('.model_orderid').val();
+            var goodid = $('.model_goodid').val();
+            //提交评价按钮异步提交事件
+            $.post({
+                url: "@Url.Action("IsComment","User")",
+                data: { OrderId: orderid, GoodId: goodid, StarRating: length, Content: text },
+                success: function (data) {
+                    if (data == 0) {
+                        alert('评价提交失败！');
+                    } else {
+                        $('.close').click();
+                    }
+                },
+                error: () => {
+                    alert('出现错误!');
+                }
+            })
+        })
+        //评分浮动事件
+        $('.StarRat span').hover(function () {
+            var index = $(this).index();
+            $('.StarRat span:gt(' + index + ')').attr('class', 'span_bad');
+            $('.StarRat span:lt(' + (index + 1) + ')').attr('class', 'span_good');
+            var num = index + 1;
+            if (num == 1) {
+                $('.StarRat_a').html('非常差').css('color', 'red');
+            }
+            else if (num == 2) {
+                $('.StarRat_a').html('差').css('color', 'red');
+            }
+            else if (num == 3) {
+                $('.StarRat_a').html('一般').css('color', 'gray');
+            }
+            else if (num == 4) {
+                $('.StarRat_a').html('好').css('color', 'green');
+            }
+            else {
+                $('.StarRat_a').html('非常好').css('color', 'green');
+            }
+        }, function () { })
+
+        //模态框关闭事件
+        $('.close').click(function () {
+            $('.StarRat span').attr('class', 'span_bad');
+            $('.StarRat_a').html('');
+            $('.conmment_txt').val('');
+            $('#span_click').trigger('click');
+        })
+
+        //删除点击事件
+        $('.del_a').click(function () {
+            if (confirm('您确定要删除这条订单吗?')) {
+                var orderid = $(this).prev('.orderid').val();
+            $.post({
+                url: "@Url.Action("OrderDel","User")",
+                data: { OrderId: orderid },
+                success: function (data) {
+                    if (data == 0) {
+                        alert('删除失败！');
+                    }
+                    else {
+                        $('#span_click').trigger('click');
+                    }
+                },
+                error: function () {
+                    alert('出现错误！');
+                }
+            })
+            }
+        })
+
+
+        //$('.div5_a2').click(function () {
+        //    var text = $(this).siblings().html();
+        //    if (text == "确认收货") {
+        //        $('.close').click();
+        //    }
+        //})
+
+    })
+</script>
+
+

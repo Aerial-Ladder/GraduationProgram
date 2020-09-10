@@ -1,0 +1,157 @@
+﻿@using Models;
+@model List<GoodsTable>
+@{
+    List<GoodsPhoto> GoodsPhoto = ViewBag.GoodsPhoto;
+    List<GoodsTable> list = null;
+    string PartialView = "";
+    bool isnull = true;
+    if (Session["Goods"] != null)
+    {
+        list = Session["Goods"] as List<GoodsTable>;
+        PartialView = "Show";
+    }
+    else if (Session["Goods_tid"] != null)
+    {
+        list = Session["Goods_tid"] as List<GoodsTable>;
+        PartialView = "Show_tid";
+    }
+    else if (Session["Goods_typeid_2"] != null)
+    {
+        list = Session["Goods_typeid_2"] as List<GoodsTable>;
+        PartialView = "Goods_typeid_2";
+    }
+    else if (Session["Goods_typeid"] != null)
+    {
+        list = Session["Goods_typeid"] as List<GoodsTable>;
+        PartialView = "Show_typeid";
+    }
+    int pageindex = ViewBag.pageindex ?? 1;
+    double count = 1;
+    if (list != null && list.Count() > 0)
+    {
+        count = ViewBag.count ?? Math.Ceiling(list.Count() / 12.00);
+        isnull = false;
+    }
+}
+
+@{
+    if (((ViewBag.isnull ?? false) == false) && (isnull == false))
+    {
+        foreach (var item in Model ?? list.Take(12))
+        {
+            <a href="/Goods/GoodsDesc?goodsid=@item.GoodsID" class="div3_a">
+                <div class="card" style="width: 18rem;">
+                    <img height="180" src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p=>p.GoodsID==item.GoodsID).PhotoPath" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <div class="card-div1">@item.GoodsName</div>
+                        <div class="card-div2">@item.GoodsDescribe</div>
+                        <div class="card-div3">
+                            <span class="span-left">@string.Format("{0:C}", item.GoodsPrice)</span>
+                            <span class="span-right">@string.Format("{0:C}", item.OldGoodsPrice)</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        }
+        @*按钮部分*@
+        <div class="Gindex-div4">
+            @*分页位置*@
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+
+                    @{
+                        if (pageindex <= 1)
+                        {
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">上一页</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item">
+                                @Ajax.ActionLink("上一页", PartialView, "Goods", new { pageindex = pageindex - 1 }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "Goods_1", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                            </li>
+                        }
+                    }
+
+                    @{
+                        if (pageindex != 1 && pageindex != count)
+                        {
+                            for (int i = pageindex - 1; i < pageindex + 2; i++)
+                            {
+                                if (i == pageindex)
+                                {
+                                    <li class="page-item active">
+                                        @Ajax.ActionLink(i.ToString(), PartialView, "Goods", new { pageindex = i }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "Goods_1", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                                else if (i <= count)
+                                {
+                                    <li class="page-item">
+                                        @Ajax.ActionLink(i.ToString(), PartialView, "Goods", new { pageindex = i }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "Goods_1", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                            }
+                        }
+                        else if (pageindex == 1)
+                        {
+                            for (int i = 0; i <= pageindex + 2; i++)
+                            {
+                                if (i == pageindex)
+                                {
+                                    <li class="page-item active">
+                                        @Ajax.ActionLink(i.ToString(), PartialView, "Goods", new { pageindex = i }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "Goods_1", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                                else if (i > 0 && i <= count)
+                                {
+                                    <li class="page-item">
+                                        @Ajax.ActionLink(i.ToString(), PartialView, "Goods", new { pageindex = i }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "Goods_1", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            for (int i = pageindex - 2; i <= count; i++)
+                            {
+                                if (i == count)
+                                {
+                                    <li class="page-item active">
+                                        @Ajax.ActionLink(i.ToString(), PartialView, "Goods", new { pageindex = i }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "Goods_1", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                                else if (i > 0)
+                                {
+                                    <li class="page-item">
+                                        @Ajax.ActionLink(i.ToString(), PartialView, "Goods", new { pageindex = i }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "Goods_1", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                            }
+                        }
+                    }
+                    @{
+                        if (pageindex == count)
+                        {
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">下一页</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item">
+                                @Ajax.ActionLink("下一页", PartialView, "Goods", new { pageindex = pageindex + 1 }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "Goods_1", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                            </li>
+                        }
+                    }
+                </ul>
+            </nav>
+        </div>
+    }
+    else
+    {
+        <span class="span_null">暂无该类商品!</span>
+    }
+}
+
+

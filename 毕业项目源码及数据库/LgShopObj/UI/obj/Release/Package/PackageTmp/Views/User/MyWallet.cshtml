@@ -1,0 +1,369 @@
+﻿@using Models
+@model List<OrderTable>
+@{
+    List<OrderTable> MonthList = Model.Where(p => p.GetTime.Value.Year == DateTime.Now.Year && p.GetTime.Value.Month == DateTime.Now.Month).ToList();
+}
+<style>
+    .MyWallet_div1 {
+        width: 100%;
+        height: 80px;
+        position: relative;
+    }
+
+        .MyWallet_div1 div {
+            width: 150px;
+            height: 80px;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+    .div1_top {
+        display: block;
+        font-size: 1.4em;
+        margin-bottom: 10px;
+    }
+
+        .div1_top:before {
+            font-family: Glyphicons;
+            content: "\f434";
+        }
+
+    .div1_bot {
+        display: block;
+        width: 150px;
+        height: 35px;
+        border-radius: 10px;
+        border: 2px solid orange;
+        color: orange;
+        text-align: center;
+        line-height: 35px;
+        font-size: 1.2em;
+    }
+
+    .addwallet {
+        display: inline-block;
+        position: absolute;
+        top: 0px;
+        right: 60px;
+        color: orange;
+        cursor: pointer;
+        transition: all 0.4s;
+    }
+
+        .addwallet:hover {
+            transform: scale(1.1,1.1);
+            transition: all 0.4s;
+        }
+
+    .MyWallet_div2 {
+        width: 100%;
+        height: 80px;
+        border-bottom: 1px solid gainsboro;
+        margin-top: 40px;
+        margin-bottom: 20px;
+    }
+
+    .div2_left, .div2_right {
+        height: 100%;
+        text-align: center;
+    }
+
+    .div2_left {
+        width: 49%;
+        float: left;
+    }
+
+    .div2_right {
+        width: 50%;
+        float: right;
+    }
+
+    .left_span, .right_span {
+        font-size: 1.2em;
+        display: inline-block;
+        width: auto;
+        height: 80px;
+        cursor: pointer;
+    }
+
+    .style_1 {
+        border-bottom: 3px solid orange;
+        color: orange;
+    }
+
+    .span_1 {
+        width: 1px;
+        height: 60px;
+        display: inline-block;
+        background-color: gainsboro;
+    }
+
+    .MyWallet_div3 {
+        width: 100%;
+        height: 100px;
+        border-bottom: 1px solid gainsboro;
+        border-top: 1px solid gainsboro;
+        padding: 10px 80px;
+        margin: 15px 0px;
+    }
+
+    .div_div1 {
+        width: 150px;
+        height: 80px;
+        color: orange;
+        font-size: 1.5em;
+        line-height: 80px;
+        float: left;
+    }
+
+    .div_div2 {
+        display: inline-block;
+        width: 400px;
+        height: 80px;
+        text-align: left;
+        float: left;
+        margin-left: 120px;
+    }
+
+    .span2_num, .span2_time {
+        color: gainsboro;
+    }
+
+    .span2_num {
+        font-size: 1.2em;
+    }
+
+    .span2_name {
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+
+    .div_div3 {
+        float: right;
+        width: auto;
+        height: 80px;
+        font-size: 1.3em;
+        color: orange;
+        margin-right: 40px;
+        line-height: 80px;
+    }
+
+    .Show_1 {
+        width: 100%;
+        height: auto;
+    }
+
+    .isnull_month, .isnull_count {
+        width: 100%;
+        height: 80px;
+        text-align: center;
+        font-size: 1.4em;
+        color: gainsboro;
+        margin-top: 60px;
+        line-height: 80px;
+    }
+
+    .span_click {
+        transition: all 0.4s;
+    }
+
+        .span_click:hover {
+            color: orange;
+            transition: all 0.4s;
+        }
+       .ion-ios-medkit-outline:before{
+           font-family: Glyphicons;
+            content: "\f45d";
+       }
+       .addul{
+           margin:0px auto;
+           width:200px;
+       }
+       .addul li{
+           margin:20px 0px;
+       }
+       .add_but{
+           display:inline-block;
+           width:200px;
+           height:40px;
+           background-color:orange;
+           border:1px solid orange;
+           color:white;
+           text-align:center;
+           line-height:40px;
+           font-size:1.2em;
+           transition:all 0.4s;
+       }
+        .add_but:hover {
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.4s;
+        }
+</style>
+
+<div class="MyWallet_div1">
+    <div>
+        <span class="div1_top">&nbsp;账户余额</span>
+        <span class="div1_bot">@string.Format("{0:C}", ViewBag.UserWallet)</span>
+    </div>
+    <span data-toggle="modal" data-target="#AddWallet" class="addwallet">立即充值</span>
+</div>
+<div class="MyWallet_div2">
+    <div class="div2_left">
+        <span class="span_click left_span style_1">累积消费<br />@string.Format("{0:C}", ViewBag.countmoeny)</span>
+    </div>
+    <span class="span_1"></span>
+    <div class="div2_right">
+        <span class="span_click right_span">本月消费<br />@string.Format("{0:C}", ViewBag.monthmoeny)</span>
+    </div>
+</div>
+
+<div class="Show_1">
+    @{
+        if (Model != null && Model.Count() > 0)
+        {
+            foreach (var item in Model)
+            {
+                <div class="MyWallet_div3">
+                    <div class="div_div1">
+                        @string.Format("{0:C}", item.OrderAmount)
+                    </div>
+                    <div class="div_div2">
+                        <span class="span2_name">@item.GoodsTable.GoodsName</span> <br />
+                        <span class="span2_num">×@item.GoodsNum</span><br />
+                        <span class="span2_time">@string.Format("{0:D}", item.GetTime)</span>
+                    </div>
+                    <div class="div_div3">已付款</div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="isnull_count">
+                您暂无消费！
+            </div>
+        }
+    }
+</div>
+
+<div class="Show_2">
+    @{
+        if (MonthList != null && MonthList.Count() > 0)
+        {
+            foreach (var item in MonthList)
+            {
+                <div class="MyWallet_div3">
+                    <div class="div_div1">
+                        @string.Format("{0:C}", item.OrderAmount)
+                    </div>
+                    <div class="div_div2">
+                        <span class="span2_name">@item.GoodsTable.GoodsName</span> <br />
+                        <span class="span2_num">×@item.GoodsNum</span><br />
+                        <span class="span2_time">@string.Format("{0:D}", item.GetTime)</span>
+                    </div>
+                    <div class="div_div3">已付款</div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="isnull_month">
+                您本月暂无消费！
+            </div>
+        }
+    }
+</div>
+
+<!-- 充值模态框 -->
+<div class="modal fade" id="AddWallet" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title ion-ios-medkit-outline" id="staticBackdropLabel">&nbsp;充值</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul class="addul">
+                    <li><input type="text" class="form-control input_txt" placeholder="请输入充值的金额(元)" maxlength="4" /></li>
+                    <li>
+                        <select class="selectadd form-control">
+                            <option value="0">--选择金额--</option>
+                            <option value="10">10</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="500">500</option>
+                            <option value="1000">1000</option>
+                        </select>
+                    </li>
+                    <li>
+                        <a href="#" class="add_but">确定充值</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('.Show_2').hide();
+        $('.span_click').click(function () {
+            $('.span_click').removeClass('style_1');
+            $(this).addClass('style_1');
+            if ($('.Show_2').is(':hidden')) {
+                $('.Show_2').show();
+                $('.Show_1').hide();
+            }
+            else {
+                $('.Show_2').hide();
+                $('.Show_1').show();
+            }
+        })
+        $('.selectadd').change(function () {
+            $('.input_txt').val($(this).val());
+        })
+        $('.close').click(function () {
+            $('.selectadd option:eq(0)').attr('selected', 'selected');
+            $('.input_txt').val('');
+        })
+
+        //充值按钮点击事件
+        $('.add_but').click(function () {
+            var money = $('.input_txt').val().trim();
+            if (money.length == 0) {
+                alert('请输入要充值的金额(元)!');
+                return;
+            }
+            else if (money <= 0)
+            {
+                alert('充值的金额必须大于0元!');
+                return;
+            }
+            else {
+                $.post({
+                    url: "@Url.Action("AddWallet","User")",
+                    data: { Money: money },
+                    success: function (data) {
+                        if (data == 0) {
+                            alert('充值失败！');
+                        }
+                        else {
+                            $('.close').click();
+                            var num = $('.span_Tips').html();
+                            num = parseInt(num) + 1;
+                            $('.span_Tips').html(num).show();
+                            //我的账户点击
+                            $('.top_a:eq(2)')[0].click();
+                        }
+                    },
+                    error: function () {
+                        alert('无法充值！');
+                    }
+                })
+            }
+        })
+    })
+</script>

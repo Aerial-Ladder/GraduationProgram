@@ -1,0 +1,306 @@
+﻿@using Models;
+@{
+    List<GoodsPhoto> GoodsPhoto = Session["GoodsPhoto"] as List<GoodsPhoto>;
+    List<CommentTable> list = Session["allpl"] as List<CommentTable>;
+    int pageindex = ViewBag.pageindex ?? 1;
+    double count = 0;
+    int plcount = 0;
+    int index = ViewBag.SelectType ?? 0;
+    if (list != null && list.Count() > 0)
+    {
+        count = Convert.ToDouble(Session["plpagecount"]);
+        plcount = Convert.ToInt32(Session["plcount"]);
+    }
+    int num=0;
+}
+<link href="~/Content/BackstageCss/BackComment.css" rel="stylesheet" />
+
+<div class="BackComment_top">
+    <span class="span_plbacknum">
+        &nbsp;评论数量(@plcount)
+    </span>
+    <div class="div_right">
+        @using (Ajax.BeginForm("BackCommentPartial", "BackType", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackComment", InsertionMode = InsertionMode.Replace }))
+        {
+            <select class="plback_select" name="SelectType">
+                <option value="0" selected="@(index==0)">所有评论</option>
+                <option value="1" selected="@(index==1)">经典服装</option>
+                <option value="2" selected="@(index==2)">电脑办公</option>
+                <option value="3" selected="@(index==3)">生活日用</option>
+                <option value="4" selected="@(index==4)">食品饮食</option>
+                <option value="5" selected="@(index==5)">违规评论</option>
+            </select>
+            <input type="submit" style="background-color:#E2E2E2;border:1px solid #E2E2E2;color:#E2E2E2;" class="btn-select" />
+        }
+    </div>
+</div>
+
+@{
+    if (list != null && list.Count() > 0)
+    {
+        <div class="plback-div">
+            <table class="table table-striped table-bordered">
+                <thead style="color: white">
+                    <tr class="bg-secondary">
+                        <th>编号</th>
+                        <th>用户头像</th>
+                        <th>用户名</th>
+                        <th>账号</th>
+                        <th>商品图片</th>
+                        <th>商品名称</th>
+                        <th>评论内容</th>
+                        <th>评论时间</th>
+                        <th>星级</th>
+                        <th>是否置顶</th>
+                        @{
+                            if (index == 5)
+                            {
+                                <th>举报次数</th>
+                            }
+                        }
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                @{
+                    foreach (var item in list)
+                    {
+                        <tr class="tr_content bg-light">
+                            <td style="display:none;">@item.CommentID</td>
+                            <td>@(++num)</td>
+                            <td><img src="~/Content/Images/@item.UserInfo.UserPhoto" width="40" height="40" /></td>
+                            <td>@item.UserInfo.UserName</td>
+                            <td>@item.UserInfo.UserAccount</td>
+                            <td><img src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p=>p.GoodsID==item.GoodsID).PhotoPath" width="40" height="40" /></td>
+                            <td>@GoodsPhoto.FirstOrDefault(p => p.GoodsID == item.GoodsID).GoodsTable.GoodsName</td>
+                            <td>
+                                @{
+                                    if (item.CommentContent.Length > 15)
+                                    {
+                                        @(item.CommentContent.Substring(0, 15) + "...")
+                                    }
+                                    else
+                                    {
+                                        @item.CommentContent
+                                    }
+                                }
+                            </td>
+                            <td>@(string.Format("{0:D}", item.CommentTime))</td>
+                            <td>@item.CommentStarRating</td>
+                            <td>@(item.IsTop == 0 ? "否" : "是")</td>
+                            @{
+                                if (index == 5)
+                                {
+                                    <td>@item.Reportingnums</td>
+                                }
+                            }
+                            <td>
+                                <a href="#" data-toggle="modal" data-target="#CommentDesc" data-commentstr="@item.CommentContent" class="btn btn-outline-primary">详情</a>
+                                @{
+                                    if (item.IsTop == 1)
+                                    {
+                                        <a href="#" data-top="@item.IsTop" data-plid="@item.CommentID" class="btn btn-outline-success btn-top">取消</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="#" data-top="@item.IsTop" data-plid="@item.CommentID" class="btn btn-outline-success btn-top">置顶</a>
+                                    }
+                                }
+                                <a href="#" data-plid="@item.CommentID" class="btn btn-outline-danger btn-del">删除</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+        <div class="plback_bot">
+            @*分页位置*@
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+
+                    @{
+                        if (pageindex <= 1)
+                        {
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">上一页</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item">
+                                @Ajax.ActionLink("上一页", "BackCommentPartial", "BackType", new { pageindex = pageindex - 1, SelectType = index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackComment", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                            </li>
+                        }
+                    }
+
+                    @{
+                        if (pageindex != 1 && pageindex != count)
+                        {
+                            for (int i = pageindex - 1; i < pageindex + 2; i++)
+                            {
+                                if (i == pageindex)
+                                {
+                                    <li class="page-item active">
+                                        @Ajax.ActionLink(i.ToString(), "BackCommentPartial", "BackType", new { pageindex = i, SelectType = index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackComment", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                                else if (i <= count)
+                                {
+                                    <li class="page-item">
+                                        @Ajax.ActionLink(i.ToString(), "BackCommentPartial", "BackType", new { pageindex = i, SelectType = index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackComment", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                            }
+                        }
+                        else if (pageindex == 1)
+                        {
+                            for (int i = 0; i <= pageindex + 2; i++)
+                            {
+                                if (i == pageindex)
+                                {
+                                    <li class="page-item active">
+                                        @Ajax.ActionLink(i.ToString(), "BackCommentPartial", "BackType", new { pageindex = i, SelectType = index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackComment", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                                else if (i > 0 && i <= count)
+                                {
+                                    <li class="page-item">
+                                        @Ajax.ActionLink(i.ToString(), "BackCommentPartial", "BackType", new { pageindex = i, SelectType = index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackComment", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            for (int i = pageindex - 2; i <= count; i++)
+                            {
+                                if (i == count)
+                                {
+                                    <li class="page-item active">
+                                        @Ajax.ActionLink(i.ToString(), "BackCommentPartial", "BackType", new { pageindex = i, SelectType = index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackComment", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                                else if (i > 0)
+                                {
+                                    <li class="page-item">
+                                        @Ajax.ActionLink(i.ToString(), "BackCommentPartial", "BackType", new { pageindex = i, SelectType = index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackComment", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                            }
+                        }
+                    }
+                    @{
+                        if (pageindex == count)
+                        {
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">下一页</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item">
+                                @Ajax.ActionLink("下一页", "BackCommentPartial", "BackType", new { pageindex = pageindex + 1, SelectType = index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackComment", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                            </li>
+                        }
+                    }
+                </ul>
+            </nav>
+        </div>
+    }
+    else
+    {
+        <div class="plback_null">&nbsp;暂无评论！</div>
+    }
+
+
+    <!-- 评论详情模态框 -->
+    <div class="modal fade" id="CommentDesc" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">&nbsp;评论内容详情</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span class="plback_span">
+
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $(function () {
+        $('.btn-select').hide();
+        $('.plback_select').change(function () {
+            $('.btn-select')[0].click();
+        })
+
+        //模态框
+        $('#CommentDesc').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var str = button.data('commentstr');
+            var modal = $(this);
+            modal.find('.plback_span').html(str);
+        })
+
+        //置顶/取消点击事件
+        $('.btn-top').click(function () {
+            var top = $(this).data('top');
+            var con;
+            if (top == 0) {
+                con = confirm('您确定要将这条评论置顶吗?');
+            }
+            else {
+                con = confirm('您确定要将这条评论取消置顶吗?');
+            }
+            if (con) {
+                var plid = $(this).data('plid');
+                //异步请求
+                $.post({
+                    url: "@Url.Action("UpdateTop","BackType")",
+                    data: { CommentID: plid, IsTop: top },
+                    success: function (data) {
+                        if (data == 0) {
+                            alert('操作失败！');
+                        } else {
+                            alert('操作成功！');
+                            $('.btn-select')[0].click();
+                        }
+                    },
+                    error: function () {
+                        alert('出现错误！');
+                    }
+                })
+            }
+        })
+
+        //删除点击事件
+        $('.btn-del').click(function () {
+            if (confirm('您确定要删除这条评论吗?')) {
+                var plid = $(this).data('plid');
+                //异步请求
+                $.post({
+                    url: "@Url.Action("DelComment","BackType")",
+                    data: { CommentID: plid},
+                    success: function (data) {
+                        if (data == 0) {
+                            alert('删除失败！');
+                        } else {
+                            alert('删除成功！');
+                            $('.btn-select')[0].click();
+                        }
+                    },
+                    error: function () {
+                        alert('出现错误！');
+                    }
+                })
+            }
+        })
+
+
+    })
+</script>

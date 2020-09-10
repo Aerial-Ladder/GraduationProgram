@@ -1,0 +1,148 @@
+﻿@using Models
+@model List<NoticeTable>
+<style>
+    .Notice-top {
+        width: 100%;
+        margin-top: 20px;
+        height: 25px;
+        line-height: 25px;
+        padding-left: 60px;
+    }
+
+    .noticetop_span {
+        font-size: 1.0em;
+    }
+
+        .noticetop_span:before {
+            font-family: Glyphicons;
+            content: "\f3ba";
+        }
+
+    .Notice_div {
+        width: 90%;
+        margin: 15px auto;
+        height: auto;
+        min-height: 80px;
+        border: 1px solid gray;
+    }
+
+    .span_title {
+        display: inline-block;
+        font-weight: bold;
+        line-height: 30px;
+        width: 100%;
+        height: 30px;
+        padding-left: 10px;
+    }
+
+        .span_title:before {
+            font-family: Glyphicons;
+            content: "\f2b2";
+            font-size: 1.3em;
+        }
+
+    .span_conten {
+        width: 100%;
+        height: auto;
+        display: inline-block;
+        padding-left: 10px;
+        font-size: 0.9em;
+    }
+
+    .span_time {
+        display: block;
+        width: 100%;
+        height: 25px;
+        line-height: 25px;
+        font-size: 0.8em;
+        text-align: right;
+        padding-right: 10px;
+    }
+
+    .span_del {
+        display: inline-block;
+        float: left;
+        width: auto;
+        height: 25px;
+        line-height: 25px;
+        font-size: 0.8em;
+        text-align: center;
+        cursor: pointer;
+        margin-left: 10px;
+        transition: all 0.4s;
+    }
+
+        .span_del:hover {
+            transform: scale(1.1,1.1);
+            transition: all 0.4s;
+        }
+
+        .span_del:before {
+            font-family: Glyphicons;
+            content: "\f37f";
+        }
+
+    .Notice-null {
+        width: auto;
+        height: 60px;
+        text-align: center;
+        font-size: 1.6em;
+        color: gray;
+        line-height: 60px;
+        margin-top: 100px;
+    }
+
+        .Notice-null:before {
+            font-family: Glyphicons;
+            content: "\f3ab";
+        }
+</style>
+@{
+    if (Model != null && Model.Count() > 0)
+    {
+        <div class="Notice-top"><span class="noticetop_span">&nbsp;我的消息(@Model.Count())</span></div>
+        foreach (var item in Model)
+        {
+            <div class="Notice_div">
+                <span class="span_title">&nbsp;&nbsp;@item.NoticeTitle</span>
+                <span class="span_conten"><span style="color:gray">消息内容:&nbsp;&nbsp;</span>@item.NoticeContent</span>
+                <span class="span_time">
+                <input type="hidden" value="@item.NoticeID" class="NoticeID"/>
+                <span class="span_del">&nbsp;删除</span>
+                @string.Format("{0:D}",item.NoticeTime)
+                </span>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="Notice-null">&nbsp;您暂无消息！</div>
+    }
+}
+
+<script>
+    $(function () {
+        $('.span_Tips').hide();
+        $('.span_del').click(function () {
+            if (confirm('您确定要删除这条消息吗?')) {
+                var noticeid = $(this).siblings('.NoticeID').val();
+                $.post({
+                    url: "@Url.Action("NoticeDel","User")",
+                    data: { NoticeID: noticeid },
+                    success: function (data) {
+                        if (data == 0) {
+                            alert('删除失败！')
+                        }
+                        else {
+                            //我的消息点击
+                            $('.top_a:eq(5)')[0].click();
+                        }
+                    },
+                    error: function () {
+                        alert('出现错误！');
+                    }
+                })
+            }
+        })
+    })
+</script>

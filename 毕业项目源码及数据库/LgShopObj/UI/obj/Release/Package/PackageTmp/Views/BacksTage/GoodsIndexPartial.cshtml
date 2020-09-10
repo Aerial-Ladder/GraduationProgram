@@ -1,0 +1,511 @@
+﻿@using Models
+@{
+    List<GoodsPhoto> GoodsPhoto = Session["GoodsPhoto"] as List<GoodsPhoto>;
+    List<GoodsTable> GoodsTable = Session["allgoods"] as List<GoodsTable>;
+    int pageindex = ViewBag.pageindex ?? 1;
+    double count = Convert.ToDouble(Session["goodpagecount"]);
+    int goodscount = Convert.ToInt32(Session["goodscount"]);
+    int index = 0;
+    if (ViewBag.typeid != null)
+    {
+        index = ViewBag.typeid;
+    }
+}
+<link href="~/Content/BackstageCss/GoodsIndexPartial.css" rel="stylesheet" />
+
+<div class="GoodsBack_top">
+    <span class="span_usernum">
+        &nbsp;商品数量(@goodscount)
+    </span>
+    <div class="div_right">
+        @using (Ajax.BeginForm("GoodsIndexPartial", "BacksTage", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackGoodsDiv", InsertionMode = InsertionMode.Replace }))
+        {
+            <select class="goods_select" name="typeid">
+                <option value="0" selected="@(index==0)">所有商品</option>
+                <option value="1" selected="@(index==1)">经典服装</option>
+                <option value="2" selected="@(index==2)">电脑办公</option>
+                <option value="3" selected="@(index==3)">生活日用</option>
+                <option value="4" selected="@(index==4)">食品饮食</option>
+            </select>
+            <input type="text" class="input_select" value="@ViewBag.text" name="text" placeholder="商品名称" />
+            <input type="submit" class="btn btn-primary btn-select" value="查找" />
+        }
+    </div>
+</div>
+
+@{
+    if (GoodsTable != null && GoodsTable.Count() > 0)
+    {
+        <div class="Goods_div">
+            <table class="table table-striped table-bordered">
+                <thead style="color: white;text-align:center;">
+                    <tr class="bg-secondary">
+                        <th>编号</th>
+                        <th>商品图片</th>
+                        <th>商品名</th>
+                        <th>现价</th>
+                        <th>原价</th>
+                        <th>库存</th>
+                        <th>分类</th>
+                        <th>星级</th>
+                        <th>销量</th>
+                        <th>商品状态</th>
+                        <th>是否推荐</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                @{
+                    foreach (var item in GoodsTable)
+                    {
+                        <tr class="tr_content bg-light">
+                            <td>@item.GoodsID</td>
+                            <td><img src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p=>p.GoodsID==item.GoodsID).PhotoPath" width="60" height="60" /></td>
+                            <td>@item.GoodsName</td>
+                            <td>@string.Format("{0:C}", item.GoodsPrice)</td>
+                            <td style="color:gray;text-decoration:line-through;">@string.Format("{0:C}", item.OldGoodsPrice)</td>
+                            <td>@item.GoodsInventory</td>
+                            <td>@item.TypeTable.TypeName</td>
+                            <td>@item.GoodsStar</td>
+                            <td>@item.GoodsHot</td>
+                            @{
+                                if (item.IsDelte == 0)
+                                {
+                                    <td>出售</td>
+                                }
+                                else
+                                {
+                                    <td style="color:red;">停售</td>
+                                }
+                            }
+                            @{
+                                if (item.IsGet == 0)
+                                {
+                                    <td>未推荐</td>
+                                }
+                                else
+                                {
+                                    <td style="color:green;">已推荐</td>
+                                }
+                            }
+                            <td>
+                                <a href="#" data-toggle="modal" data-target="#GoodsDesc" data-whatever="@item.GoodsID" class="btn btn-outline-primary">详情</a>
+                                <a href="#" data-toggle="modal" data-target="#GoodsUpdate" data-whatever="@item.GoodsID" class="btn btn-outline-success">修改</a>
+                                <a href="#" data-gid="@item.GoodsID" class="btn btn-outline-danger goods-del">@(item.IsDelte == 0 ? "停售" : "出售")</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+        <div class="goods_bot">
+            @*分页位置*@
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+
+                    @{
+                        if (pageindex <= 1)
+                        {
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">上一页</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item">
+                                @Ajax.ActionLink("上一页", "GoodsIndexPartial", "BacksTage", new { pageindex = pageindex - 1, typeid = index, text = ViewBag.text }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackGoodsDiv", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                            </li>
+                        }
+                    }
+
+                    @{
+                        if (pageindex != 1 && pageindex != count)
+                        {
+                            for (int i = pageindex - 1; i < pageindex + 2; i++)
+                            {
+                                if (i == pageindex)
+                                {
+                                    <li class="page-item active">
+                                        @Ajax.ActionLink(i.ToString(), "GoodsIndexPartial", "BacksTage", new { pageindex = i, typeid = index, text = ViewBag.text }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackGoodsDiv", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                                else if (i <= count)
+                                {
+                                    <li class="page-item">
+                                        @Ajax.ActionLink(i.ToString(), "GoodsIndexPartial", "BacksTage", new { pageindex = i, typeid = index, text = ViewBag.text }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackGoodsDiv", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                            }
+                        }
+                        else if (pageindex == 1)
+                        {
+                            for (int i = 0; i <= pageindex + 2; i++)
+                            {
+                                if (i == pageindex)
+                                {
+                                    <li class="page-item active">
+                                        @Ajax.ActionLink(i.ToString(), "GoodsIndexPartial", "BacksTage", new { pageindex = i, typeid = index, text = ViewBag.text }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackGoodsDiv", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                                else if (i > 0 && i <= count)
+                                {
+                                    <li class="page-item">
+                                        @Ajax.ActionLink(i.ToString(), "GoodsIndexPartial", "BacksTage", new { pageindex = i, typeid = index, text = ViewBag.text }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackGoodsDiv", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            for (int i = pageindex - 2; i <= count; i++)
+                            {
+                                if (i == count)
+                                {
+                                    <li class="page-item active">
+                                        @Ajax.ActionLink(i.ToString(), "GoodsIndexPartial", "BacksTage", new { pageindex = i, typeid = index, text = ViewBag.text }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackGoodsDiv", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                                else if (i > 0)
+                                {
+                                    <li class="page-item">
+                                        @Ajax.ActionLink(i.ToString(), "GoodsIndexPartial", "BacksTage", new { pageindex = i, typeid = index, text = ViewBag.text }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackGoodsDiv", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                            }
+                        }
+                    }
+                    @{
+                        if (pageindex == count)
+                        {
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">下一页</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item">
+                                @Ajax.ActionLink("下一页", "GoodsIndexPartial", "BacksTage", new { pageindex = pageindex + 1, typeid = index, text = ViewBag.text }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackGoodsDiv", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                            </li>
+                        }
+                    }
+                </ul>
+            </nav>
+        </div>
+    }
+    else
+    {
+        <div class="goods_null">&nbsp;暂无商品信息！</div>
+    }
+}
+
+<!-- 商品详情模态框 -->
+<div class="modal fade" id="GoodsDesc" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">&nbsp;商品详情</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul class="goods_ul">
+                    <li>
+                        商品图片:<br />
+                        <div class="ul_div">
+                            <img src="~/Content/Images/default.jpg" class="goods_img" />
+                        </div>
+                    </li>
+                    <li>商品名称:</li>
+                    <li>现价:</li>
+                    <li>原价:</li>
+                    <li>库存:</li>
+                    <li>所属分类:</li>
+                    <li>描述:</li>
+                    <li>星级:</li>
+                    <li>销量:</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 修改商品模态框 -->
+<div class="modal fade" id="GoodsUpdate" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">&nbsp;修改商品信息</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Ajax.BeginForm("GoodsUpdate", "BacksTage", new { pageindex = pageindex, typeid = index, text = ViewBag.text }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackGoodsDiv", InsertionMode = InsertionMode.Replace }, new { id = "GoodsUpdateForm", enctype = "multipart/form-data" }))
+                {
+                    <ul class="update-ul">
+                        <li>
+                            <input type="hidden" name="GoodsID" class="GoodsID" />
+                            商品图片:<br>
+                            <div class="goodsupdate_div">
+                                @*<div class="divimg">
+                                        <img src="~/Content/Images/default.jpg" class="goodsupdate_img" />
+                                        <span class="goodsimg_del">×</span>
+                                    </div>*@
+                            </div>
+                            <input type="file" name="img[]" multiple="multiple" class="form-control update_file" />
+                        </li>
+                        <li><label for="GoodsName">商品名称：</label><input class="txt GoodsName" name="GoodsName" type="text" /><br /><span class="update-erro"></span></li>
+                        <li><label for="GoodsPrice">现价：</label><input class="txt GoodsPrice" name="GoodsPrice" type="text" /><br /><span class="update-erro"></span></li>
+                        <li><label for="OldGoodsPrice">原价：</label><input class="txt OldGoodsPrice" name="OldGoodsPrice" type="text" /><br /><span class="update-erro"></span></li>
+                        <li><label for="GoodsInventory">库存：</label><input class="txt GoodsInventory" name="GoodsInventory" type="text" /><br /><span class="update-erro"></span></li>
+                        <li>
+                            <label for="TID">所属分类：</label>
+                            <select name="TID" class="form-control TypeSelect">
+                                @*分类下拉框*@
+                            </select>
+                        </li>
+                        <li>
+                            <label for="IsGet">是否推荐:</label>
+                            <select name="IsGet" class="form-control GetSelect">
+                                <option value="0">不推荐</option>
+                                <option value="1">推荐</option>
+                            </select>
+                        </li>
+                        <li><label for="GoodsDescribe">描述：</label><br /><textarea class="GoodsDescribe" name="GoodsDescribe" style="min-height:60px;min-width:360px;" placeholder="请输入商品描述"></textarea></li>
+                        <li><span class="goodsupdate-but">保&nbsp;&nbsp;存</span></li>
+                    </ul>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+        $('.modal-backdrop').remove();
+        //商品信息详情
+        $('#GoodsDesc').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var goodsid = button.data('whatever');
+            var modal = $(this);
+            $.post({
+                url: "@Url.Action("GoodsDesc", "BacksTage")",
+                data: { GoodsID: goodsid },
+                success: function (data) {
+                    var data_1 = eval("(" + data.Good + ")");
+                    var data_2 = eval(data.GoodPhoto);
+                    if (data_1 == null) {
+                        alert('查看详情失败！');
+                    } else {
+                        $('.ul_div').empty();
+                        for (var i = 0; i < data_2.length; i++) {
+                            var img = $('<img src="../Content/GoodImgs/' + data_2[i].PhotoPath + '" class="goods_img" rid="' + data_2[i].RID + '"/>');
+                            $('.ul_div').append(img);
+                        }
+                        //查看详情赋值
+                        $('.goods-ul li:eq(1)').html('商品名称:&nbsp;&nbsp;' + data_1.GoodsName + '');
+                        $('.goods_ul li:eq(2)').html('现价:&nbsp;&nbsp;' + ToMoney(data_1.GoodsPrice) + '');
+                        $('.goods_ul li:eq(3)').html('原价:&nbsp;&nbsp;<span style="text-decoration:line-through;color:gray;">' + ToMoney(data_1.OldGoodsPrice) + '</span>');
+                        $('.goods_ul li:eq(4)').html('库存:&nbsp;&nbsp;' + data_1.GoodsInventory + '');
+                        $('.goods_ul li:eq(5)').html('所属分类:&nbsp;&nbsp;' + data_1.TypeTable.TypeName + '');
+                        $('.goods_ul li:eq(6)').html('描述:&nbsp;&nbsp;' + data_1.GoodsDescribe + '');
+                        $('.goods_ul li:eq(7)').html('星级:&nbsp;&nbsp;' + data_1.GoodsStar + '');
+                        $('.goods_ul li:eq(8)').html('销量:&nbsp;&nbsp;' + data_1.GoodsHot + '');
+                    }
+                },
+                error: function () {
+                    alert("出现错误！");
+                }
+            })
+        })
+
+        //商品修改时查看详情
+        $('#GoodsUpdate').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var goodsid = button.data('whatever');
+            var modal = $(this);
+            $.post({
+                url: "@Url.Action("GoodsDesc", "BacksTage")",
+                data: { GoodsID: goodsid },
+                success: function (data) {
+                    var data_1 = eval("(" + data.Good + ")");
+                    var data_2 = eval(data.GoodPhoto);
+                    var data_3 = eval(data.GoodType);
+                    if (data_1 == null) {
+                        alert('查看详情失败！');
+                    } else {
+                        $('.goodsupdate_div').empty();
+                        $('.TypeSelect').empty();
+                        for (var i = 0; i < data_2.length; i++) {
+                            var mydiv = $('<div class="divimg">\
+                                <img src="../Content/GoodImgs/' + data_2[i].PhotoPath + '" class="goodsupdate_img" />\
+                                <span class="goodsimg_del" rid="' + data_2[i].RID + '">×</span></div>');
+                            $('.goodsupdate_div').append(mydiv);
+                        }
+                        //修改数据赋值
+                        modal.find('.GoodsID').val(data_1.GoodsID);
+                        modal.find('.GoodsName').val(data_1.GoodsName);
+                        modal.find('.GoodsPrice').val(data_1.GoodsPrice);
+                        modal.find('.OldGoodsPrice').val(data_1.OldGoodsPrice);
+                        modal.find('.GoodsInventory').val(data_1.GoodsInventory);
+                        modal.find('.GoodsDescribe').val(data_1.GoodsDescribe);
+                        for (var i = 0; i < data_3.length; i++) {
+                            if (data_1.TypeTable.TypeID == data_3[i].typeid) {
+                                var option = $("<option value='" + data_3[i].typeid + "' selected='selected'>" + data_3[i].typename + "</option>");
+                            } else {
+                                var option = $("<option value='" + data_3[i].typeid + "'>" + data_3[i].typename + "</option>");
+                            }
+                            $('.TypeSelect').append(option);
+                        }
+                        modal.find('.GetSelect option:eq(' + data_1.IsGet + ')').attr('selected', true);
+                    }
+                },
+                error: function () {
+                    alert("出现错误！");
+                }
+            })
+        })
+
+        //商品修改保存按钮
+        $('.goodsupdate-but').click(function () {
+            var goodsname = $('.GoodsName').val().trim();
+            var goodsprice = $('.GoodsPrice').val().trim();
+            var oldgoodsprice = $('.OldGoodsPrice').val().trim();
+            var goodsinventory = $('.GoodsInventory').val().trim();
+            //var goodsdescribe = $('.GoodsDescribe').val().trim();
+            var tmpFile = $('.update_file');
+            //可以为小数
+            var reg = /^\d+(\.\d+)?$/;
+            //整数
+            var reg_1 = /^[0-9]*[1-9][0-9]*$/;
+            if (tmpFile.val() != null && tmpFile.val() != "") {
+                var num = 0;
+                for (var i = 0; i < tmpFile[0].files.length; i++) {
+                    num += tmpFile[0].files[i].size;
+                }
+                if (num > (1000 * 1024)) {
+                    alert('文件大小过大!');
+                    return;
+                }
+            }
+
+            if (goodsname == "") {
+                $('.update-erro:eq(0)').html('商品名称不能为空！').show(500);
+                return;
+            }
+            else {
+                $('.update-erro:eq(0)').html('').hide(500);
+            }
+            if (goodsprice == "") {
+                $('.update-erro:eq(1)').html('商品现价不能为空！').show(500);
+                return;
+            }
+            else if (reg.test(goodsprice) == false) {
+                $('.update-erro:eq(1)').html('商品现价只能为整数或小数！').show(500);
+                return;
+            }
+            else {
+                $('.update-erro:eq(1)').html('').hide(500);
+            }
+            if (oldgoodsprice == "") {
+                $('.update-erro:eq(2)').html('商品原价不能为空！').show(500);
+                return;
+            }
+            else if (reg.test(oldgoodsprice) == false) {
+                $('.update-erro:eq(2)').html('商品原价只能为整数或小数！').show(500);
+                return;
+            }
+            else {
+                $('.update-erro:eq(2)').html('').hide(500);
+            }
+            if (goodsinventory == "") {
+                $('.update-erro:eq(3)').html('商品库存不能为空！').show(500);
+                return;
+            }
+            else if (reg_1.test(goodsinventory) == false) {
+                $('.update-erro:eq(3)').html('商品库存只能为整数！').show(500);
+                return;
+            }
+            else {
+                $('.update-erro:eq(3)').html('').hide(500);
+            }
+            //表单提交
+            $('#GoodsUpdateForm').submit();
+        })
+
+        //关闭点击事件
+        $('.close').click(function () {
+            $('.update-erro').html('').hide();
+            $('.update_file').val('');
+        })
+
+        //图片删除点击事件
+        $(document).on("click", '.goodsimg_del', function () {
+            var that = $(this);
+            if (confirm('您确定要删除商品的这张图片吗?')) {
+                var rid = $(this).attr('rid');
+            //调用删除图片方法
+            $.post({
+                url: "@Url.Action("GoodsImgDel","BacksTage")",
+                data: { RID: rid },
+                success: function (data) {
+                    if (data == 0) {
+                        alert('删除失败！');
+                    }
+                    else if (data == 2)
+                    {
+                        alert('无法删除商品的最后一张图片！');
+                    }
+                    else {
+                        //删除成功
+                        that.parent().remove();
+                    }
+                },
+                error: function () {
+                    alert('出现错误！');
+                }
+            })
+            }
+            return false;
+        })
+
+        //商品停售或出售点击事件
+        $('.goods-del').click(function () {
+            if (confirm('您确定要' + $(this).html() + '该商品吗?')) {
+                //获取商品id
+                var goodsid = $(this).data('gid');
+            $.post({
+                url: "@Url.Action("GoodsDel","BacksTage")",
+                data: { GoodsID: goodsid },
+                success: function (data) {
+                    if (data == 0) {
+                        alert('操作失败！');
+                    } else {
+                        //操作成功时
+                        $('.btn-select')[0].click();
+                    }
+                },
+                error: function () {
+                    alert('出现错误！');
+                }
+            })
+            }
+        })
+
+
+
+        //转化成价格格式
+            function ToMoney(s, n) {
+                n = n > 0 && n <= 20 ? n : 2;
+                s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+                var l = s.split(".")[0].split("").reverse(),
+                    r = s.split(".")[1];
+                t = "";
+                for (i = 0; i < l.length; i++) {
+                    t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+                }
+                return "¥"+t.split("").reverse().join("") + "." + r;
+            }
+    })
+</script>

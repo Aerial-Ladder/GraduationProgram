@@ -1,0 +1,177 @@
+﻿@using Models
+@model List<FeedbackTable>
+<style>
+    .Feedback_div {
+        width: 80%;
+        height: auto;
+        min-height: 100px;
+        border: 1px solid gray;
+        border-top-right-radius: 10px;
+        margin: 20px auto;
+    }
+
+    .div_1 {
+        width: 100%;
+        height: 30px;
+        padding: 0px 10px;
+        border-bottom: 1px solid gainsboro;
+    }
+
+    .span_left, .span_right {
+        display: inline-block;
+        width: auto;
+        height: 30px;
+        line-height: 30px;
+        font-size: 0.9em;
+    }
+
+    .span_left {
+        float: left;
+    }
+
+    .span_right {
+        float: right;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .div_2 {
+        width: 100%;
+        height: auto;
+        min-height: 50px;
+        padding: 5px 10px;
+    }
+
+    .gainsboro {
+        color: gainsboro;
+    }
+
+    .Feedback-top {
+        width: 100%;
+        margin-top: 20px;
+        height: 25px;
+        line-height: 25px;
+        padding-left: 100px;
+    }
+
+    .feedbacktop_span {
+        font-size: 0.9em;
+    }
+
+        .feedbacktop_span:before {
+            font-family: Glyphicons;
+            content: "\f37e";
+        }
+
+    .div_3 {
+        width: 100%;
+        height: 20px;
+        padding-right: 20px;
+    }
+
+    .feedback_del {
+        display: inline-block;
+        float: right;
+        width: auto;
+        height: 20px;
+        font-size: 0.9em;
+        color: gainsboro;
+        line-height: 20px;
+        transition: all 0.4s;
+        cursor: pointer;
+    }
+
+        .feedback_del:hover {
+            transform: scale(1.1,1.1);
+            color: red;
+            transition: all 0.4s;
+        }
+
+        .feedback_del:before {
+            font-family: Glyphicons;
+            content: "\f37f";
+        }
+
+    .feedback_null {
+        width: auto;
+        height: 60px;
+        text-align: center;
+        font-size: 1.6em;
+        color: grey;
+        line-height: 60px;
+        margin-top: 100px;
+    }
+
+        .feedback_null:before {
+            font-family: Glyphicons;
+            content: "\f3ab";
+        }
+
+    .green {
+        color: green;
+    }
+</style>
+
+@{
+    if (Model != null && Model.Count() > 0)
+    {
+        <div class="Feedback-top"><span class="feedbacktop_span">&nbsp;反馈次数(@Model.Count())</span></div>
+        foreach (var item in Model)
+        {
+            <div class="Feedback_div">
+                <div class="div_1">
+                    <span class="span_left">反馈时间:@string.Format("{0:D}", item.FeedbackTime)</span>
+                    @{
+                        if (item.IsDealwith == 0)
+                        {
+                            <span class="span_right red">未处理</span>
+                        }
+                        else
+                        {
+                            <span class="span_right green">已处理</span>
+                        }
+                    }
+                </div>
+                <div class="div_2">
+                    <span class="gainsboro">反馈内容:</span>
+                    @item.FeedbackContent
+                </div>
+                <div class="div_3">
+                    <input type="hidden" value="@item.FeedbackID" class="feedbackid"/>
+                    <span class="feedback_del">&nbsp;删除</span>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="feedback_null">&nbsp;您暂无反馈！</div>
+    }
+}
+
+<script type="text/javascript">
+    $(function () {
+        $('.feedback_del').click(function () {
+            if (confirm('您确定要删除这条反馈吗?')) {
+                var id = $(this).siblings().val();
+                $.post({
+                    url: "@Url.Action("FeedbackDel","User")",
+                    data: { FeedbackID: id },
+                    success: function (data) {
+                        if (data == 0) {
+                            alert('删除失败！');
+                        } else {
+                            //我的反馈点击
+                            $('.top_a:eq(4)')[0].click();
+                        }
+                    },
+                    error: function () {
+                        alert('出现错误！');
+                    }
+                })
+            }
+        })
+    })
+</script>

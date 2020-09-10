@@ -1,0 +1,176 @@
+﻿
+@{
+    ViewBag.Title = "AddUser";
+    Layout = "~/Views/Shared/_Backstage.cshtml";
+}
+<style>
+    .txt {
+        width: 100%;
+        height: 35px;
+        border-radius: 5px;
+        border: 1px solid grey;
+        transition: all 0.4s;
+        float: right;
+    }
+
+    .adduser-ul {
+        width: 420px;
+        margin: 120px auto;
+        height: 100%;
+    }
+
+        .adduser-ul li {
+            height: 40px;
+            line-height: 25px;
+            margin: 30px 0px;
+            padding-left: 40px;
+            font-size: 1.2em;
+        }
+
+    .add-but {
+        width: 260px;
+        height: 40px;
+        border: 1px solid orange;
+        background-color: orange;
+        border-radius: 5px;
+        text-align: center;
+        margin-left: 60px;
+        transition: all 0.4s;
+    }
+
+        .add-but:hover {
+            transform: scale(1.1,1.1);
+            transition: all 0.4s;
+        }
+
+    .update-erro {
+        display: inline-block;
+        max-height: 20px;
+        width: 100%;
+        color: red;
+        font-size: 0.6em !important;
+    }
+
+    .ion-android-person-add:before {
+        font-family: Glyphicons;
+        content: "\f39f";
+    }
+</style>
+
+<ul class="adduser-ul">
+    <li><h2 class="ion-android-person-add">&nbsp;新增用户</h2></li>
+    <li><label for="UserName">用户名：</label><input class="txt UserName" maxlength="12" name="UserName" type="text" /><br /><span class="update-erro"></span></li>
+    <li><label for="UserPhont">手机号：</label><input class="txt UserPhont" name="UserPhont" maxlength="15" type="text" /><br /><span class="update-erro"></span></li>
+    <li><label for="UserPhont">密码：</label><input class="txt UserPwd" name="UserPassword" type="password" maxlength="15" /><br /><span class="update-erro"></span></li>
+    <li><label for="UserPhont">确认密码：</label><input class="txt IsUserPwd" type="password" maxlength="15" /><br /><span class="update-erro"></span></li>
+    <li><label for="UserCard">身份证号：</label><input class="txt UserCard" name="UserCard" maxlength="25" type="text" /><br /><span class="update-erro"></span></li>
+    <li><label for="UserEmail">邮箱：</label><input class="txt UserEmail" name="UserEmail" maxlength="25" type="text" /><br /><span class="update-erro"></span></li>
+    <li><button class="add-but">提&nbsp;&nbsp;交</button></li>
+</ul>
+
+@section backscripts{
+    <script>
+        $(function () {
+            //提交点击事件
+            $('.add-but').click(function () {
+            var username = $('.UserName').val().trim();
+            var userphont = $('.UserPhont').val().trim();
+                var usercard = $('.UserCard').val().trim();
+                var userpwd = $('.UserPwd').val().trim();
+                var userpwdto = $('.IsUserPwd').val().trim();
+            var useremail = $('.UserEmail').val().trim();
+            var reg = /^1([38]\d|5[0-35-9]|7[3678])\d{8}$/;
+            var regcar = /^[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
+            var reg_em = /^[\w-]+(\.[\w-]+)*@@[\w-]+(\.[\w-]+)+$/;
+            if (username == "" || username == null) {
+                $('.update-erro:eq(0)').html('用户名不能为空！').show(500);
+                return;
+            }
+            else if (username.length > 10) {
+                $('.update-erro:eq(0)').html('用户名长度不能大于10！').show(500);
+                return;
+            }
+            else {
+                $('.update-erro:eq(0)').html('').hide(500);
+            }
+            //电话验证
+            if (userphont == "" || userphont == null) {
+                $('.update-erro:eq(1)').html('手机号不能为空！').show(500);
+                return;
+            }
+            else if (reg.test(userphont) == false) {
+                $('.update-erro:eq(1)').html('手机号输入有误！').show(500);
+                return;
+            }
+            else {
+                $('.update-erro:eq(1)').html('').hide(500);
+                }
+                //密码确认密码验证
+                if (userpwd == "" || userpwd == null) {
+                    $('.update-erro:eq(2)').html('密码不能为空！').show(500);
+                    return;
+                }
+                else if (userpwd.length < 6 || userpwd.length > 12) {
+                    $('.update-erro:eq(2)').html('密码长度为6-12位！').show(500);
+                    return;
+                }
+                else {
+                    $('.update-erro:eq(2)').html('').hide(500);
+                }
+                if (userpwdto == "" || userpwdto == null) {
+                    $('.update-erro:eq(3)').html('确认密码不能为空！').show(500);
+                    return;
+                }
+                else if (userpwd != userpwdto) {
+                    $('.update-erro:eq(3)').html('确认密码与密码不一致！').show(500);
+                    return;
+                }
+                else {
+                    $('.update-erro:eq(3)').html('').hide(500);
+                }
+            //身份证号码验证
+            if (usercard == "" || usercard == null) {
+                $('.update-erro:eq(4)').html('身份证号不能为空！').show(500);
+                return;
+            }
+            else if (regcar.test(usercard) == false) {
+                $('.update-erro:eq(4)').html('身份证号输入有误！').show(500);
+                return;
+            }
+            else {
+                $('.update-erro:eq(4)').html('').hide(500);
+            }
+            //邮箱验证
+            if (useremail == "" || useremail == null) {
+                $('.update-erro:eq(5)').html('邮箱不能为空！').show(500);
+                return;
+            }
+            else if (reg_em.test(useremail) == false) {
+                $('.update-erro:eq(5)').html('邮箱格式不正确！').show(500);
+                return;
+            }
+            else {
+                $('.update-erro:eq(5)').html('').hide(500);
+                }
+                //新增用户
+            $.post({
+                url: "@Url.Action("AddUserAjax","BacksTage")",
+                data: { UserName: username, UserPhont: userphont, UserCard: usercard, UserPwd: userpwd, UserEmail: useremail },
+                success: function (data) {
+                    if (data == 0) {
+                        //失败
+                        alert("注册失败");
+                        return;
+                    } else {
+                        alert('新增成功！');
+                        location.reload();
+                    }
+                },
+                error: function () {
+                    alert("错误！");
+                }
+            })
+            })
+        })
+    </script>
+}

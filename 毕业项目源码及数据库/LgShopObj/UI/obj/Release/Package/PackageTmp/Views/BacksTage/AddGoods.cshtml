@@ -1,0 +1,206 @@
+﻿@using Models;
+@{
+    ViewBag.Title = "AddGoods";
+    Layout = "~/Views/Shared/_Backstage.cshtml";
+    List<TypeTable> smalltypeList = Session["smalltype"] as List<TypeTable>;
+}
+<style>
+
+    .goodsadd-but {
+        cursor: pointer;
+        display: inline-block;
+        width: 360px;
+        height: 45px;
+        line-height: 40px;
+        border: 1px solid orange;
+        background-color: orange;
+        text-align: center;
+        margin-left: 30%;
+        transition: all 0.4s;
+        transform: translateY(50px);
+    }
+
+    .update-erro {
+        color: red;
+        font-size: 0.9em !important;
+    }
+
+    .txt {
+        width: 100%;
+        height: 40px;
+        border-radius: 5px;
+        border: 1px solid grey;
+        transition: all 0.4s;
+    }
+
+    .ion-ios-medkit-outline:before {
+        font-family: Glyphicons;
+        content: "\f45d";
+    }
+
+    .mytable {
+        width: 900px;
+        margin: 60px auto;
+    }
+
+        .mytable tr td {
+            height: 80px;
+            font-size: 1.3em;
+            width: 50%;
+            width: 500px;
+        }
+
+    .myfile {
+        float: left;
+    }
+
+    .GoodsDescribe {
+        margin-left: 90px;
+    }
+</style>
+
+<table class="mytable">
+    <tr>
+        <td colspan="2"><h2 class="ion-ios-medkit-outline">&nbsp;新增商品</h2></td>
+    </tr>
+    <tr>
+        <td><label for="GoodsName">商品名称：</label><input class="txt GoodsName" name="GoodsName" maxlength="20" type="text" /><br /><span class="update-erro"></span></td>
+        <td><label for="GoodsPrice">商品现价：</label><input class="txt GoodsPrice" name="GoodsPrice" maxlength="8" type="text" /><br /><span class="update-erro"></span></td>
+    </tr>
+    <tr>
+        <td><label for="OldGoodsPrice">商品原价：</label><input class="txt OldGoodsPrice" name="OldGoodsPrice" maxlength="8" type="text" /><br /><span class="update-erro"></span></td>
+        <td><label for="GoodsInventory">商品库存：</label><input class="txt GoodsInventory" name="GoodsInventory" maxlength="8" type="text" /><br /><span class="update-erro"></span></td>
+    </tr>
+    <tr>
+        <td>
+            <label for="TID">所属分类:</label>
+            <select name="TID" class="txt TID">
+                @{
+                    foreach (var item in smalltypeList)
+                    {
+                        <option value="@item.TypeID">@item.TypeName</option>
+                    }
+                }
+            </select>
+        </td>
+        <td><label for="GoodsPhoto" style="display:block;float:left;line-height:30px;">商品图片:</label><input type="file" multiple="multiple" id="GoodsFiles" class="myfile form-control" /><br /><span class="update-erro"></span></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <label for="GoodsDescribe" style="transform:translateY(30px);">商品描述：</label><br /><textarea class="GoodsDescribe" name="GoodsDescribe" maxlength="100" style="min-height: 110px; min-width: 700px;" placeholder="请输入商品描述"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2"><span class="goodsadd-but">提&nbsp;&nbsp;交</span></td>
+    </tr>
+</table>
+
+@section backscripts{
+    <script>
+        $(function () {
+            //提交点击事件
+            $('.goodsadd-but').click(function () {
+                var goodsname = $('.GoodsName').val().trim();
+                var goodsprice = $('.GoodsPrice').val().trim();
+                var oldgoodsprice = $('.OldGoodsPrice').val().trim();
+                var goodsinventory = $('.GoodsInventory').val().trim();
+                var goodsdescribe = $('.GoodsDescribe').val().trim();
+                var tid = $('.TID').val();
+                var tmpFile = $('#GoodsFiles');
+                //可以为小数
+                var reg = /^\d+(\.\d+)?$/;
+                //整数
+                var reg_1 = /^[0-9]*[1-9][0-9]*$/;
+                if (goodsname == "") {
+                    $('.update-erro:eq(0)').html('商品名称不能为空！').show(500);
+                    return;
+                }
+                else {
+                    $('.update-erro:eq(0)').html('').hide(500);
+                }
+                if (goodsprice == "") {
+                    $('.update-erro:eq(1)').html('商品现价不能为空！').show(500);
+                    return;
+                }
+                else if (reg.test(goodsprice) == false) {
+                    $('.update-erro:eq(1)').html('商品现价只能为整数或小数！').show(500);
+                    return;
+                }
+                else {
+                    $('.update-erro:eq(1)').html('').hide(500);
+                }
+                if (oldgoodsprice == "") {
+                    $('.update-erro:eq(2)').html('商品原价不能为空！').show(500);
+                    return;
+                }
+                else if (reg.test(oldgoodsprice) == false) {
+                    $('.update-erro:eq(2)').html('商品原价只能为整数或小数！').show(500);
+                    return;
+                }
+                else {
+                    $('.update-erro:eq(2)').html('').hide(500);
+                }
+                if (goodsinventory == "") {
+                    $('.update-erro:eq(3)').html('商品库存不能为空！').show(500);
+                    return;
+                }
+                else if (reg_1.test(goodsinventory) == false) {
+                    $('.update-erro:eq(3)').html('商品库存只能为整数！').show(500);
+                    return;
+                }
+                else {
+                    $('.update-erro:eq(3)').html('').hide(500);
+                }
+                if (tmpFile.val() == num || tmpFile.val() == "") {
+                    $('.update-erro:eq(4)').html('请选择商品图片！').show(500);
+                    return;
+                }
+                else if (tmpFile.val() != null && tmpFile.val() != "") {
+                    var num = 0;
+                    for (var i = 0; i < tmpFile[0].files.length; i++) {
+                        num += tmpFile[0].files[i].size;
+                    }
+                    if (num > (1000 * 1024)) {
+                        $('.update-erro:eq(4)').html('文件大小过大！').show(500);
+                        return;
+                    }
+                } else {
+                    $('.update-erro:eq(4)').html('').hide();
+                }
+                var formdata = new FormData();
+                for (var i = 0; i < tmpFile[0].files.length; i++)
+                {
+                    formdata.append("file_" + i + "", tmpFile[0].files[i]);
+                }
+                formdata.append("goodsname", goodsname);
+                formdata.append("goodsprice", goodsprice);
+                formdata.append("oldgoodsprice", oldgoodsprice);
+                formdata.append("goodsinventory", goodsinventory);
+                formdata.append("goodsdescribe", goodsdescribe);
+                formdata.append("tid", tid);
+                //提交异步处理
+                $.post({
+                    url: "@Url.Action("AddGoodsAjax","BacksTage")",
+                    contentType: false,
+                    processData: false,
+                    data: formdata,
+                    //data: { Arr: JSON.stringify(arr), GoodsName: goodsname, GoodsPrice: goodsprice, OldGoodsPrice: oldgoodsprice, GoodsInventory: goodsinventory, GoodsDescribe: goodsdescribe, TID: tid },
+                    success: function (data) {
+                        if (data == 0) {
+                            alert('新增失败！');
+                        }
+                        else {
+                            //新增成功
+                            alert('新增成功！');
+                            location.reload();
+                        }
+                    },
+                    error: function () {
+                        alert('出现错误！');
+                    }
+                })
+            })
+        })
+    </script>
+}
+

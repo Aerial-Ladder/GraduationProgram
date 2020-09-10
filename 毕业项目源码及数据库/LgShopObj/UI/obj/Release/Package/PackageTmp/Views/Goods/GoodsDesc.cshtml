@@ -1,0 +1,331 @@
+﻿@using Models
+@model GoodsTable
+@{
+    ViewBag.Title = "GoodsDesc";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<GoodsPhoto> GoodsPhoto = ViewBag.GoodsPhoto;
+    //商品的评价
+    List<CommentTable> GoodsComment = Session["GoodsComment"] as List<CommentTable>;
+    bool iscollection = ViewBag.iscollection;
+    //推荐商品
+    List<GoodsTable> GetGoods = ViewBag.GetGoods as List<GoodsTable>;
+    //所有图片
+    List<GoodsPhoto> PhotoList = Session["GoodsPhoto"] as List<GoodsPhoto>;
+}
+
+@*//样式表*@
+<link href="~/Content/css/GoodsDesc.css" rel="stylesheet" />
+<link href="~/Content/css/style.css" rel="stylesheet" />
+@*导入放大镜脚本*@
+<script src="~/Scripts/MyJs/tools.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+<div class="Desc_div">
+    <div class="Desc_div1">
+        <span class="div1_span"></span><span>&nbsp;&nbsp;商品信息</span>
+    </div>
+    <div class="wrap">
+        <div class="biger" id="biger"></div>
+        <div class="imgs">
+            <div class="main" id="main">
+                <div class="mask" id="mask"></div>
+            </div>
+            <ul class="smaller" id="smaller"></ul>
+        </div>
+    </div>
+    <div class="Desc_div2">
+        <ul class="Ddiv2_ul">
+            <li><h5 class="Ddiv2_ul--h5">@Model.GoodsName</h5></li>
+            <li><span class="Ddiv2_ul--span1">@Model.GoodsDescribe</span></li>
+            <li>
+                <div class="Ddiv2_ul--div1">
+                    市场价：<span class="Ddiv2_ul--span2">@string.Format("{0:C}", Model.OldGoodsPrice)</span><br />
+                    商城价：<span class="Ddiv2_ul--span3">@string.Format("{0:C}", Model.GoodsPrice)</span>
+                </div>
+            </li>
+            <li>
+                <div class="Ddiv2_ul--div2">
+                    <span class="Ddiv2_ul--span4 span-solid">销量：<span class="span-red">@Model.GoodsHot</span></span>
+                    <span class="Ddiv2_ul--span4 span-solid">累计评价：<span class="span-red">@GoodsComment.Count()</span></span>
+                    <span class="Ddiv2_ul--span4">
+                        商品评分:&nbsp;
+                        @{
+                            for (int i = 0; i < 5; i++)
+                            {
+                                if (i < Model.GoodsStar)
+                                {
+                                    <span class="span_good"></span>
+                                }
+                                else
+                                {
+                                    <span class="span_bad"></span>
+                                }
+                            }
+                        }
+                    </span>
+                </div>
+            </li>
+            <li>
+                <div class="Ddiv2_ul--div3">
+                    购买数量:&nbsp;&nbsp;<button class="jian">-</button><input class="input_num" disabled="disabled" type="text" value="1" /><button class="add" data-kcnum="@Model.GoodsInventory">+</button>&nbsp;&nbsp;(当前库存：<span class="span-red">@Model.GoodsInventory</span>&nbsp;件)
+                    <div class="like">
+                        @{
+                            if (iscollection)
+                            {
+                                <span class="likeplay like_span">&nbsp;已收藏</span>
+                            }
+                            else
+                            {
+                                <span class="likeplay nolike_span">&nbsp;我要收藏</span>
+                            }
+                        }
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="Ddiv2_ul--div4">
+                    <button class="bug">立即购买</button>
+                    <button class="ion-ios-cart-outline goshopcar">&nbsp;&nbsp;加入购物车</button>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="Desc_div3">
+        @Ajax.ActionLink("商品评价(" + GoodsComment.Count() + ")", "GoodsComment", "Goods", new { num = 3, goodsid = Model.GoodsID }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "GoodsComment", InsertionMode = InsertionMode.Replace }, new { @class = "Ddiv3_div1 style_1" })
+        @Ajax.ActionLink("好评(" + GoodsComment.Where(p => p.CommentStarRating >= 4).Count() + ")", "GoodsComment", "Goods", new { num = 0, goodsid = Model.GoodsID }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "GoodsComment", InsertionMode = InsertionMode.Replace }, new { @class = "Ddiv3_div1" })
+        @Ajax.ActionLink("中评(" + @GoodsComment.Where(p => p.CommentStarRating == 3).Count() + ")", "GoodsComment", "Goods", new { num = 1, goodsid = Model.GoodsID }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "GoodsComment", InsertionMode = InsertionMode.Replace }, new { @class = "Ddiv3_div1" })
+        @Ajax.ActionLink("差评(" + GoodsComment.Where(p => p.CommentStarRating <= 2).Count() + ")", "GoodsComment", "Goods", new { num = 2, goodsid = Model.GoodsID }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "GoodsComment", InsertionMode = InsertionMode.Replace }, new { @class = "Ddiv3_div1" })
+    </div>
+    <div class="Desc_div4" id="GoodsComment">
+        @Html.Partial("GoodsComment", Session["GoodsComment"] as ViewDataDictionary)
+    </div>
+</div>
+
+@*相关推荐商品固定栏*@
+<div class="GetDiv">
+    <div class="get_top">相关商品推荐</div>
+    <div class="get_bot">
+        @{
+            if (GetGoods != null && GetGoods.Count() > 0)
+            {
+                foreach (var item in GetGoods)
+                {
+                    <a href="/Goods/GoodsDesc?goodsid=@item.GoodsID">
+                        <div class="get_goods">
+                            <dl class="get_dl">
+                                <dt><img src="~/Content/GoodImgs/@PhotoList.FirstOrDefault(p=>p.GoodsID==item.GoodsID).PhotoPath" class="get_img" /></dt>
+                                <dd>@item.GoodsName</dd>
+                                <dd>@string.Format("{0:C}", item.GoodsPrice)&nbsp;&nbsp;<span class="get_span1">@string.Format("{0:C}", item.OldGoodsPrice)</span></dd>
+                            </dl>
+                        </div>
+                    </a>
+                }
+            }
+            else
+            {
+                <div class="get_null">&nbsp;暂无相关推荐！</div>
+            }
+        }
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            //点击切换样式
+            $('.Ddiv3_div1').click(function () {
+                $(this).addClass('style_1').siblings().removeClass('style_1');
+            })
+
+            //收藏点击事件
+            $('.likeplay').click(function () {
+                if ($('.user-yes').is(':hidden')) {
+                    $('.login').click();
+                } else {
+                    $.post({
+                    url: "@Url.Action("CollectionPlay","Goods")",
+                    data: { GoodsId:@Model.GoodsID },
+                        success: function (data) {
+                            if (data == 0) {
+                                alert('收藏失败！');
+                            }
+                            else {
+                                $('.likeplay').removeClass('nolike_span').addClass('like_span').html('&nbsp;已收藏');
+                            }
+                    },
+                    error: function () {
+                        alert('出现错误！');
+                    }
+                })
+                }
+            })
+
+            //加入购物车点击事件
+            $('.goshopcar').click(function () {
+                if ($('.user-yes').is(':hidden')) {
+                    $('.login').click();
+                }
+                else {
+                    $.post({
+                        url: "@Url.Action("AddShopCar")",
+                        data: { GoodsId:@Model.GoodsID, ShoppingNum: $('.input_num').val() },
+                        success: function (data) {
+                            if (data == 0) {
+                                alert('加入购物车失败，请重试！');
+                            }
+                            else if (data == 1) {
+                                alert('您的购物车中已有该商品！');
+                            }
+                            else {
+                                alert('添加购物车成功！');
+                                $('.user-shopcar span').addClass('car-red');
+                                //重新加载网页
+                                location.reload();
+                            }
+                        },
+                        error: () => {
+                            alert('出现错误！');
+                        }
+                    })
+                }
+            })
+            //立即购买点击事件
+            $('.bug').click(function () {
+                if ($('.user-yes').is(':hidden')) {
+                    $('.login').click();
+                }
+                else {
+                    var samll_price = parseFloat($('.Ddiv2_ul--span3').html().replace(/,/g, "").substring(1, this.length)) * parseInt($('.input_num').val());
+                    $.post({
+                        url: "@Url.Action("AddOrder","Goods")",
+                        data: { GoodsId:@Model.GoodsID, ShoppingNum: $('.input_num').val(), OrderAmount: samll_price },
+                        success: function (data) {
+                            if (data == 0) {
+                                alert('购买失败！');
+                            }
+                            else if (data == 2)
+                            {
+                                alert('您的余额不足!');
+                             }
+                            else if (data == 3)
+                            {
+                                 if (confirm('您的收货地址为空，是否立即前往个人中心修改?')) {
+                                     window.location = '/User/UserIndex';
+                                 }
+                            }
+                            else {
+                                alert('已成功加入到订单！');
+                            }
+                        },
+                        error: function () {
+                            alert('出现错误！');
+                        }
+                    })
+                }
+            })
+            BigShow();
+            $('.jian').click(function () {
+                var values = $('.input_num').val();
+                if (parseInt(values) > 1) {
+                    $('.input_num').val(parseInt(values)-1);
+                }
+            })
+            $('.add').click(function () {
+                var values = $('.input_num').val();
+                var kcnum = $(this).data('kcnum');
+                if (parseInt(values) < 10 && parseInt(values) < kcnum) {
+                    $('.input_num').val(parseInt(values)+1);
+                }
+            })
+            function BigShow() {
+                var biger = document.getElementById('biger');
+                var main = document.getElementById('main');
+                var smaller = document.getElementById('smaller');
+                var mask = document.getElementById('mask');
+                var wrap = biger.parentNode;
+                var imgArr = [
+                    @{
+                        for (int i = 0; i < GoodsPhoto.Count(); i++)
+                        {
+                            if (i == GoodsPhoto.Count())
+                            {
+                            @:{ "path": "../Content/GoodImgs/@GoodsPhoto[i].PhotoPath" }
+                            }
+                            else {
+                            @:{ "path": "../Content/GoodImgs/@GoodsPhoto[i].PhotoPath" },
+                            }
+                        }
+                    }
+                ];
+                var imgSum = imgArr.length;
+                if (imgSum > 5) {
+                    imgSum = 5;
+                }
+                for (var i = 0; i < imgSum; i++) {
+                    var lis = document.createElement('li');
+                    var imgs = document.createElement('img');
+                    imgs.src = imgArr[i].path;
+                    lis.appendChild(imgs);
+                    smaller.appendChild(lis);
+                }
+                var mainImg = document.createElement('img');
+                var bigImg = document.createElement('img');
+                var liArr = smaller.children;
+                bigImg.src = mainImg.src = liArr[0].children[0].src;
+                main.insertBefore(mainImg, mask);
+                biger.appendChild(bigImg);
+                var bigPic = biger.children[0];
+                liArr[0].className = 'current';
+                for (var i = 0; i < liArr.length; i++) {
+                    liArr[i].index = i;
+                    liArr[i].onclick = function () {
+                        this.className = 'current';
+                        bigPic.src = main.children[0].src = this.children[0].src;
+                        for (var j = 0; j < liArr.length; j++) {
+                            if (this != liArr[j]) {
+                                liArr[j].removeAttribute('class');
+                                liArr[j].removeAttribute('className');
+                            }
+                        }
+                    }
+                }
+                main.onmouseenter = function () {
+                    mask.style.display = 'block';
+                    biger.style.display = 'block';
+                }
+                main.onmouseleave = function () {
+                    mask.style.display = 'none';
+                    biger.style.display = 'none';
+                }
+                main.onmousemove = function (e) {
+                    var e = e || window.event;
+                    var pagex = e.pageX || scroll().left + e.clientX;
+                    var pagey = e.pageY || scroll().top + e.clientY;
+                    pagex = pagex - wrap.offsetLeft - mask.offsetWidth / 2;;
+                    pagey = pagey - wrap.offsetTop - mask.offsetHeight / 2;
+                    if (pagex < 0) {
+                        pagex = 0;
+                    }
+                    if (pagey < 0) {
+                        pagey = 0;
+                    }
+                    if (pagex > main.offsetWidth - mask.offsetWidth) {
+                        pagex = main.offsetWidth - mask.offsetWidth;
+                    }
+                    if (pagey > main.offsetHeight - mask.offsetHeight) {
+                        pagey = main.offsetHeight - mask.offsetHeight;
+                    }
+                    mask.style.left = pagex + 'px';
+                    mask.style.top = pagey + 'px';
+                    var scale = (bigPic.offsetWidth - biger.offsetWidth) / (main.offsetWidth - mask.offsetWidth);
+                    var xx = pagex * scale;
+                    var yy = pagey * scale;
+                    bigPic.style.left = -xx + 'px';
+                    bigPic.style.top = -yy + 'px';
+                }
+            }
+        })
+    </script>
+}
+

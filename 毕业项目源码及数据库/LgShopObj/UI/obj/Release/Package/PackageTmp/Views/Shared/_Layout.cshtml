@@ -1,0 +1,543 @@
+﻿@using Models;
+@{
+    UserInfo user = Session["user"] as UserInfo;
+    int count = Convert.ToInt32(Session["carcount"]);
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - 我的 ASP.NET 应用程序</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    @*添加样式表*@
+    <link href="~/Content/css/grid.css" rel="stylesheet" />
+    <link href="~/Content/css/nav.css" rel="stylesheet" />
+</head>
+<body>
+    @*辅助*@
+    <div class="fixed">
+        <span class="span_top"></span>
+    </div>
+    <div class="fixed-down">
+        <span class="span_down"></span>
+    </div>
+
+    <div class="header row">
+        <div class="col-2 logo"><img src="~/Content/Images/logo.jpg" /></div>
+        <ul class="grid col-3 header-ul">
+            <li class="grid-cell-1"><a href="/Home/Index">首页</a></li>
+            <li class="grid-cell-1">
+                <a href="/Goods/GoodsIndex">分类<span class="ion-android-arrow-dropdown sss"></span></a>
+                <div class="header-hideen">
+                    @{
+                        foreach (var item in Session["Type"] as List<TypeTable>)
+                        {
+                            <a href="/Goods/GoodsIndex?tid_1=@item.TypeID">@item.TypeName</a>
+                        }
+                    }
+                </div>
+            </li>
+            <li class="grid-cell-1"><a href="/Notice/NoticeIndex">公告</a></li>
+            <li class="grid-cell-1"><a href="#">关于</a></li>
+        </ul>
+        <div class="col-3 header-searc">
+            <input type="text" class="header-text" placeholder=" 搜 索" />
+            <a href="#" class="searc-a"><span class="ion-android-search"></span></a>
+        </div>
+        <div class="col-4 header-user">
+            <div class="user-no">
+                <a href="#" data-toggle="modal" class="login" data-target="#Login">登录</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="#" class="btn btn-outline-warning" data-toggle="modal" data-target="#Registration">注册</a>
+            </div>
+            <div class="user-yes">
+                @{
+                    if (user != null)
+                    {
+                        <img src="~/Content/Images/@user.UserPhoto" class="user-img" />@:&nbsp; &nbsp;<span class="user-name">@user.UserName&nbsp;<span class="ion-ios-arrow-down"></span></span>
+                    }
+                    else
+                    {
+                        <img src="~/Content/Images/default.jpg" class="user-img" />@:&nbsp; &nbsp;<span class="user-name">&nbsp;<span class="ion-ios-arrow-down"></span></span>
+                    }
+                }
+                <div class="user-hidden">
+                    <ul>
+                        <li><a href="/User/UserIndex"><span class="ion-android-person"></span>&nbsp;个人中心</a></li>
+                        <li><a href="/User/UserFeedback"><span class="ion-social-whatsapp"></span>&nbsp;我要反馈</a></li>
+                        <li><a href="/Home/UpdatePwd"><span class="ion-ios-gear"></span>&nbsp;安全中心</a></li>
+                        <li><a href="/User/UserOut"><span class="ion-ios-gear"></span>&nbsp;退出登录</a></li>
+                    </ul>
+                </div>
+                <a class="user-shopcar" href="/ShopCar/ShopCarIndex">
+                    <svg class="bi bi-cart4" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor">
+                        <path fill-rule="evenodd" d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
+                    </svg>
+                    @{
+                        if (count > 0)
+                        {
+                            <span class="shopcar-small car-red">@count</span>
+                        }
+                        else
+                        {
+                            <span class="shopcar-small">0</span>
+                        }
+                    }
+
+                </a>
+            </div>
+        </div>
+    </div>
+    <!--{中间内容}-->
+    @RenderBody()
+    <div class="grid bot">
+        <span>乐购商城网站|2020.6.1</span>
+    </div>
+
+    <!-- 登录模态框 -->
+    <div class="modal fade" id="Login" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title ion-android-person" id="staticBackdropLabel">&nbsp;登录</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul class="login-ul">
+                        <li><label for="UserAccount">账号：</label><input type="text" class="txt txt-useraccount" name="UserAccount" placeholder="账号/手机号" required="required" /><span class="erro_login"></span></li>
+                        <li><label for="UserPwd">密码：</label><input maxlength="15" type="password" class="txt txt-userpwd" name="UserPwd" placeholder="请输入密码" required="required" /><span class="erro_login"></span></li>
+                        <li><label for="UserYzm" style="transform:translateY(5px);">验证码：</label><input type="text" class="txt txt-useryzm" name="UserYzm" placeholder="请输入验证码" required="required" /><img id="img-yzm" src="~/Handlers/ValidateCodeHandler.ashx?id=1" onclick="this.src=this.src+1" /><span class="erro_login"></span></li>
+                        <li><a href="/Home/UpdatePwd">忘记密码?</a></li>
+                        <li><input type="button" value="登   录" name="login" class="btn-login" /></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 注册模态框 -->
+    <div class="modal fade" id="Registration" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title ion-android-person-add" id="staticBackdropLabel">&nbsp;注册</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="reg card--Reg_1 is-show" id="Reg_1">
+                        <h5><span class="Reg_small">1</span>&nbsp;&nbsp;基本信息填写</h5>
+                        <ul class="Reg--ul">
+                            <li><label for="UserName">用户名：</label><input type="text" class="txt txt-username" name="UserName" placeholder="请输入用户名" required="required" /><br /><span class="erro erro_1"></span></li>
+                            <li><label for="UserPhont">手机号：</label><input type="text" class="txt txt-userphont" name="UserPhont  " placeholder="请输入电话" required="required" /><br /><span class="erro erro_1"></span></li>
+                            <li><label for="UserCard ">身份证号：</label><input type="text" class="txt txt-usercard" name="UserCard " placeholder="请输入身份证号" required="required" /><br /><span class="erro erro_1"></span></li>
+                            <li><button class="reg-but1 goto2">下一步</button></li>
+                        </ul>
+                    </div>
+                    <div class="reg card--Reg_2" id="Reg_2">
+                        <h5><span class="Reg_small">2</span>&nbsp;&nbsp;密码设置</h5>
+                        <ul class="Reg--ul">
+                            <li><label for="UserPwd">密码：</label><input type="password" class="txt txt-userpwd1" name="UserPwd" placeholder="请输入密码" required="required" /><br /><span class="erro erro_2"></span></li>
+                            <li><label for="UserPwdTo">确认密码：</label><input type="password" class="txt txt-userpwdto" name="UserPwdTo" placeholder="请输入确认密码" required="required" /><br /><span class="erro erro_2"></span></li>
+                            <li>
+                                <button class="reg-but2 goto1">上一步</button>
+                                <button class="reg-but2 goto3">下一步</button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="reg card--Reg_3" id="Reg_3">
+                        <h5><span class="Reg_small">3</span>&nbsp;&nbsp;邮箱验证</h5>
+                        <ul class="Reg--ul">
+                            <li><label for="UserEmail ">邮箱：</label><input type="email" class="txt txt-useremail" name="UserEmail" placeholder="请输入邮箱" required="required" /><br /><span class="erro erro_3"></span></li>
+                            <li><label for="yzm">验证码：</label><input type="text" class="txt txt-yzm" name="yzm" placeholder="请输入验证码" required="required" /><button class="btn-yzm">获取验证码</button><br /><span class="erro erro_3"></span></li>
+                            <li>
+                                <button class="reg-but2 goto2">上一步</button>
+                                <button class="reg-but2 goto4">下一步</button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="reg card--Reg_4" id="Reg_4">
+                        <span class="ion-android-checkmark-circle">&nbsp;&nbsp;注册成功！</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+<script type="text/javascript">
+    $(function () {
+        //隐藏元素
+        @{
+            if (user != null)
+            {
+            @:$('.user-no').hide()
+            @:$('.user-yes').show()
+            }
+        }
+        $('.header-hideen').hide();
+        $('.user-hidden').hide();
+        $('.login-ul li:eq(2)').hide();
+        $('.header-text').hover(function () {
+            $('.header-text').css('border', '2px solid orange');
+            $('.searc-a').css('border-left', '2px solid orange').css('color', 'orange');
+        }, function () {
+            $('.header-text').css('border', '1px solid grey');
+            $('.searc-a').css('border-left', '1px solid grey').css('color', 'grey');
+        })
+        $('.header-ul li:eq(1)').hover(function () {
+            $('.ion-android-arrow-dropdown').toggleClass('a-scale');
+        }, function () {
+            $('.ion-android-arrow-dropdown').toggleClass('a-scale');
+        })
+
+        //小图标旋转
+        $('.user-name').hover(function () {
+            $('.ion-ios-arrow-down').toggleClass('a-scale');
+            $('.user-hidden').stop().slideDown(500);
+        }, function () {
+            $('.ion-ios-arrow-down').toggleClass('a-scale');
+            $('.user-hidden').stop().slideUp(500);
+        })
+        $('.user-hidden').hover(function () {
+            $('.ion-ios-arrow-down').toggleClass('a-scale');
+            $('.user-hidden').stop().slideDown(500);
+        }, function () {
+            $('.ion-ios-arrow-down').toggleClass('a-scale');
+            $('.user-hidden').stop().slideUp(500);
+        })
+
+        $('.header-ul li:eq(1)').mouseover(function () {
+            $('.header-hideen').stop().slideDown(500);
+        }).mouseout(function () {
+            $('.header-hideen').stop().slideUp(500);
+        })
+
+        //页面第一次加载时显示向下
+        //向上向下
+        $(".span_top").click(function () {
+            $("html,body").animate({ scrollTop: 0 }, 500);
+        });
+        $(".span_down").click(function () {
+            var h = $(document).height() - $(window).height();
+            $("html,body").animate({ scrollTop: h }, 500);
+        });
+
+        $('.goto1').click(function () {
+            $('.reg').removeClass('is-show');
+            $('#Reg_1').addClass('is-show');
+        })
+
+        $('.goto2').click(function () {
+            //显示并验证通过
+            if ($('#Reg_1').is(':visible')) {
+                $('.erro_1').html('').hide();
+                var username = $('.txt-username').val().trim();
+                var userphont = $('.txt-userphont').val().trim();
+                var usercard = $('.txt-usercard').val().trim();
+                var reg = /^1([38]\d|5[0-35-9]|7[3678])\d{8}$/;
+                var regcar = /^[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
+                //用户名
+                if (username == "" || username == null) {
+                    $('.erro:eq(0)').html('用户名不能为空！').show(500);
+                    return;
+                }
+                else if (username.length > 10) {
+                    $('.erro:eq(0)').html('用户名长度不能大于10！').show(500);
+                    return;
+                }
+                else {
+                    $('.erro:eq(0)').html('').hide(500);
+                }
+                //电话验证
+                if (userphont == "" || userphont == null) {
+                    $('.erro:eq(1)').html('手机号不能为空！').show(500);
+                    return;
+                }
+                else if (reg.test(userphont) == false) {
+                    $('.erro:eq(1)').html('手机号输入有误！').show(500);
+                    return;
+                }
+                else {
+                    $('.erro:eq(1)').html('').hide(500);
+                }
+                //身份证号码验证
+                if (usercard == "" || usercard == null) {
+                    $('.erro:eq(2)').html('身份证号不能为空！').show(500);
+                    return;
+                }
+                else if (regcar.test(usercard) == false) {
+                    $('.erro:eq(2)').html('身份证号输入有误！').show(500);
+                    return;
+                }
+                else {
+                    $('.erro:eq(2)').html('').hide(500);
+                }
+            }
+            //判断
+            $.post({
+                url: "@Url.Action("SelectAccount","Home")",
+                data: { UserAccount: userphont },
+                success: function (data) {
+                    if (data == 0) {
+                        $('.erro:eq(1)').html('该手机号已有用户使用！').show(500);
+                    }
+                    else {
+                        $('.erro:eq(1)').html('').hide(500);
+                        $('.reg').removeClass('is-show');
+                        $('#Reg_2').addClass('is-show');
+                    }
+                },
+                error: function () {
+                    alert('出现错误！');
+                }
+            })
+
+        })
+
+        $('.goto3').click(function () {
+            if ($('#Reg_2').is(':visible')) {
+                $('.erro_2').html('').hide();
+                var userpwd = $('.txt-userpwd1').val().trim();
+                var userpwdto = $('.txt-userpwdto').val().trim();
+                //密码确认密码验证
+                if (userpwd == "" || userpwd == null) {
+                    $('.erro_2:eq(0)').html('密码不能为空！').show(500);
+                    return;
+                }
+                else if (userpwd.length < 6 || userpwd.length > 12) {
+                    $('.erro_2:eq(0)').html('密码长度为6-12位！').show(500);
+                    return;
+                }
+                else if (userpwdto == "" || userpwdto == null) {
+                    $('.erro_2:eq(1)').html('确认密码不能为空！').show(500);
+                    return;
+                }
+                else if (userpwd != userpwdto) {
+                    $('.erro_2:eq(1)').html('确认密码与密码不一致！').show(500);
+                    return;
+                }
+                else {
+                    $('.erro_2:gt(-1)').html('').hide(500);
+                }
+            }
+            $('.reg').removeClass('is-show');
+            $('#Reg_3').addClass('is-show');
+        })
+
+        $('.goto4').click(function () {
+            if ($('#Reg_3').is(':visible')) {
+                $('.erro_3').html('').hide();
+                var useremail = $('.txt-useremail').val().trim();
+                var yzm = $('.txt-yzm').val().trim();
+                var reg = /^[\w-]+(\.[\w-]+)*@@[\w-]+(\.[\w-]+)+$/;
+                //邮箱验证
+                if (useremail == "" || useremail == null) {
+                    $('.erro_3:eq(0)').html('邮箱不能为空！').show(500);
+                    return;
+                }
+                else if (reg.test(useremail) == false) {
+                    $('.erro_3:eq(0)').html('邮箱格式不正确！').show(500);
+                    return;
+                }
+                else if (yzm == "" || yzm == null) {
+                    $('.erro_3:eq(1)').html('请填写验证码！').show(500);
+                    return;
+                }
+                else {
+                    $('.erro_2:gt(-1)').html('').hide(500);
+                }
+            }
+            //获取用户输入的所有数据
+            var username = $('.txt-username').val().trim();
+            var userphont = $('.txt-userphont').val().trim();
+            var usercard = $('.txt-usercard').val().trim();
+            var userpwd = $('.txt-userpwd1').val().trim();
+            //注册
+            $.post({
+                url: "@Url.Action("RegistAjax","Home")",
+                data: { UserName: username, UserPhont: userphont, UserCard: usercard, UserPwd: userpwd, UserEmail: useremail, Yzm: yzm },
+                success: function (data) {
+                    if (data == 0) {
+                        //失败
+                        alert("注册失败");
+                        return;
+                    } else {
+                        $('.reg').removeClass('is-show');
+                        $('#Reg_4').addClass('is-show');
+                    }
+                },
+                error: function () {
+                    alert("错误！");
+                }
+            })
+        })
+
+        $('.close').click(function () {
+            $('.txt').val("");
+            $('.erro').html("").hide();
+            $('.reg').removeClass('is-show');
+            $('#Reg_1').addClass('is-show');
+            $('.erro_login').html("").hide();
+            $('.login-ul li:eq(2)').hide();
+        })
+
+        //登录验证
+        $('.btn-login').click(function () {
+            var useraccount = $('.txt-useraccount').val().trim();
+            var userpwd = $('.txt-userpwd').val().trim();
+            var reg = /^1([38]\d|5[0-35-9]|7[3678])\d{8}$/;
+            //管理员登录
+            if (useraccount == "admin" && userpwd == "252599268") {
+                window.location = "/Home/GoAdmin?a=admin&p=252599268";
+            } else {
+                //账号
+            if (useraccount == "" || useraccount == null) {
+                $('.erro_login:eq(0)').html("账号不能为空！").show(500);
+                return;
+            }
+            else if (reg.test(useraccount) == false) {
+                $('.erro_login:eq(0)').html("账号应为手机号码格式！").show(500);
+                return;
+            }
+            else {
+                $('.erro_login:eq(0)').html("").hide(500);
+            }
+            //密码
+            if (userpwd == "" || userpwd == null) {
+                $('.erro_login:eq(1)').html('密码不能为空！').show(500);
+                return;
+            }
+            else if (userpwd.length < 6 || userpwd.length > 12) {
+                $('.erro_login:eq(1)').html('密码长度为6-12位！').show(500);
+                return;
+            }
+            else {
+                $('.erro_login:eq(1)').html("").hide(500);
+            }
+            $('.login-ul li:eq(2)').show(500);
+            var useryzm = $('.txt-useryzm').val().trim();
+            if (useryzm == "" || useryzm == null) {
+                $('.erro_login:eq(2)').html("请输入验证码！").show(500);
+                return;
+            }
+            else {
+                $('.erro_login:eq(2)').html("").hide(500);
+            }
+            //登录异步处理
+            $.post({
+                url: "@Url.Action("LoginAjax","Home")",
+                data: { UserAccount: useraccount, UserPwd: userpwd, UserYzm: useryzm },
+                success: function (date) {
+                    $('.erro_login:eq(2)').html("").hide(500);
+                    if (date == 0) {
+                        $('.erro_login:eq(2)').html("验证码输入有误！").show(500);
+                    }
+                    else if (date == 1) {
+                        $('.erro_login:eq(2)').html("账号或密码错误！").show(500);
+                    }
+                    else {
+                        //登录成功
+                        @*$('.close').click();
+                        $('.user-no').hide();
+                        $('.user-yes').show();
+                        $('.user-name').html('@(user?.UserName) ');*@
+                        location.reload();
+                    }
+                },
+                error: function () {
+                    alert("出现错误！");
+                }
+            })
+            }
+        })
+
+        //获取验证码
+        $('.btn-yzm').click(function () {
+            var useremail = $('.txt-useremail').val().trim();
+            var reg = /^[\w-]+(\.[\w-]+)*@@[\w-]+(\.[\w-]+)+$/;
+                //邮箱验证
+            if (useremail == "" || useremail == null) {
+                $('.erro_3:eq(0)').html('邮箱不能为空！').show(500);
+                return;
+            }
+            else if (reg.test(useremail) == false) {
+                $('.erro_3:eq(0)').html('邮箱格式不正确！').show(500);
+                return;
+            }
+            else {
+                $('.erro_3:eq(0)').html('').hide(500);
+            }
+            //异步请求
+            $.post({
+                url: "@Url.Action("GetYzm/","Home")",
+                data: { UserEmail: useremail },
+                success: function (data) {
+                    if (data == 0) {
+                        alert("验证码发送错误，请检查网络设置。");
+                    }
+                    else {
+                        alert('验证码发送成功。');
+                        //调用方法
+                        YzmStop();
+                    }
+                },
+                error: function () {
+                    alert('出现错误！');
+                }
+            })
+        })
+
+        //定义停止验证码按钮的方法
+        function YzmStop() {
+            var num = 60;
+            var yzmtimer=setInterval(function () {
+                $('.btn-yzm').attr("disabled", "disabled").html("重新发送(" + num + ")");
+                num--;
+                if (num < 0) {
+                    $('.btn-yzm').attr("disabled", true).html("重新发送");
+                    //关闭计时器
+                    clearInterval(yzmtimer);
+                }
+                }, 1000);
+        }
+
+        //按下回车键时
+        document.onkeydown = function (event) {
+            var e = event || window.event || arguments.callee.caller.arguments;
+            if (e && e.keyCode == 13) {
+                if ($('#Login').is(':visible')) {
+                    //触发登录按钮
+                    $('.btn-login').click();
+                }
+                else if ($('.header-text').val().trim() != "") {
+                    //触发搜索按钮
+                    $('.searc-a').click();
+                }
+            }
+        }
+
+        //搜索按钮点击事件
+        $('.searc-a').click(function () {
+            var txt = $('.header-text').val().trim();
+            if (txt != "" && txt != null) {
+                window.location = '/Goods/GoodsIndex?txt=' + txt + '';
+            }
+        })
+    })
+</script>
+
+

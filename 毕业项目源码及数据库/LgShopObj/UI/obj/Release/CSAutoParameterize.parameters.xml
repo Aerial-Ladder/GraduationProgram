@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="LgShopDBEntities-Web.config Connection String" description="LgShopDBEntities 由应用程序在 web.config 中用来访问数据库的连接字符串。" defaultValue="metadata=res://*/LgShopDB.csdl|res://*/LgShopDB.ssdl|res://*/LgShopDB.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=120.25.207.127;initial catalog=LgShopDB;user id=sa;password=Zj252599268;MultipleActiveResultSets=True;App=EntityFramework&quot;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="E:\\201817380102郑靖\\2020卓越项目\\毕业项目源码及数据库\\LgShopObj\\UI\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='LgShopDBEntities']/@connectionString" />
+  </parameter>
+</parameters>

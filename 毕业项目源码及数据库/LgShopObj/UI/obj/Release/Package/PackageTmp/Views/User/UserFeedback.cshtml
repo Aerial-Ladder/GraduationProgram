@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewBag.Title = "UserFeedback";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*//导入样式表*@
+<link href="~/Content/css/UserFeedback.css" rel="stylesheet" />
+<div class="big">
+    <div class="Feedback-div">
+        <div class="Feedback-top">
+            反馈中心
+        </div>
+        <textarea class="txt-feedback" rows="5" cols="10" placeholder="请输入你想反馈的内容！(80字以内)" maxlength="80"></textarea>
+        <div class="Feedback-div1">
+            <span class="div1-clear"></span>
+            <span class="div1-num">0/80</span>
+        </div>
+        <button class="but-deedback">提&nbsp;&nbsp;交</button>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            //点击清空文本
+            $('.div1-clear').click(function () {
+                $('.txt-feedback').val('');
+                $('.div1-num').html('0/80').css('color','black');
+            })
+
+            $('.txt-feedback').keyup(function () {
+                var num = $(this).val().trim().length;
+                $('.div1-num').html('' + num + '/80');
+                if (num == 80) {
+                    $('.div1-num').css('color', 'red');
+                }
+                else if (num == 0)
+                {
+                    $('.div1-num').css('color', 'black');
+                }
+                else {
+                    $('.div1-num').css('color', 'green');
+                    $('.txt-feedback').removeClass('style_1');
+                }
+            })
+            //提交事件
+            $('.but-deedback').click(function () {
+                var values = $('.txt-feedback').val().trim();
+                if (values.length <= 0) {
+                    $('.txt-feedback').addClass('style_1');
+                    return;
+                }
+                else {
+                    $('.txt-feedback').removeClass('style_1');
+                    //异步请求
+                    $.post({
+                        url: '@Url.Action("UserFeedback")',
+                        data: { UserFeedback: values },
+                        success: function (data) {
+                            if (data == 1) {
+                                alert('反馈成功，请等待处理！');
+                                $('.div1-clear').click();
+                            }
+                            else {
+                                alert('反馈未成功提交！');
+                            }
+                        },
+                        error: () => {
+                            alert('出现错误！');
+                        }
+                    })
+                }
+            })
+        })
+    </script>
+    }
+

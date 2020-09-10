@@ -1,0 +1,86 @@
+﻿@using Models;
+@{
+    ViewBag.Title = "GoodsIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<TypeTable> TypeList = ViewBag.Type;
+    List<GoodsPhoto> GoodsPhoto = ViewBag.GoodsPhoto;
+    List<GoodsTable> Goods = Session["Goods"] as List<GoodsTable>;
+}
+
+@*样式表*@
+<link href="~/Content/css/GoodsIndex.css" rel="stylesheet" />
+@*引入*@
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<div class="GoodsIndex_div">
+    <div class="Gindex-div1">
+        <span class="div1_span"></span>&nbsp;&nbsp;<span>所有商品分类</span>
+    </div>
+    <div class="Gindex-div2">
+        @{
+            foreach (var item in TypeList.Where(p => p.TID == null))
+            {
+                <ul class="div2_ul">
+                    <li><h5 class="ion-ios-arrow-down">&nbsp;&nbsp;@item.TypeName</h5></li>
+                    @foreach (var item_1 in TypeList.Where(p => p.TID == item.TypeID))
+                    {
+                <li>
+                    <span class="div2_ul--span">@item_1.TypeName</span>
+                    @{
+                        foreach (var item_2 in TypeList.Where(p => p.TID == item_1.TypeID))
+                        {
+                            @Ajax.ActionLink(item_2.TypeName, "Show_typeid", "Goods", new { pageindex =  1,typeid=item_2.TypeID }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "Goods_1", InsertionMode = InsertionMode.Replace })
+                        }
+                    }
+                </li>
+                    }
+                </ul>
+            }
+        }
+    </div>
+    <div class="Gindex-div1">
+        <span class="div1_span"></span>&nbsp;&nbsp;<span>商品列表</span>
+    </div>
+    <div class="Gindex-div3" id="Goods_1">
+        @{
+            if (Goods != null)
+            {
+                @Html.Partial("Show", Session["Goods"] as ViewDataDictionary)
+            }
+            else if (Session["Goods_tid"] != null)
+            {
+                @Html.Partial("Show", Session["Goods_tid"] as ViewDataDictionary)
+            }
+            else if (Session["Goods_typeid"] != null)
+            {
+                @Html.Partial("Show", Session["Goods_typeid"] as ViewDataDictionary)
+            }
+            else if (Session["Goods_typeid_2"] != null)
+            {
+                @Html.Partial("Show", Session["Goods_typeid_2"] as ViewDataDictionary)
+            }
+            else
+            {
+                <span class="span_null">暂无该类商品!</span>
+            }
+        }
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('.div2_ul>li:has(h5)').css("background-color", "orangered");
+            $('.div2_ul>li:has(span)').hide();
+            $('.div2_ul>li:has(h5)').click(function () {
+                $(this).siblings().stop().toggle(300);
+            })
+            $('.div2_ul>li:has(h5)').hover(function () {
+                $(this).toggleClass('style_1');
+            }, function () {
+                $(this).toggleClass('style_1');
+            })
+        })
+    </script>
+}
+

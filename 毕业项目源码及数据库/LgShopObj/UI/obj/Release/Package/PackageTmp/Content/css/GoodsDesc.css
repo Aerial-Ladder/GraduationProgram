@@ -1,0 +1,358 @@
+﻿*{
+    margin:0px;
+    padding:0px;
+    list-style:none;
+}
+a{
+    text-decoration:none;
+}
+.Desc_div {
+    width: 65%;
+    height: auto;
+    min-height: 600px;
+    margin: 100px auto;
+    background-color: #EEEEF2;
+}
+.Desc_div1 {
+    width: 100%;
+    height: 40px;
+    border-bottom: 1px solid grey;
+}
+.Desc_div1 > span + span {
+    display: inline-block;
+    transform: translateY(-10px);
+    font-size: 1.2em;
+}
+
+.div1_span {
+    display: inline-block;
+    width: 6px;
+    height: 100%;
+    background-color: orangered;
+    margin-left: 10px;
+}
+.Desc_div2{
+    width:55%;
+    height:auto;
+    min-height:500px;
+    float:right;
+    margin-right:50px;
+}
+.Ddiv2_ul{
+    width:100%;
+    height:auto;
+    margin-top:35px;
+}
+.Ddiv2_ul li{
+    width:100%;
+    height:auto;
+    padding-left:20px;
+    margin:20px 0px;
+}
+.Ddiv2_ul--h5{
+    font-weight:bold;
+}
+.Ddiv2_ul--span1{
+    color:red;
+}
+.Ddiv2_ul--div1 {
+    line-height:40px;
+    height: 80px;
+    width: 100%;
+    background-color: #FDF8E4;
+    color:darkgrey;
+    padding-left:20px;
+    margin:8px 0px;
+}
+.Ddiv2_ul--span2{
+    color:black !important;
+    font-weight:bold;
+    text-decoration:line-through;
+}
+.Ddiv2_ul--span3{
+    font-size:1.5em;
+    color:red;
+    font-weight:bold;
+}
+.Ddiv2_ul--div2{
+    width:100%;
+    height:50px;
+    border-bottom:1px dashed grey;
+    line-height:50px;
+    font-size:1.0em;
+}
+.span-solid {
+    border-right: 1px solid grey;
+}
+.Ddiv2_ul--span4 {
+    display: inline-block;
+    width: 32%;
+    height: 40px;
+    text-align:center;
+}
+.span-red{
+    color:red;
+}
+.Ddiv2_ul--div3{
+    width:100%;
+    height:60px;
+    color:gray;
+    line-height:60px;
+    padding-left:20px;
+}
+.Ddiv2_ul--div3 button{
+    display:inline-block;
+    width:30px;
+    height:30px;
+    line-height:0px !important;
+}
+.Ddiv2_ul--div3 input{
+    width:40px;
+    height:30px;
+    text-align:center;
+}
+.Ddiv2_ul--div4{
+    width:100%;
+    height:80px;
+}
+.bug, .goshopcar {
+    border-radius: 5px;
+    width: 180px;
+    height: 40px;
+    border: 1px solid red;
+}
+.bug {
+    background-color: #FFEDED;
+    color: red;
+    margin-top: 20px;
+    margin-left: 150px;
+    transition: all 0.4s;
+}
+    .bug:hover{
+        transform:scale(1.1,1.1);
+        transition:all 0.4s;
+    }
+.goshopcar {
+    background-color: red;
+    color: white;
+    margin-left: 20px;
+    transition: all 0.4s;
+}
+.goshopcar:hover {
+    transform: scale(1.1,1.1);
+    transition: all 0.4s;
+}
+        .ion-ios-cart-outline:before {
+            font-family: Glyphicons;
+            content: "\f3f7";
+        }
+
+.Desc_div3 {
+    width: 100%;
+    height: 40px;
+    background-color: #F5F5F5;
+    margin-top: 600px;
+    border: 1px solid #d7d7d8;
+}
+.Ddiv3_div1 {
+    text-align:center;
+    width: 120px;
+    height: 40px;
+    line-height:40px;
+    border: 1px solid #d7d7d8;
+    float: left;
+    color:darkgrey;
+    cursor:pointer;
+}
+    .Ddiv3_div1:hover{
+        text-decoration:none;
+        color:black;
+    }
+    .Desc_div4 {
+        width: 100%;
+        height: auto;
+        min-height: 400px;
+        background-color: #EEEEF2;
+        padding-bottom: 20px;
+    }
+.style_1 {
+    border-top: 2px solid red;
+    width: 150px;
+    height: 45px;
+    color: black;
+    background-color: #EEEEF2;
+    transform:translateY(-6px);
+}
+.div4_div1{
+    width:90%;
+    height:auto;
+    min-height:100px;
+    margin:20px auto;
+    background-color:white;
+}
+.div4_div1--div1{
+    width:100%;
+    height:30px;
+    line-height:30px;
+    border-bottom:1px solid black;
+    font-size:0.8em;
+    padding-left:20px;
+}
+.pl_time{
+    display:inline-block;
+    float:right;
+    width:auto;
+    height:30px;
+    margin-right:20px;
+}
+.div4_div1--div2{
+    width:100%;
+    height:auto;
+    position:relative;
+}
+.div_user{
+    width:50px;
+    height:50px;
+    margin-left:20px;
+    margin-top:10px;
+}
+.div_username{
+    display:inline-block;
+    position:absolute;
+    top:0px;
+    left:90px;
+    width:100px;
+    height:50px;
+    line-height:50px;
+}
+.div4_div1--div3{
+    width:100%;
+    height:auto;
+    min-height:20px;
+    padding:10px 20px;
+    color:gainsboro;
+}
+.user_pl{
+    color:black;
+}
+.span_good{
+    color:red;
+}
+.span_good:before {
+    font-family: Glyphicons;
+    content: "\f2fc";
+}
+.span_bad {
+    color: black;
+}
+    .span_bad:before {
+        font-family: Glyphicons;
+        content: "\f3ae";
+    }
+.like{
+    float:right;
+    width:100px;
+    height:60px;
+    text-align:center;
+    line-height:60px;
+}
+.nolike_span:before {
+    font-family: Glyphicons;
+    content: "\f387";
+}
+.like_span{
+    color:red;
+    margin-right:20px;
+}
+.nolike_span {
+    display: inline-block;
+    cursor: pointer;
+    transition: all 0.4s;
+}
+.like_span:before {
+    font-family: Glyphicons;
+    content: "\f388";
+}
+.nolike_span:hover{
+    color:red;
+    transform:scale(1.1,1.1);
+    transition:all 0.4s;
+}
+
+/*固定推荐栏*/
+.GetDiv{
+    height:auto;
+    width:240px;
+    max-width:400px;
+    min-width:200px;
+    min-height:250px;
+    position:fixed;
+    left:60px;
+    top:120px;
+}
+.get_top{
+    width:100%;
+    height:40px;
+    background-color:orange;
+    text-align:center;
+    line-height:40px;
+    color:black;
+    font-size:1.1em;
+}
+.get_bot{
+    width:100%;
+    height:auto;
+    min-height:220px;
+    border:2px solid orange;
+}
+.get_goods {
+    width: 85%;
+    height: auto;
+    min-height: 190px;
+    margin: 20px auto;
+    background-color: #EEEEF2;
+    transition: all 0.4s;
+    border: 1px solid #EEEEF2;
+}
+    .get_goods:hover {
+        transform: scale(1.1,1.1);
+        transition: all 0.4s;
+    }
+.get_img{
+    width:100%;
+    height:120px;
+}
+.get_span1{
+    text-decoration:line-through;
+    color:gray;
+    font-size:0.8em;
+}
+/*商品的标题*/
+.get_dl>dt+dd{
+    text-align:center;
+    height:30px;
+    line-height:35px;
+    font-weight:bold;
+    color:black;
+}
+.get_dl > dt + dd+dd{
+    text-align:center;
+    color:red;
+}
+.get_null{
+    width:100%;
+    height:100px;
+    margin-top:50px;
+    line-height:100px;
+    color:gray;
+    font-size:1.2em;
+    text-align:center;
+}
+    .get_null:before {
+        font-family: Glyphicons;
+        content: "\f3ab";
+        font-size:1.3em;
+    }
+.get_bot a:hover{
+    text-decoration:none;
+}

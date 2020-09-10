@@ -1,0 +1,332 @@
+﻿@using Models
+@model List<ShoppingCartTable>
+@{
+    ViewBag.Title = "ShopCar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<GoodsPhoto> GoodsPhoto = ViewBag.GoodsPhoto as List<GoodsPhoto>;
+    //收藏关系
+    List<CollectionTable> CollList = ViewBag.UserCollection;
+}
+
+@*//样式表*@
+<link href="~/Content/css/ShopCar.css" rel="stylesheet" />
+
+<div class="ShopCar-div">
+    <div class="Sdiv-top">
+        <span class="ion-android-cart">&nbsp;&nbsp;购物车(@Model.Count())</span>
+        <span class="top_span1">已选商品<span style="color:orange;font-size:1.2em;" class="checknum">0</span>件&nbsp;&nbsp;共&nbsp;<span style="color:orange;font-size:1.2em;" class="bigprice">¥0.00</span>&nbsp;元</span>
+    </div>
+    <div class="Sdiv-div1">
+        @{
+            if (Model.Count() > 0)
+            {
+                <table class="table tab-content">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" class="check_all" />全选</th>
+                            <th>商品图片</th>
+                            <th>商品名称</th>
+                            <th>单价</th>
+                            <th>数量</th>
+                            <th>小计(元)</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    @{
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><input type="checkbox" class="check_one" value="@item.CartID" /><input class="goodsid" type="hidden" value="@item.GoodsID" /></td>
+                                <td><img src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p => p.GoodsID == item.GoodsID).PhotoPath" class="table_img" /></td>
+                                <td>
+                                    <span class="td_span">@item.GoodsTable.GoodsName</span>
+                                </td>
+                                <td><span class="goodsprice">@string.Format("{0:C}", item.GoodsTable.GoodsPrice)</span></td>
+                                <td>
+                                    <a class="table_a jian">-</a>
+                                    <input type="text" class="table_txt1" value="@item.ShoppingNum" disabled="disabled" />
+                                    <a class="table_a add" data-kcnum="@item.GoodsTable.GoodsInventory">+</a>
+                                </td>
+                                <td><span class="samll_price">@string.Format("{0:C}", (item.GoodsTable.GoodsPrice * item.ShoppingNum))</span></td>
+                                <td>
+                                    @{
+                                        if (CollList.Where(p => p.GoodsID == item.GoodsID) != null && CollList.Where(p => p.GoodsID == item.GoodsID).Count() > 0)
+                                        {
+                                            if (CollList.Single(p => p.GoodsID == item.GoodsID).IsCollection == 1)
+                                            {
+                                                <span style="color:red;margin-right:30px;">已收藏</span>
+                                            }
+                                            else
+                                            {
+                                                <input type="hidden" value="@item.GoodsID" class="gid" />
+                                                <a href="#" class="btn btn-danger shopcar-coll">收藏商品</a>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <input type="hidden" value="@item.GoodsID" class="gid" />
+                                            <a href="#" class="btn btn-danger shopcar-coll">收藏商品</a>
+                                        }
+                                    }
+                                    <a href="#" class="btn btn-dark shopcar-delete">删除</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </table>
+            }
+            else
+            {
+                <span class="shopcar_null">&nbsp;您的购物车是空的!</span>
+            }
+        }
+
+    </div>
+    @{
+        if (Model.Count() > 0)
+        {
+            <div class="Sdiv-div2">
+                <input type="checkbox" class="div2_check check_all" />全选
+                <a href="#" class="div2_a1">删除选中的商品</a>
+                <a href="#" class="div2_a2">结算</a>
+                <span class="top_span1">已选商品<span style="color:orange;font-size:1.2em;" class="checknum">0</span>件&nbsp;&nbsp;共&nbsp;<span style="color:orange;font-size:1.2em;" class="bigprice">¥0.00</span>&nbsp;元</span>
+            </div>
+        }
+    }
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('.jian').click(function () {
+                var values = $(this).siblings('input').val();
+                var price = $(this).parent('td').prev('td').children('span').text().replace(/,/g, "");
+                var num = parseFloat(price.substring(1, price.length));
+                if (parseFloat(values) > 1) {
+                    $(this).siblings('input').val(parseFloat(values) - 1);
+                    $(this).parent('td').next('td').children('span').html(ToMoney((parseFloat(values) - 1) * num, 2));
+                    //如果这件商品是选中状态
+                    if ($(this).parent('td').prevAll('td').children('.check_one').is(':checked')) {
+                        var bigprice = parseFloat($('.bigprice').html().replace(/,/g, "").substring(1, this.lenght)) - num;
+                        $('.bigprice').html(ToMoney(bigprice,2));
+                    }
+                }
+            })
+            $('.add').click(function () {
+                var kcnum = $(this).data('kcnum');
+                var values = $(this).siblings('input').val();
+                //单价
+                var price = $(this).parent('td').prev('td').children('span').text().replace(/,/g, "");
+                var num = parseFloat(price.substring(1, price.length + 1));
+                if (parseFloat(values) < 10 && parseFloat(values) < kcnum) {
+                    $(this).siblings('input').val(parseFloat(values) + 1);
+                    $(this).parent('td').next('td').children('span').html(ToMoney((parseFloat(values) + 1) * num, 2));
+                    if ($(this).parent('td').prevAll('td').children('.check_one').is(':checked')) {
+                        var bigprice = parseFloat($('.bigprice').html().replace(/,/g, "").substring(1, this.lenght)) + num;
+                        $('.bigprice').html(ToMoney(bigprice,2));
+                    }
+                }
+            })
+
+            //收藏商品点击事件
+            $('.shopcar-coll').click(function () {
+                if (confirm('您确定要收藏这件商品吗?')) {
+                    var goodsid = $(this).prev('.gid').val();
+                    $.post({
+                        url: "@Url.Action("CollectionPlay","Goods")",
+                        data: { GoodsId: goodsid },
+                        success: function (data) {
+                            if (data == 0) {
+                                alert('收藏失败！');
+                            }
+                            else {
+                                //收藏成功
+                                location.reload();
+                            }
+                        },
+                        error: function () {
+                            alert('出现错误！');
+                        }
+                    })
+                 }
+            })
+
+            //全选按钮点击事件
+            $('.check_all').click(function () {
+                var bigprice=0;
+                var checknum=0;
+                if ($(this).is(':checked')) {
+                    $('.check_all').prop('checked', true);
+                    $('.check_one').each(function (index) {
+                        $(this).prop('checked', true);
+                        var price = $(this).parent('td').nextAll('td').children('.samll_price').html().replace(/,/g, "");
+                        bigprice += parseFloat(price.substring(1, price.length));
+                        checknum++;
+                    })
+                    $('.bigprice').html(ToMoney(bigprice, 2));
+                    $('.checknum').html(checknum);
+                } else {
+                    $('.check_one').each(function (index) {
+                        $(this).prop('checked', false);
+                    })
+                    $('.check_all').prop('checked', false);
+                    $('.bigprice').html(ToMoney(0, 2));
+                    $('.checknum').html(0);
+                }
+            })
+
+            //复选按钮点击事件
+            $('.check_one').click(function () {
+                var bigprice = parseFloat($('.bigprice').html().replace(/,/g, "").substring(1, this.lenght));
+                var checknum = parseInt($('.checknum').html());
+                var lenght = $('.check_one').length;
+                if ($(this).is(':checked')) {
+                    ++checknum;
+                    if (checknum == lenght) {
+                        //全选
+                        $('.check_all').prop('checked', true)
+                    }
+                    else {
+                        //取消全选
+                        $('.check_all').prop('checked', false)
+                    }
+                    var price = $(this).parent('td').nextAll('td').children('.samll_price').html().replace(/,/g, "");
+                    bigprice += parseFloat(price.substring(1, price.length));
+
+                }
+                else {
+                    checknum--;
+                    $('.check_all').prop('checked', false);
+                    var price = $(this).parent('td').nextAll('td').children('.samll_price').html().replace(/,/g, "");
+                    bigprice -= parseFloat(price.substring(1, price.length));
+                }
+                $('.bigprice').html(ToMoney(bigprice, 2));
+                $('.checknum').html(checknum);
+            })
+
+            //转化成价格格式
+            function ToMoney(s, n) {
+                n = n > 0 && n <= 20 ? n : 2;
+                s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+                var l = s.split(".")[0].split("").reverse(),
+                    r = s.split(".")[1];
+                t = "";
+                for (i = 0; i < l.length; i++) {
+                    t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+                }
+                return "¥"+t.split("").reverse().join("") + "." + r;
+            }
+
+            //删除单个点击事件
+            $('.shopcar-delete').click(function () {
+                if (confirm('您确定要从购物车中删除这件商品吗?')) {
+                    var arr = new Array(1);
+                    arr[0] = $(this).parent('td').prevAll('td').children('.check_one').val();
+                    $.post({
+                        url: "@Url.Action("ShopCarDelete","ShopCar")",
+                        data: { JsonArr: JSON.stringify(arr) },
+                        success: function (data) {
+                            if (data == 0) {
+                                alert("删除失败！");
+                            }
+                            else {
+                                //删除成功
+                                location.reload();
+                            }
+                        },
+                        error: () => {
+                            alert('出现错误!');
+                        }
+                    })
+                }
+            })
+
+            //删除选中的商品
+            $('.div2_a1').click(function () {
+                if (confirm('您确定要从购物车删除选中的商品吗?')) {
+                    var arr = new Array();
+                    var arrindex = 0;
+                    $('.check_one').each(function (index) {
+                        if ($(this).is(':checked')) {
+                            arr[arrindex] = $(this).val();
+                            arrindex++;
+                        }
+                    })
+                    if (arrindex > 0) {
+                        $.post({
+                            url: "@Url.Action("ShopCarDelete","ShopCar")",
+                            data: { JsonArr: JSON.stringify(arr) },
+                            success: function (data) {
+                                if (data == 0) {
+                                    alert("删除失败！");
+                                }
+                                else {
+                                    //删除成功
+                                    location.reload();
+                                }
+                            },
+                            error: () => {
+                                alert('出现错误!');
+                            }
+                        })
+                    } else {
+                        alert('请选中商品！');
+                    }
+                }
+            })
+
+            //结算点击事件
+            $('.div2_a2').click(function () {
+                if (confirm('您确定要结算选中的商品吗?')) {
+                    var arr = [];
+                    $('.check_one').each(function (index) {
+                        if ($(this).is(':checked')) {
+                            //创建对象
+                            var Order = {
+                                GoodsID:$(this).next('.goodsid').val(),
+                                GoodsNum:$(this).parent('td').nextAll('td').children('.table_txt1').val(),
+                                OrderAmount:parseFloat($(this).parent('td').nextAll('td').children('.samll_price').html().replace(/,/g, '').substring(1, this.lenght))
+                            }
+                            arr.push(Order);
+                        }
+                    })
+                    if (arr.length > 0) {
+                        $.post({
+                            url: "@Url.Action("AddOrder","ShopCar")",
+                            data: { OrderList: JSON.stringify(arr) },
+                            success: function (data) {
+                                if (data == 0) {
+                                    alert('加入到订单失败!');
+                                }
+                                else if (data == 2)
+                                {
+                                    alert('您的余额不足!');
+                                }
+                                else if (data == 3)
+                                {
+                                    if (confirm('您的收货地址为空，是否立即前往个人中心修改?')) {
+                                        window.location = '/User/UserIndex';
+                                    }
+                                }
+                                else {
+                                    alert('购买成功！');
+                                    location.reload();
+                                }
+                            },
+                            error: function (erro) {
+                                alert(erro);
+                            }
+                        })
+                    }
+                    else {
+                        alert('请选中你要结算的商品！');
+                    }
+                }
+            })
+
+        })
+    </script>
+}
+
+
+

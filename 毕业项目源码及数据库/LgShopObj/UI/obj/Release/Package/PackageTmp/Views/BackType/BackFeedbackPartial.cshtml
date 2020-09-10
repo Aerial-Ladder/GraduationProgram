@@ -1,0 +1,258 @@
+﻿@using Models;
+@{
+    List<FeedbackTable> list = Session["allfk"] as List<FeedbackTable>;
+    int pageindex = ViewBag.pageindex ?? 1;
+    double count = 0;
+    int fkcount = 0;
+    int index = ViewBag.IsDealwith;
+    if (list != null && list.Count() > 0)
+    {
+        count = Convert.ToDouble(Session["fkpagecount"]);
+        fkcount = Convert.ToInt32(Session["fkcount"]);
+    }
+}
+<link href="~/Content/BackstageCss/BackFeedback.css" rel="stylesheet" />
+
+<div class="BackFeedback_top">
+    <span class="span_feedbacknum">
+        &nbsp;反馈数量(@fkcount)
+    </span>
+    <div class="div_right">
+        @using (Ajax.BeginForm("BackFeedbackPartial", "BackType", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackFeedback", InsertionMode = InsertionMode.Replace }))
+        {
+            <select class="feedback_select" name="IsDealwith">
+                <option selected="@(index==2)">所有反馈</option>
+                <option value="0" selected="@(index==0)">未处理</option>
+                <option value="1" selected="@(index==1)">已处理</option>
+            </select>
+            <input type="submit" style="background-color:#E2E2E2;border:1px solid #E2E2E2;color:#E2E2E2;" class="btn-select" />
+        }
+    </div>
+</div>
+
+@{
+    if (list != null && list.Count() > 0)
+    {
+        <div class="feedback-div">
+            <table class="table table-striped table-bordered">
+                <thead style="color: white">
+                    <tr class="bg-secondary">
+                        <th>编号</th>
+                        <th>用户头像</th>
+                        <th>用户名</th>
+                        <th>账号</th>
+                        <th>反馈内容</th>
+                        <th>反馈时间</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                @{
+                    int num=0;
+                    foreach (var item in list)
+                    {
+                        <tr class="tr_content bg-light">
+                            <td style="display:none;">@item.FeedbackID</td>
+                            <td>@(++num)</td>
+                            <td><img src="~/Content/Images/@item.UserInfo.UserPhoto" width="40" height="40" /></td>
+                            <td>@item.UserInfo.UserName</td>
+                            <td>@item.UserInfo.UserAccount</td>
+                            <td>
+                                @{
+                                    if (item.FeedbackContent.Length > 15)
+                                    {
+                                        @(item.FeedbackContent.Substring(0, 15) + "...")
+                                    }
+                                    else
+                                    {
+                                        @item.FeedbackContent
+                                    }
+                                }
+                            </td>
+                            <td>@(string.Format("{0:D}", item.FeedbackTime))</td>
+                            @{
+                                if (item.IsDealwith == 1)
+                                {
+                                    <td style="color:green;">已处理</td>
+                                }
+                                else
+                                {
+                                    <td style="color:red;">未处理</td>
+                                }
+                            }
+                            <td>
+                                @{
+                                    if (item.IsDealwith == 0)
+                                    {
+                                        <a href="#" data-toggle="modal" data-target="#FeedbackDesc" data-feedbackstr="@item.FeedbackContent" class="btn btn-outline-primary feedback-desc">详情</a>
+                                        <a href="#" class="btn btn-outline-success feedback-del">处理</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="#" data-toggle="modal" data-target="#FeedbackDesc" data-feedbackstr="@item.FeedbackContent" class="btn btn-outline-primary feedback-desc">详情</a>
+                                    }
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+        <div class="feedback_bot">
+            @*分页位置*@
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+
+                    @{
+                        if (pageindex <= 1)
+                        {
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">上一页</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item">
+                                @Ajax.ActionLink("上一页", "BackFeedbackPartial", "BackType", new { pageindex = pageindex - 1,IsDealwith=index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackFeedback", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                            </li>
+                        }
+                    }
+
+                    @{
+                        if (pageindex != 1 && pageindex != count)
+                        {
+                            for (int i = pageindex - 1; i < pageindex + 2; i++)
+                            {
+                                if (i == pageindex)
+                                {
+                                    <li class="page-item active">
+                                        @Ajax.ActionLink(i.ToString(), "BackFeedbackPartial", "BackType", new { pageindex = i,IsDealwith=index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackFeedback", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                                else if (i <= count)
+                                {
+                                    <li class="page-item">
+                                        @Ajax.ActionLink(i.ToString(), "BackFeedbackPartial", "BackType", new { pageindex = i,IsDealwith=index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackFeedback", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                            }
+                        }
+                        else if (pageindex == 1)
+                        {
+                            for (int i = 0; i <= pageindex + 2; i++)
+                            {
+                                if (i == pageindex)
+                                {
+                                    <li class="page-item active">
+                                        @Ajax.ActionLink(i.ToString(), "BackFeedbackPartial", "BackType", new { pageindex = i,IsDealwith=index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackFeedback", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                                else if (i > 0 && i <= count)
+                                {
+                                    <li class="page-item">
+                                        @Ajax.ActionLink(i.ToString(), "BackFeedbackPartial", "BackType", new { pageindex = i,IsDealwith=index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackFeedback", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            for (int i = pageindex - 2; i <= count; i++)
+                            {
+                                if (i == count)
+                                {
+                                    <li class="page-item active">
+                                        @Ajax.ActionLink(i.ToString(), "BackFeedbackPartial", "BackType", new { pageindex = i,IsDealwith=index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackFeedback", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                                else if (i > 0)
+                                {
+                                    <li class="page-item">
+                                        @Ajax.ActionLink(i.ToString(), "BackFeedbackPartial", "BackType", new { pageindex = i,IsDealwith=index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackFeedback", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                            }
+                        }
+                    }
+                    @{
+                        if (pageindex == count)
+                        {
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">下一页</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item">
+                                @Ajax.ActionLink("下一页", "BackFeedbackPartial", "BackType", new { pageindex = pageindex + 1,IsDealwith=index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackFeedback", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                            </li>
+                        }
+                    }
+                </ul>
+            </nav>
+        </div>
+    }
+    else
+    {
+        <div class="feedback_null">&nbsp;暂无反馈信息！</div>
+    }
+}
+
+<!-- 反馈详情模态框 -->
+<div class="modal fade" id="FeedbackDesc" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">&nbsp;反馈内容详情</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span class="feedback_span">
+
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+        $('.btn-select').hide();
+        $('.feedback_select').change(function () {
+            $('.btn-select')[0].click();
+        })
+
+        //模态框
+        $('#FeedbackDesc').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var str = button.data('feedbackstr');
+            var modal = $(this);
+            modal.find('.feedback_span').html(str);
+        })
+
+        //处理点击事件
+        $('.feedback-del').click(function () {
+            if (confirm('您确定要处理这条反馈吗?')) {
+                var fid = $(this).parent().parent().children(":eq(0)").text();
+                $.post({
+                    url: "@Url.Action("FeedbackUpdate","BackType")",
+                    data: { FeedbackID: fid },
+                    success: function (data) {
+                        if (data == 0) {
+                            alert('处理失败！');
+                        } else {
+                            alert('处理成功！');
+                            $('.btn-select')[0].click();
+                        }
+                    },
+                    error: function () {
+                        alert('出现错误！');
+                    }
+                })
+            }
+        })
+    })
+</script>

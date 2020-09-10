@@ -1,0 +1,154 @@
+﻿* {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.GoodsIndex_div {
+    width: 75%;
+    height: auto;
+    min-height: 600px;
+    margin: 60px auto;
+    background-color: #EEEEF2;
+}
+
+.Gindex-div1 {
+    width: 100%;
+    height: 40px;
+    border-bottom: 1px solid grey;
+}
+    .Gindex-div1>span+span{
+        display:inline-block;
+        transform:translateY(-10px);
+        font-size:1.2em;
+    }
+
+    .div1_span {
+        display: inline-block;
+        width: 6px;
+        height: 100%;
+        background-color: orangered;
+        margin-left: 10px;
+    }
+.Gindex-div2{
+    padding:20px 0px;
+    width:100%;
+    height:auto;
+}
+.div2_ul{
+    width:100%;
+}
+    .div2_ul li {
+        cursor: pointer;
+        margin:5px 0px;
+        padding-left: 30px;
+        height: 40px;
+        line-height: 40px;
+        transition:all 0.5s;
+    }
+    .div2_ul li a {
+        display: inline-block;
+        margin: 0px 10px;
+        color: gray;
+    }
+.div2_ul li h5{
+    color:white;
+    transform:translateY(5px);
+}
+.div2_ul--span{
+    padding:0px 5px;
+    width:auto;
+    text-align:center;
+    height:100%;
+    font-size:1.1em;
+    font-weight:bold;
+    display:inline-block;
+    border-right:2px solid orange;
+}
+.style_1 {
+    border-radius: 10px;
+    transform: translateY(-5px);
+    transition: all 0.5s;
+}
+.Gindex-div3{
+    height:auto;
+    min-height:300px;
+    width:100%;
+    margin-top:20px;
+}
+.card {
+    float: left;
+    transition: all 0.5s;
+}
+.Gindex-div4 {
+    width: 100%;
+    height: 60px;
+    background-color: #EEEEF2;
+}
+.card-div1 {
+    overflow: hidden;
+    width: 100%;
+    height: 25px;
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    text-align:center;
+}
+
+.card-div2 {
+    width: 100%;
+    height: 45px;
+    overflow: hidden;
+    margin: 5px 0px;
+    font-size: 0.9em;
+}
+
+.card-div3 {
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+}
+
+    .card-div3 span {
+        margin-left:35px;
+    }
+
+.span-left {
+    color: red;
+    font-size: 1.3em;
+}
+
+.span-right {
+    text-decoration: line-through;
+    color: gray;
+}
+.div3_a {
+    width: auto;
+    height: auto;
+    display: inline-block;
+    color: black;
+    transition: all 0.4s;
+    margin: 20px 32px;
+}
+    .div3_a:hover {
+        color: black;
+        transition: all 0.4s;
+        transform: scale(1.1,1.1);
+    }
+    .span_null{
+        display:inline-block;
+        width:100%;
+        height:50px;
+        line-height:50px;
+        text-align:center;
+        color:gray;
+        font-size:2em;
+        margin-top:40px;
+    }
+.span_null:before {
+    font-family: Glyphicons;
+    content: "\f3ab";
+}

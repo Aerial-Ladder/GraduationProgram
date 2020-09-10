@@ -1,0 +1,169 @@
+﻿@using Models
+@model List<CollectionTable>
+@{
+    List<GoodsPhoto> GoodsPhoto = Session["goodphotos"] as List<GoodsPhoto>;
+}
+
+<style>
+    .Collection-top {
+        width: 100%;
+        margin-top: 20px;
+        height: 25px;
+        line-height: 25px;
+        padding-left: 60px;
+    }
+
+    .colltop_span {
+        font-size: 1.0em;
+    }
+
+        .colltop_span:before {
+            font-family: Glyphicons;
+            content: "\f388";
+        }
+
+    .Collection_div {
+        display: inline-block;
+        width: 45%;
+        height: 100px;
+        margin: 20px 23px;
+        border-radius: 5px;
+        overflow: hidden;
+        border: 1px solid black;
+        transition: all 0.4s;
+    }
+
+        .Collection_div:hover {
+            transform: scale(1.1,1.1);
+            border-radius: 0px;
+            border: 1px solid orange;
+            transition: all 0.4s;
+        }
+
+        .Collection_div img {
+            width: 100%;
+            height: 100%;
+        }
+
+    .coll_big {
+        width: 90%;
+        height: auto;
+        margin: 0px auto;
+    }
+
+    .div1 {
+        width: 80px;
+        height: 80px;
+        float: left;
+        margin: 10px;
+        border: 1px solid gainsboro;
+    }
+
+    .div2 {
+        width: 220px;
+        height: 80px;
+        float: left;
+        margin: 10px 12px;
+    }
+
+    .div2_span1, .div2_span2 {
+        display: inline-block;
+        overflow: hidden;
+    }
+
+    .div2_span1 {
+        font-weight: bold;
+        line-height: 40px;
+        font-size: 1.1em;
+        color: black !important;
+        height: 40px;
+        max-height: 40px;
+    }
+
+    .div2_span2 {
+        line-height: 20px;
+        color: orange;
+        height: 20px;
+        max-height: 20px;
+    }
+
+    .Collection_null {
+        width: auto;
+        height: 60px;
+        text-align: center;
+        font-size: 1.6em;
+        color: grey;
+        line-height: 60px;
+        margin-top: 100px;
+    }
+
+        .Collection_null:before {
+            font-family: Glyphicons;
+            content: "\f3ab";
+        }
+
+    .div3 {
+        width: 100px;
+        height: 100%;
+        line-height: 100px;
+        float: right;
+        margin-right: 10px;
+    }
+</style>
+
+@{
+    if (Model != null && Model.Count() > 0)
+    {
+        <div class="Collection-top"><span class="colltop_span">&nbsp;我收藏的商品(@Model.Count())</span></div>
+        <div class="coll_big">
+            @{
+                foreach (var item in Model)
+                {
+                    <a href="#">
+                        <div class="Collection_div">
+                            <div class="div1"><img src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p=>p.GoodsID==item.GoodsID).PhotoPath" /></div>
+                            <div class="div2">
+                                <span class="div2_span1">@item.GoodsTable.GoodsName</span><br/>
+                                <span class="div2_span2">@string.Format("{0:C}", item.GoodsTable.GoodsPrice)</span>
+                            </div>
+                            <div class="div3">
+                                <input type="hidden" value="@item.GoodsID" class="gid" />
+                                <span class="btn btn-outline-danger collover">取消收藏</span>
+                            </div>
+                        </div>
+                    </a>
+                }
+            }
+        </div>
+    }
+    else
+    {
+        <div class="Collection_null">&nbsp;您暂无收藏！</div>
+    }
+}
+
+<script type="text/javascript">
+    $(function () {
+        $('.collover').click(function () {
+            if (confirm('您确定要取消收藏吗?')) {
+                var goodsid = $(this).siblings('.gid').val();
+                $.post({
+                    url: "@Url.Action("CollectionPlay","Goods")",
+                    data: { GoodsId: goodsid },
+                        success: function (data) {
+                            if (data == 0) {
+                                alert('取消收藏失败！');
+                            }
+                            else {
+                                //我的收藏点击
+                                $('.top_a:eq(3)')[0].click();
+                            }
+                    },
+                    error: function () {
+                        alert('出现错误！');
+                    }
+                })
+            }
+        })
+    })
+</script>

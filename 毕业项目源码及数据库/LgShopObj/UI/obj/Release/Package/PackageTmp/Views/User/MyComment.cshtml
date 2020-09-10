@@ -1,0 +1,212 @@
+﻿@using Models
+@model List<CommentTable>
+<style>
+    .MyCommentDiv {
+        width: 90%;
+        height: auto;
+        min-height: 120px;
+        border-radius: 0px;
+        border: 1px solid gray;
+        margin: 30px auto;
+    }
+
+    .div_1 {
+        width: 100%;
+        height: 30px;
+        line-height: 30px;
+        border-bottom: 1px solid gray;
+        padding: 0px 5px;
+    }
+
+    .span_left {
+        width: auto;
+        height: 100%;
+        display: inline-block;
+        float: left;
+        font-size: 0.9em;
+    }
+
+    .span_right {
+        width: auto;
+        height: 100%;
+        display: inline-block;
+        float: right;
+        font-size: 0.9em;
+    }
+
+    .span_up {
+        display: inline-block;
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+        padding: 0px 10px;
+    }
+
+    .span_bot {
+        display: inline-block;
+        width: 100%;
+        height: auto;
+        padding: 10px 10px;
+    }
+
+    .span_grey {
+        color: grey !important;
+    }
+
+    .div_3 {
+        width: 100%;
+        height: 25px;
+        line-height: 25px;
+        border-top: 1px solid gray;
+        padding: 0px 10px;
+    }
+
+    .div3_a1, .div3_a2 {
+        cursor:pointer;
+        color: gray;
+        transition: all 0.4s;
+    }
+
+        .div3_a1:after {
+            font-family: Glyphicons;
+            content: "\f3d3";
+        }
+
+        .div3_a1:hover {
+            color: black;
+            text-decoration: none;
+            transition: all 0.4s;
+        }
+
+        .div3_a2:hover {
+            color: black;
+            text-decoration: none;
+            transition: all 0.4s;
+        }
+
+        .div3_a2:before {
+            font-family: Glyphicons;
+            content: "\f37f";
+        }
+
+    .MyComment_null {
+        width: auto;
+        height: 60px;
+        text-align: center;
+        font-size: 1.6em;
+        color: grey;
+        line-height: 60px;
+        margin-top: 100px;
+    }
+
+        .MyComment_null:before {
+            font-family: Glyphicons;
+            content: "\f3ab";
+        }
+
+    .span_good {
+        color: red;
+    }
+
+        .span_good:before {
+            font-family: Glyphicons;
+            content: "\f2fc";
+        }
+
+    .span_bad {
+        color: black;
+    }
+
+        .span_bad:before {
+            font-family: Glyphicons;
+            content: "\f3ae";
+        }
+    .Comment-top {
+        width: 100%;
+        margin-top: 15px;
+        height: 25px;
+        line-height: 25px;
+        padding-left: 50px;
+    }
+
+    .comment_span {
+        font-size: 1.0em;
+    }
+
+        .comment_span:before {
+            font-family: Glyphicons;
+            content: "\f11f";
+        }
+</style>
+@{
+    if (Model != null && Model.Count() > 0)
+    {
+        <div class="Comment-top"><span class="comment_span">&nbsp;评价次数(@Model.Count())</span></div>
+        foreach (var item in Model)
+        {
+            <div class="MyCommentDiv">
+                <div class="div_1">
+                    <span class="span_left">
+                        我的评分:&nbsp;
+                        @{
+                            for (int i = 0; i < 5; i++)
+                            {
+                                if (i < item.CommentStarRating)
+                                {
+                                    <span class="span_good"></span>
+                                }
+                                else
+                                {
+                                    <span class="span_bad"></span>
+                                }
+                            }
+                        }
+                    </span>
+                    <span class="span_right">评价时间:@string.Format("{0:D}", item.CommentTime)</span>
+                </div>
+                <div class="div_2">
+                    <span class="span_up"><span class="span_grey">商品名称：</span>@item.GoodsTable.GoodsName</span>
+                    <span class="span_bot"><span class="span_grey">评价详情：</span>@item.CommentContent</span>
+                </div>
+                <div class="div_3">
+                    <span class="span_left"><a href="/Goods/GoodsDesc?goodsid=@item.GoodsID" class="div3_a1">查看详情&nbsp;</a></span>
+                    <span class="span_right">
+                        <input type="hidden" value="@item.CommentID" class="feedbackid" />
+                        <span class="div3_a2">&nbsp;删除</span>
+                    </span>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="MyComment_null">&nbsp;您还没有评价！</div>
+    }
+}
+
+<script type="text/javascript">
+    $(function () {
+    $('.div3_a2').click(function () {
+            if (confirm('您确定要删除这条评价吗?')) {
+                var id = $(this).siblings().val();
+                $.post({
+                    url: "@Url.Action("CommentDel","User")",
+                    data: { CommentID: id },
+                    success: function (data) {
+                        if (data == 0) {
+                            alert('删除失败！');
+                        } else {
+                            //我的评价点击
+                            $('.top_a:eq(1)')[0].click();
+                        }
+                    },
+                    error: function () {
+                        alert('出现错误！');
+                    }
+                })
+            }
+        })
+    })
+</script>
+
+

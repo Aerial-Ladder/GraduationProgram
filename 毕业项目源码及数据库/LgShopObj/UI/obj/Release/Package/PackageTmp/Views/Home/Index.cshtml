@@ -1,0 +1,338 @@
+﻿@using Models;
+@model List<GoodsTable>
+@{
+    //所有分类
+    List<TypeTable> TypeList = ViewBag.Type;
+    //图片
+    List<GoodsPhoto> GoodsPhoto = ViewBag.GoodsPhoto;
+}
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*样式表*@
+<link href="~/Content/css/index.css" rel="stylesheet" />
+
+<div class="content row">
+    <div class="content-div1">
+        <ul>
+            <li><a href="#"><img src="~/Content/Images/ad-1.jpg" alt="" class="lunboimg" /></a></li>
+        </ul>
+        <ul class="div1-ul">
+            <li class="isshow" value="1"></li>
+            <li value="2"></li>
+            <li value="3"></li>
+            <li value="4"></li>
+            <li value="5"></li>
+        </ul>
+        <div class="div1-div1">
+            <ul class="div1-ul2">
+                <li>
+                    <span class="div1-ul2_span ion-tshirt"></span>
+                    <span class="span_big">经典服装</span>
+                    <svg class="bi bi-caret-right-fill ul2-span" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M12.14 8.753l-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+                    </svg>
+                    <div class="li_div">
+                        @{
+                            int index = 1;
+                            foreach (var item in TypeList.Where(p => p.TID == 1))
+                            {
+                                <span class="span_small">@item.TypeName</span>
+                                if (index == 2)
+                                {
+                                    <br />
+                                }
+                                else if (index == 4)
+                                {
+                                    index = 1;
+                                    break;
+                                }
+                                index++;
+                            }
+                        }
+                    </div>
+                </li>
+                <li>
+                    <span class="div1-ul2_span ion-monitor"></span>
+                    <span class="span_big">电脑办公</span>
+                    <svg class="bi bi-caret-right-fill ul2-span" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M12.14 8.753l-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+                    </svg>
+                    <div class="li_div">
+                        @{
+                            foreach (var item in TypeList.Where(p => p.TID == 2))
+                            {
+                                <span class="span_small">@item.TypeName</span>
+                                if (index == 4)
+                                {
+                                    index = 1;
+                                    break;
+                                }
+                                else
+                                {
+                                    index++;
+                                }
+                            }
+                        }
+                    </div>
+                </li>
+                <li>
+                    <span class="div1-ul2_span_1 ion-ios-lightbulb-outline"></span>
+                    <span class="span_big">&nbsp;生活日用&nbsp;</span>
+                    <svg class="bi bi-caret-right-fill ul2-span" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M12.14 8.753l-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+                    </svg>
+                    <div class="li_div">
+                        @{
+                            foreach (var item in TypeList.Where(p => p.TID == 3))
+                            {
+                                <span class="span_small">@item.TypeName</span>
+                                if (index == 4)
+                                {
+                                    index = 1;
+                                    break;
+                                }
+                                else
+                                {
+                                    index++;
+                                }
+                            }
+                        }
+                    </div>
+                </li>
+                <li>
+                    <span class="div1-ul2_span_1 ion-ios-wineglass-outline"></span>
+                    <span class="span_big">&nbsp;食品饮食&nbsp;&nbsp;</span>
+                    <svg class="bi bi-caret-right-fill ul2-span" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M12.14 8.753l-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+                    </svg>
+                    <div class="li_div">
+                        @{
+                            foreach (var item in TypeList.Where(p => p.TID == 4))
+                            {
+                                <span class="span_small">@item.TypeName</span>
+                                if (index == 4)
+                                {
+                                    index = 1;
+                                    break;
+                                }
+                                else
+                                {
+                                    index++;
+                                }
+                            }
+                        }
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="div-hidden">
+            @*存放动态类型的隐藏div*@
+        </div>
+    </div>
+    <div class="div-shop">
+        <!--模块-->
+        <div class="louceng_box">
+            <div class="louceng">
+                <div class="title"><em class="mz_red"></em>&nbsp;&nbsp;热销&nbsp;&nbsp;&nbsp;&nbsp;HOT SALE<a href="/Goods/GoodsIndex">更多</a></div>
+                <div class="con">
+                    @{
+                        foreach (var item in Model.OrderByDescending(p => p.GoodsHot).Take(8))
+                        {
+                            <a href="/Goods/GoodsDesc?goodsid=@item.GoodsID" style="color:black;">
+                                <div class="card" style="width: 18rem;">
+                                    <img height="180" src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p=>p.GoodsID==item.GoodsID).PhotoPath" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <div class="card-div1">@item.GoodsName</div>
+                                        <div class="card-div2">@item.GoodsDescribe</div>
+                                        <div class="card-div3">
+                                            <span class="span-left">@string.Format("{0:C}", item.GoodsPrice)</span>
+                                            <span class="span-right">@string.Format("{0:C}", item.OldGoodsPrice)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="louceng">
+                <div class="title"><em class="mz_red"></em>&nbsp;&nbsp;经典服装&nbsp;&nbsp;&nbsp;&nbsp;CLASSIC CLOTHING<a href="/Goods/GoodsIndex?typeid_2=1">更多</a></div>
+                <div class="con">
+                    @{
+                        foreach (var item in ViewBag.goods_1)
+                        {
+                            <a href="/Goods/GoodsDesc?goodsid=@item.GoodsID" style="color:black;">
+                                <div class="card" style="width: 18rem;">
+                                    <img height="180" src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p=>p.GoodsID==item.GoodsID).PhotoPath" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <div class="card-div1">@item.GoodsName</div>
+                                        <div class="card-div2">@item.GoodsDescribe</div>
+                                        <div class="card-div3">
+                                            <span class="span-left">@string.Format("{0:C}", item.GoodsPrice)</span>
+                                            <span class="span-right">@string.Format("{0:C}", item.OldGoodsPrice)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="louceng">
+                <div class="title"><em class="mz_red"></em>&nbsp;&nbsp;电脑办公&nbsp;&nbsp;&nbsp;&nbsp;COMPUTER OFFICE<a href="/Goods/GoodsIndex?typeid_2=2">更多</a></div>
+                <div class="con">
+                    @{
+                        foreach (var item in ViewBag.goods_2)
+                        {
+                            <a href="/Goods/GoodsDesc?goodsid=@item.GoodsID" style="color:black;">
+                                <div class="card" style="width: 18rem;">
+                                    <img height="180" src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p=>p.GoodsID==item.GoodsID).PhotoPath" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <div class="card-div1">@item.GoodsName</div>
+                                        <div class="card-div2">@item.GoodsDescribe</div>
+                                        <div class="card-div3">
+                                            <span class="span-left">@string.Format("{0:C}", item.GoodsPrice)</span>
+                                            <span class="span-right">@string.Format("{0:C}", item.OldGoodsPrice)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="louceng">
+                <div class="title"><em class="mz_red"></em>&nbsp;&nbsp;生活日用&nbsp;&nbsp;&nbsp;&nbsp;DAILY NECESSITIES<a href="/Goods/GoodsIndex?typeid_2=3">更多</a></div>
+                <div class="con">
+                    @{
+                        foreach (var item in ViewBag.goods_3)
+                        {
+                            <a href="/Goods/GoodsDesc?goodsid=@item.GoodsID" style="color:black;">
+                                <div class="card" style="width: 18rem;">
+                                    <img height="180" src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p=>p.GoodsID==item.GoodsID).PhotoPath" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <div class="card-div1">@item.GoodsName</div>
+                                        <div class="card-div2">@item.GoodsDescribe</div>
+                                        <div class="card-div3">
+                                            <span class="span-left">@string.Format("{0:C}", item.GoodsPrice)</span>
+                                            <span class="span-right">@string.Format("{0:C}", item.OldGoodsPrice)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="louceng">
+                <div class="title"><em class="mz_red"></em>&nbsp;&nbsp;食品饮食&nbsp;&nbsp;&nbsp;&nbsp;FOOD AND DIET<a href="/Goods/GoodsIndex?typeid_2=4">更多</a></div>
+                <div class="con">
+                    @{
+                        foreach (var item in ViewBag.goods_4)
+                        {
+                            <a href="/Goods/GoodsDesc?goodsid=@item.GoodsID" style="color:black;">
+                                <div class="card" style="width: 18rem;">
+                                    <img height="180" src="~/Content/GoodImgs/@GoodsPhoto.FirstOrDefault(p=>p.GoodsID==item.GoodsID).PhotoPath" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <div class="card-div1">@item.GoodsName</div>
+                                        <div class="card-div2">@item.GoodsDescribe</div>
+                                        <div class="card-div3">
+                                            <span class="span-left">@string.Format("{0:C}", item.GoodsPrice)</span>
+                                            <span class="span-right">@string.Format("{0:C}", item.OldGoodsPrice)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            var index = 1;
+            var timer;
+            function MoveShow() {
+                timer = setInterval(function () {
+                    index++;
+                    $(".lunboimg").attr("src", "/Content/Images/ad-" + index + ".jpg");
+                    $(".div1-ul li[value='" + index + "']").addClass("isshow").siblings("li").removeClass("isshow");
+                    if (index >= 5) {
+                        index = 0;
+                    }
+                }, 6000);
+            }
+            MoveShow();
+            $(".div1-ul li").click(function () {
+                var liindex = $(this).val();
+                $(".lunboimg").attr("src", "/Content/Images/ad-" + liindex + ".jpg");
+                $(".div1-ul li[value='" + liindex + "']").addClass("isshow").siblings("li").removeClass("isshow");
+                if (liindex == 5) {
+                    index = 0;
+                }
+                else {
+                    index = liindex;
+                }
+            })
+            //浮动时隐藏的div显示
+            $('.div1-ul2 li').hover(function () {
+                $('.div-hidden').css('display', 'block');
+            }, function () {
+                $('.div-hidden').css('display', 'none');
+            })
+            $('.div-hidden').hover(function () {
+                $('.div-hidden').css('display', 'block').addClass("style_2");
+            }, function () {
+                $('.div-hidden').css('display', 'none').removeClass("style_2");
+            })
+        })
+        $('.div1-ul2 li').hover(function () {
+            var index = $(this).index();
+            $('.div-hidden').addClass("style_2");
+            Ajax(index+1);
+        }, function () {
+                $('.div-hidden').removeClass("style_2");
+        })
+        function Ajax(index) {
+            $.post({
+                url: "@Url.Action("GetTypeAjax")",
+                dataType:"json",
+                data: { index: index },
+                success: function (data) {
+                    $('.hidden-div1').remove();
+                    var data_1 = eval(data.list_1);
+                    var data_2 = eval(data.list_2);
+                    //最外面的div
+                    var $div = $("<div class='hidden-div1'></div>");
+                    for (var i = 0; i < data_1.length; i++) {
+                        $('.div-hidden').append($div);
+                        //上面的商品类型
+                        var $div_1 = $("<div class='div_top'><p>" + data_1[i].TypeName + "</p></div>");
+                        $($div).append($div_1);
+                        var newdata = data_2.filter(function (e) { return e.TID === data_1[i].TypeID });
+                        for (var j = 0; j < newdata.length; j++) {
+                            //每个小a标签
+                            var $a = $("<a href='/Goods/GoodsIndex?typeid_1="+newdata[j].TypeID+"'>" + newdata[j].TypeName + "</a>");
+                            //$('.div-hidden:eq(' + i + ')').append($a);
+                            $($div).append($a);
+                        }
+                    }
+                },
+                error: function () {
+                    alert('错误！');
+                }
+            })
+            }
+    </script>
+}
+
+

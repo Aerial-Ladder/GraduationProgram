@@ -1,0 +1,379 @@
+﻿@using Models;
+@{
+    List<NoticeTable> list = Session["allnotice"] as List<NoticeTable>;
+    int pageindex = ViewBag.pageindex ?? 1;
+    double count = 0;
+    int noticecount = 0;
+    int index = ViewBag.LookType ?? 0;
+    if (list != null && list.Count() > 0)
+    {
+        count = Convert.ToDouble(Session["noticepagecount"]);
+        noticecount = Convert.ToInt32(Session["noticecount"]);
+    }
+    //用户信息下拉框
+    List<UserInfo> userList = Session["noticeuserlist"] as List<UserInfo>;
+}
+<link href="~/Content/BackstageCss/BackNotice.css" rel="stylesheet" />
+<script src="~/Scripts/MyJs/ueditor.config.js"></script>
+<script src="~/Scripts/MyJs/ueditor.all.js"></script>
+
+<div class="BackNotice_top">
+    <span class="span_noticebacknum">
+        &nbsp;公告数量(@noticecount)
+    </span>
+    <span data-toggle="modal" data-target="#NoticeAdd" class="btn btn-primary addnotice">新增公告</span>
+    <div class="div_right">
+        @using (Ajax.BeginForm("BackNoticePartial", "BackType", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackNotice", InsertionMode = InsertionMode.Replace }))
+        {
+            <select class="noticeback_select" name="LookType">
+                <option value="0" selected="@(index==0)">系统公告</option>
+                <option value="1" selected="@(index==1)">用户公告</option>
+            </select>
+            <input type="submit" style="background-color:#E2E2E2;border:1px solid #E2E2E2;color:#E2E2E2;" class="btn-select" />
+        }
+    </div>
+</div>
+
+@{
+    if (list != null && list.Count() > 0)
+    {
+        <div class="noticeback-div">
+            <table class="table table-striped table-bordered">
+                <thead style="color: white">
+                    <tr class="bg-secondary">
+                        <th>编号</th>
+                        @{
+                            if (list[0].UserID == null)
+                            {
+                                <th>公告类型</th>
+                            }
+                            else
+                            {
+                                <th>公告类型</th>
+                                <th>用户头像</th>
+                                <th>用户名</th>
+                                <th>账号</th>
+                            }
+                        }
+                        <th>公告标题</th>
+                        <th>公告内容</th>
+                        <th>公告时间</th>
+                        <th>是否查看</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                @{
+                    int num=0;
+                    foreach (var item in list)
+                    {
+                        <tr class="tr_content bg-light">
+                            <td style="display:none">@item.NoticeID</td>
+                            <td>@(++num)</td>
+                            @{
+                                if (item.UserID == null)
+                                {
+                                    <td>系统公告</td>
+                                }
+                                else
+                                {
+                                    <td>用户公告</td>
+                                    <
+                                    <td><img src="~/Content/Images/@item.UserInfo.UserPhoto" width="40" height="40" /></td>
+                                    <td>@item.UserInfo.UserName</td>
+                                    <td>@item.UserInfo.UserAccount</td>
+                                }
+                            }
+                            <td>
+                                @{
+                                    if (item.NoticeTitle.Length > 15)
+                                    {
+                                        @(item.NoticeTitle.Substring(0, 15) + "...")
+                                    }
+                                    else
+                                    {
+                                        @item.NoticeTitle
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @{
+                                    if (item.NoticeContent.Length > 15)
+                                    {
+                                        @(item.NoticeContent.Substring(0, 15) + "...")
+                                    }
+                                    else
+                                    {
+                                        @item.NoticeContent
+                                    }
+                                }
+                            </td>
+                            <td>@(string.Format("{0:D}", item.NoticeTime))</td>
+                            @{
+                                if (item.IsLook == 1)
+                                {
+                                    <td style="color:green;">已查看</td>
+                                }
+                                else
+                                {
+                                    <td style="color:red;">未查看</td>
+                                }
+                            }
+                            <td>
+                                <a href="#" data-toggle="modal" data-target="#NoticeDesc" data-whatever="@item.NoticeTitle" data-content="@item.NoticeContent" class="btn btn-outline-primary feedback-desc">详情</a>
+                                <a href="#" class="btn btn-outline-danger feedback-del">删除</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+        <div class="noticeback_bot">
+            @*分页位置*@
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+
+                    @{
+                        if (pageindex <= 1)
+                        {
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">上一页</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item">
+                                @Ajax.ActionLink("上一页", "BackNoticePartial", "BackType", new { pageindex = pageindex - 1, LookType = index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackNotice", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                            </li>
+                        }
+                    }
+
+                    @{
+                        if (pageindex != 1 && pageindex != count)
+                        {
+                            for (int i = pageindex - 1; i < pageindex + 2; i++)
+                            {
+                                if (i == pageindex)
+                                {
+                                    <li class="page-item active">
+                                        @Ajax.ActionLink(i.ToString(), "BackNoticePartial", "BackType", new { pageindex = i, LookType = index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackNotice", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                                else if (i <= count)
+                                {
+                                    <li class="page-item">
+                                        @Ajax.ActionLink(i.ToString(), "BackNoticePartial", "BackType", new { pageindex = i, LookType = index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackNotice", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                            }
+                        }
+                        else if (pageindex == 1)
+                        {
+                            for (int i = 0; i <= pageindex + 2; i++)
+                            {
+                                if (i == pageindex)
+                                {
+                                    <li class="page-item active">
+                                        @Ajax.ActionLink(i.ToString(), "BackNoticePartial", "BackType", new { pageindex = i, LookType = index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackNotice", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                                else if (i > 0 && i <= count)
+                                {
+                                    <li class="page-item">
+                                        @Ajax.ActionLink(i.ToString(), "BackNoticePartial", "BackType", new { pageindex = i, LookType = index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackNotice", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            for (int i = pageindex - 2; i <= count; i++)
+                            {
+                                if (i == count)
+                                {
+                                    <li class="page-item active">
+                                        @Ajax.ActionLink(i.ToString(), "BackNoticePartial", "BackType", new { pageindex = i, LookType = index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackNotice", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                                else if (i > 0)
+                                {
+                                    <li class="page-item">
+                                        @Ajax.ActionLink(i.ToString(), "BackNoticePartial", "BackType", new { pageindex = i, LookType = index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackNotice", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                                    </li>
+                                }
+                            }
+                        }
+                    }
+                    @{
+                        if (pageindex == count)
+                        {
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">下一页</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item">
+                                @Ajax.ActionLink("下一页", "BackNoticePartial", "BackType", new { pageindex = pageindex + 1, LookType = index }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "BackNotice", InsertionMode = InsertionMode.Replace }, new { @class = "page-link" })
+                            </li>
+                        }
+                    }
+                </ul>
+            </nav>
+        </div>
+    }
+    else
+    {
+        <div class="noticeback_null">&nbsp;暂无公告！</div>
+    }
+}
+
+<!-- 公告详情模态框 -->
+<div class="modal fade" id="NoticeDesc" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">&nbsp;公告详情</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4></h4>
+                <span class="notice_content">
+
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 新增公告模态框 -->
+<div class="modal fade" id="NoticeAdd" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">&nbsp;新增公告/消息</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul class="notice_ul">
+                    <li>
+                        <select class="noticeadd_select form-control">
+                            <option value="0">系统公告</option>
+                            @{
+                                if (userList != null && userList.Count() > 0)
+                                {
+                                    foreach (var item in userList)
+                                    {
+                                        <option value="@item.UserID">@item.UserName   @item.UserAccount</option>
+                                    }
+                                }
+                            }
+                        </select>
+                    </li>
+                    <li><input type="text" maxlength="15" class="form-control noticeaddtitle" placeholder="请输入公告/消息标题" /><span class="addnotice_erro"></span></li>
+                    <li>
+                        <textarea id="container" class="addnotice_content" maxlength="80" placeholder="请输入公告/消息内容(80字以内)"></textarea>
+                        <span class="addnotice_erro"></span>
+                    </li>
+                    <li>
+                        <input type="button" class="btn btn-warning btn-noticeadd" value="提  交" />
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    //var ue = UE.getEditor('container');
+    $(function () {
+        $('.btn-select').hide();
+        $('.addnotice_erro').hide();
+
+        $('.noticeback_select').change(function () {
+            $('.btn-select')[0].click();
+        })
+
+        //公告详情
+        $('#NoticeDesc').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var title = button.data('whatever');
+            var content = button.data('content');
+            var modal = $(this);
+            modal.find('h4').html(title);
+            modal.find('.notice_content').html(content);
+        })
+
+        //新增公告模态框提交按钮点击事件
+        $('.btn-noticeadd').click(function () {
+            var userid = $('.noticeadd_select').val();
+            var noticetitle = $('.noticeaddtitle').val().trim();
+            var noticeconten = $('.addnotice_content').val().trim();
+            //验证
+            if (noticetitle == null || noticetitle == "") {
+                $('.addnotice_erro:eq(0)').html('公告/消息标题不能为空！').show(500);
+                return;
+            } else {
+                $('.addnotice_erro:eq(0)').html('').hide(500);
+            }
+            if (noticeconten == null || noticeconten == "") {
+                $('.addnotice_erro:eq(1)').html('公告/消息内容不能为空！').show(500);
+                return;
+            } else {
+                $('.addnotice_erro:eq(1)').html('').hide(500);
+            }
+            //异步提交
+            $.post({
+                url: "@Url.Action("NoticeAdd","BackType")",
+                data: { UserID: userid, NoticeTitle: noticetitle, NoticeConten: noticeconten },
+                success: function (data) {
+                    if (data == 0) {
+                        alert('新增失败！');
+                    } else {
+                        alert('新增成功！');
+                        $('.btn-select')[0].click();
+                    }
+                },
+                error: function () {
+                    alert('出现错误！');
+                }
+            })
+        })
+
+        //模态框关闭事件
+        $('.close').click(function () {
+            $('.addnotice_erro').html('').hide(500);
+            $('.noticeaddtitle').val('');
+            $('.addnotice_content').val('');
+            $('.noticeadd_select option:eq(0)').attr('selected', true);
+        })
+
+        //删除点击事件
+        $('.feedback-del').click(function () {
+            if (confirm('您确定要删除这条公告吗?')) {
+                var noticeid = $(this).parent().parent().children(':eq(0)').text();
+                //异步请求
+                $.post({
+                    url: "@Url.Action("NoticeDel","BackType")",
+                    data: { NoticeID: noticeid },
+                    success: function (data) {
+                        if (data == 0) {
+                            alert('删除失败！');
+                        } else {
+                            alert('删除成功！');
+                            $('.btn-select')[0].click();
+                        }
+                    },
+                    error: function () {
+                        alert('出现错误！');
+                    }
+                })
+            }
+        })
+    })
+</script>

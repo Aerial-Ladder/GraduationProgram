@@ -19,6 +19,7 @@ size=6mb
 )
 go
 use LgShopDB
+--drop database LgShopDB
 go
 
 --用户信息表
@@ -70,7 +71,7 @@ insert into TypeTable values('休闲零食',17),('果冻布丁',17)
 insert into TypeTable values('饼干',18),('面包',18),('曲奇',18),('蛋卷',18),('沙琪玛',18)
 insert into TypeTable values('方便面',19),('火腿肠',19),('八宝粥',19),('罐头',19)
 insert into TypeTable values('水',20),('碳酸饮料',20),('功能饮料',20),('咖啡',20),('奶茶',20),('麦片谷类',20)
-select * from TypeTable
+--select * from TypeTable
 
 select * from GoodsTable where TID in (
 select TypeID from TypeTable where TID in(
@@ -254,3 +255,42 @@ NoticeTime date default(getdate()),--公告时间
 IsLook int default(0) check(IsLook=0 or IsLook=1),--用户是否查看(0为否)
 )
 --select  * from NoticeTable
+
+
+
+SELECT
+表名 = Case When A.colorder=1 Then D.name Else '' End,
+字段名 = A.name,
+中文名 = isnull(G.[value],''),
+类别 = B.name,
+长度 = COLUMNPROPERTY(A.id,A.name,'PRECISION'),
+允许空 = Case When A.isnullable=1 Then '√'Else '' End,
+主键 = Case When exists(SELECT 1 FROM sysobjects Where xtype='PK' and parent_obj=A.id and name in (
+SELECT name FROM sysindexes WHERE indid in( SELECT indid FROM sysindexkeys WHERE id = A.id AND colid=A.colid))) then '√' else '' end
+FROM
+syscolumns A
+Left Join
+systypes B
+On
+A.xusertype=B.xusertype
+Inner Join
+sysobjects D
+On
+A.id=D.id and D.xtype='U' and D.name<>'dtproperties'
+Left Join
+syscomments E
+on
+A.cdefault=E.id
+Left Join
+sys.extended_properties G
+on
+A.id=G.major_id and A.colid=G.minor_id
+Left Join
+
+sys.extended_properties F
+On
+D.id=F.major_id and F.minor_id=0
+--where d.name='Users' --如果只查询指定表,加上此条件
+Order By
+A.id,A.colorder
+

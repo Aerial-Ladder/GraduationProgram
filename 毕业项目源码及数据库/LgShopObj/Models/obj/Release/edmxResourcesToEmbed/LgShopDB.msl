@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="LgShopDBModelStoreContainer" CdmEntityContainer="LgShopDBEntities">
+    <EntitySetMapping Name="CommentTable">
+      <EntityTypeMapping TypeName="LgShopDBModel.CommentTable">
+        <MappingFragment StoreEntitySet="CommentTable">
+          <ScalarProperty Name="IsTop" ColumnName="IsTop" />
+          <ScalarProperty Name="Reportingnums" ColumnName="Reportingnums" />
+          <ScalarProperty Name="CommentID" ColumnName="CommentID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="GoodsID" ColumnName="GoodsID" />
+          <ScalarProperty Name="CommentContent" ColumnName="CommentContent" />
+          <ScalarProperty Name="CommentStarRating" ColumnName="CommentStarRating" />
+          <ScalarProperty Name="CommentTime" ColumnName="CommentTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FeedbackTable">
+      <EntityTypeMapping TypeName="LgShopDBModel.FeedbackTable">
+        <MappingFragment StoreEntitySet="FeedbackTable">
+          <ScalarProperty Name="FeedbackID" ColumnName="FeedbackID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="FeedbackContent" ColumnName="FeedbackContent" />
+          <ScalarProperty Name="FeedbackTime" ColumnName="FeedbackTime" />
+          <ScalarProperty Name="IsDealwith" ColumnName="IsDealwith" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GoodsPhoto">
+      <EntityTypeMapping TypeName="LgShopDBModel.GoodsPhoto">
+        <MappingFragment StoreEntitySet="GoodsPhoto">
+          <ScalarProperty Name="RID" ColumnName="RID" />
+          <ScalarProperty Name="GoodsID" ColumnName="GoodsID" />
+          <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GoodsTable">
+      <EntityTypeMapping TypeName="LgShopDBModel.GoodsTable">
+        <MappingFragment StoreEntitySet="GoodsTable">
+          <ScalarProperty Name="IsGet" ColumnName="IsGet" />
+          <ScalarProperty Name="IsDelte" ColumnName="IsDelte" />
+          <ScalarProperty Name="GoodsID" ColumnName="GoodsID" />
+          <ScalarProperty Name="GoodsName" ColumnName="GoodsName" />
+          <ScalarProperty Name="GoodsPrice" ColumnName="GoodsPrice" />
+          <ScalarProperty Name="OldGoodsPrice" ColumnName="OldGoodsPrice" />
+          <ScalarProperty Name="GoodsInventory" ColumnName="GoodsInventory" />
+          <ScalarProperty Name="TID" ColumnName="TID" />
+          <ScalarProperty Name="GoodsDescribe" ColumnName="GoodsDescribe" />
+          <ScalarProperty Name="GoodsStar" ColumnName="GoodsStar" />
+          <ScalarProperty Name="GoodsHot" ColumnName="GoodsHot" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrderTable">
+      <EntityTypeMapping TypeName="LgShopDBModel.OrderTable">
+        <MappingFragment StoreEntitySet="OrderTable">
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="GoodsID" ColumnName="GoodsID" />
+          <ScalarProperty Name="GoodsNum" ColumnName="GoodsNum" />
+          <ScalarProperty Name="GetTime" ColumnName="GetTime" />
+          <ScalarProperty Name="OrderAmount" ColumnName="OrderAmount" />
+          <ScalarProperty Name="IsReceiving" ColumnName="IsReceiving" />
+          <ScalarProperty Name="IsComment" ColumnName="IsComment" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ShoppingCartTable">
+      <EntityTypeMapping TypeName="LgShopDBModel.ShoppingCartTable">
+        <MappingFragment StoreEntitySet="ShoppingCartTable">
+          <ScalarProperty Name="CartID" ColumnName="CartID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="GoodsID" ColumnName="GoodsID" />
+          <ScalarProperty Name="ShoppingNum" ColumnName="ShoppingNum" />
+          <ScalarProperty Name="ShoppingTime" ColumnName="ShoppingTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TypeTable">
+      <EntityTypeMapping TypeName="LgShopDBModel.TypeTable">
+        <MappingFragment StoreEntitySet="TypeTable">
+          <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+          <ScalarProperty Name="TID" ColumnName="TID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserInfo">
+      <EntityTypeMapping TypeName="LgShopDBModel.UserInfo">
+        <MappingFragment StoreEntitySet="UserInfo">
+          <ScalarProperty Name="IsDelte" ColumnName="IsDelte" />
+          <ScalarProperty Name="ReceivingAddress" ColumnName="ReceivingAddress" />
+          <ScalarProperty Name="CoverPhoto" ColumnName="CoverPhoto" />
+          <ScalarProperty Name="UserWallet" ColumnName="UserWallet" />
+          <ScalarProperty Name="UserBirthdays" ColumnName="UserBirthdays" />
+          <ScalarProperty Name="UserCard" ColumnName="UserCard" />
+          <ScalarProperty Name="UserPhont" ColumnName="UserPhont" />
+          <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+          <ScalarProperty Name="UserAge" ColumnName="UserAge" />
+          <ScalarProperty Name="UserSex" ColumnName="UserSex" />
+          <ScalarProperty Name="UserPhoto" ColumnName="UserPhoto" />
+          <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+          <ScalarProperty Name="UserAccount" ColumnName="UserAccount" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CollectionTable">
+      <EntityTypeMapping TypeName="LgShopDBModel.CollectionTable">
+        <MappingFragment StoreEntitySet="CollectionTable">
+          <ScalarProperty Name="IsCollection" ColumnName="IsCollection" />
+          <ScalarProperty Name="GoodsID" ColumnName="GoodsID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="CollectionID" ColumnName="CollectionID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NoticeTable">
+      <EntityTypeMapping TypeName="LgShopDBModel.NoticeTable">
+        <MappingFragment StoreEntitySet="NoticeTable">
+          <ScalarProperty Name="IsLook" ColumnName="IsLook" />
+          <ScalarProperty Name="NoticeTime" ColumnName="NoticeTime" />
+          <ScalarProperty Name="NoticeContent" ColumnName="NoticeContent" />
+          <ScalarProperty Name="NoticeTitle" ColumnName="NoticeTitle" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="NoticeID" ColumnName="NoticeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

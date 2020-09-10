@@ -1,0 +1,256 @@
+﻿@using Models;
+@model List<TypeTable>
+@{
+    ViewBag.Title = "BackTypeIndex";
+    Layout = "~/Views/Shared/_Backstage.cshtml";
+}
+
+<link href="~/Content/BackstageCss/BackType.css" rel="stylesheet" />
+
+@{
+    foreach (var item in Model.Where(p => p.TID == null))
+    {
+        <div class="TypeDiv">
+            <div class="type_div1">
+                @item.TypeName&nbsp;&nbsp;
+                <span data-toggle="modal" data-target="#TypeNameUpdate" data-name="@item.TypeName" data-whatever="@item.TypeID" class="ion-android-create span_update"></span>
+                <span data-toggle="modal" data-target="#TypeAdd" class="ion-android-add span_add" data-addtypeid="@item.TypeID"></span>
+                <input type="hidden" value="@item.TypeID" class="TypeID" />
+            </div>
+            @{
+                foreach (var item_1 in Model.Where(p => p.TID == item.TypeID))
+                {
+                    <div class="type_div2">
+                        <div class="div2_left">
+                            @item_1.TypeName:
+                            <span data-toggle="modal" data-target="#TypeNameUpdate" data-index="2" data-tid="@item_1.TID" data-name="@item_1.TypeName" data-whatever="@item_1.TypeID" class="ion-android-create span_update"></span>
+                            <span data-toggle="modal" data-target="#TypeAdd" class="ion-android-add span_add" data-addtypeid="@item_1.TypeID"></span>
+                            <span class="ion-close-round span_del"></span>
+                            <input type="hidden" value="@item_1.TypeID" class="TypeID_1" />
+                        </div>
+                        <div class="div2_right">
+                            @{
+                                foreach (var item_2 in Model.Where(p => p.TID == item_1.TypeID))
+                                {
+                                    <div class="right_div">
+                                        @item_2.TypeName
+                                        <span data-toggle="modal" data-target="#TypeNameUpdate" data-index="3" data-tid="@item_2.TID" data-name="@item_2.TypeName" data-whatever="@item_2.TypeID" class="ion-android-create span_update"></span>
+                                        <span class="ion-close-round span_del"></span>
+                                        <input type="hidden" value="@item_2.TypeID" class="TypeID_2" />
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    }
+}
+
+<!-- 修改分类名称模态框 -->
+<div class="modal fade" id="TypeNameUpdate" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">&nbsp;分类名称修改</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" class="Model_TypeID" />
+                <ul class="type_ul">
+                    <li><input type="text" class="updatetypename form-control" placeholder="请输入分类名称" maxlength="10" /><span class="update-erro"></span></li>
+                    <li>
+                        <select class="select_type form-control">
+                            <option value="1" selected="selected">sssss</option>
+                        </select>
+                    </li>
+                    <li><span class="update-span">提&nbsp;&nbsp;交</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 新增分类模态框 -->
+<div class="modal fade" id="TypeAdd" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">&nbsp;新增分类</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" class="addtype_typeid" />
+                <ul class="typeadd_ul">
+                    <li><input type="text" class="addtypename form-control" placeholder="请输入分类名称" maxlength="10" /><span class="add-erro"></span></li>
+                    <li><span class="add-span">提&nbsp;&nbsp;交</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section backscripts{
+    <script>
+        $(function () {
+            $('.update-erro').hide();
+            $('.div2_left span').hide();
+            $('.right_div span').hide();
+            $('.div2_left').hover(function () { $(this).children('span').show(); }, function () { $(this).children('span').hide(); })
+            $('.right_div').hover(function () { $(this).css("color", "red"); $(this).children('span').show(); }, function () { $(this).css("color", "gray"); $(this).children('span').hide(); })
+
+            //类型修改模态框弹出事件
+            $('#TypeNameUpdate').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var typeid = button.data('whatever');
+                var name = button.data('name');
+                var modal = $(this);
+                modal.find('.updatetypename').val(name);
+                modal.find('.Model_TypeID').val(typeid);
+                if (typeid == 1 || typeid == 2 || typeid == 3 || typeid == 4) {
+                    //隐藏下拉框
+                    modal.find('.type_ul li:eq(1)').hide();
+                } else {
+                    var index = button.data('index');
+                    var tid = button.data('tid');
+                    //给下拉框赋值
+                    $.post({
+                        url: "@Url.Action("SelectTid","BackType")",
+                        data: { Index: index },
+                        success: function (data) {
+                            if (data != null) {
+                                //清空元素
+                                $('.select_type').empty();
+                                //拼接成下拉框
+                                for (var i = 0; i < data.length; i++) {
+                                    var option;
+                                    if (data[i].TypeID == tid) {
+                                        option = $('<option value="' + data[i].TypeID + '" selected="selected">' + data[i].TypeName + '</option>');
+                                    }
+                                    else {
+                                        option = $('<option value="' + data[i].TypeID + '">' + data[i].TypeName + '</option>');
+                                    }
+                                    $('.select_type').append(option);
+                                }
+                            }
+                        },
+                        error: function () {
+                            alert('出现错误！');
+                        }
+                    })
+                }
+            })
+
+            $('.close').click(function () {
+                //显示所有li,清空数据
+                $('.type_ul li').show();
+                $('.addtypename').val('');
+            })
+
+            //类型名称修改提交按钮点击事件
+            $('.update-span').click(function () {
+                var typeid = $('.Model_TypeID').val();
+                var typename = $('.updatetypename').val().trim();
+                var tid;
+                if ($('.type_ul li:eq(1)').is(':hidden')) {
+                    tid = "";
+                } else {
+                    tid = $('.select_type').val();
+                }
+                if (typename == null || typename == "") {
+                    $('.update-erro:eq(0)').html('分类名称不能为空！').show(500);
+                    return;
+                }
+                else {
+                    $('.update-erro:eq(0)').html('').hide(500);
+                }
+                //执行异步请求
+                $.post({
+                    url: "@Url.Action("UpdateTypeName","BackType")",
+                    data: { TypeID: typeid, TypeName: typename, TID: tid },
+                    success: function (data) {
+                        if (data == 0) {
+                            alert('修改失败！');
+                        }
+                        else {
+                            alert('修改成功！');
+                            location.reload();
+                        }
+                    },
+                    error: function () {
+                        alert('出现错误！');
+                    }
+                })
+            })
+
+            //添加分类模态框弹出事件
+            $('#TypeAdd').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var typeid = button.data('addtypeid');
+                var modal = $(this);
+                modal.find('.addtype_typeid').val(typeid);
+            })
+
+
+            //添加分类提交按钮点击事件
+            $('.add-span').click(function () {
+                var typeid = $('.addtype_typeid').val();
+                var typename = $('.addtypename').val().trim();
+                if (typename == null || typename == "") {
+                    $('.add-erro:eq(0)').html('分类名称不能为空！').show(500);
+                    return;
+                }
+                else {
+                    $('.add-erro:eq(0)').html('').hide(500);
+                }
+                //调用添加异步请求
+                $.post({
+                    url: "@Url.Action("AddType","BackType")",
+                    data: { TID: typeid, TypeName: typename },
+                    success: function (data) {
+                        if (data == 0) {
+                            alert('添加失败！');
+                        }
+                        else {
+                            alert('添加成功！');
+                            location.reload();
+                        }
+                    },
+                    error: function () {
+                        alert('出现错误！');
+                    }
+                })
+            })
+
+            //删除点击事件
+            $('.span_del').click(function () {
+                if (confirm('您确定要删除这条分类吗?')) {
+                    var typeid = $(this).siblings("input:hidden").val();
+                    //删除异步请求
+                    $.post({
+                        url: "@Url.Action("TypeDel","BackType")",
+                        data: { TypeID: typeid },
+                        success: function (data) {
+                            if (data == 0) {
+                                alert('该分类存在商品或者子分类，无法删除！');
+                            }
+                            else {
+                                alert('删除成功！');
+                                location.reload();
+                            }
+                        },
+                        error: function () {
+                            alert('出现错误!');
+                        }
+                    })
+                }
+            })
+
+        })
+    </script>
+}
